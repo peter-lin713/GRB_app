@@ -1,0 +1,4 @@
+sphinx
+myst-parser  # Optional, only if you're using Markdown
+sphinx_rtd_theme
+sphinx-copybutton
