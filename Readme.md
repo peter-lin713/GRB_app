@@ -1,4 +1,4 @@
-# Redshift-Classifier (X-ray)
+# Redshift-Estimator (X-ray)
 
 <!--[![Status of Build and Tests Workflow](https://github.com/aritraghsh09/GaMPEN/actions/workflows/main.yml/badge.svg)](https://github.com/aritraghsh09/GaMPEN/actions/workflows/main.yml)-->
 [![Documentation Status](https://readthedocs.org/projects/gampen/badge/?version=latest)](https://redshift-classifier.readthedocs.io/en/latest/)
