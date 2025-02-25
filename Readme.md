@@ -22,7 +22,7 @@ The Redshift-estimator (X-Ray) was initially introduced in the following publica
 ``` tex
 @ARTICLE{2024arXiv241013985N,
        author = {{Narendra}, Aditya and {Dainotti}, Maria and {Sarkar}, Milind and {Lenart}, Aleksander and {Bogdan}, Malgorzata and {Pollo}, Agnieszka and {Zhang}, Bing and {Rabeda}, Aleksandra and {Petrosian}, Vahe and {Kazunari}, Iwasaki},
-        title = "{GRB Redshift Estimation using Machine Learning and the Associated Web-App}",
+        title = {GRB Redshift Estimation using Machine Learning and the Associated Web-App},
       journal = {arXiv e-prints},
      keywords = {Astrophysics - High Energy Astrophysical Phenomena, Astrophysics - Instrumentation and Methods for Astrophysics},
          year = 2024,
