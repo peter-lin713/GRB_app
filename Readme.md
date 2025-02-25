@@ -8,12 +8,13 @@
 <!--[![Code DOI](https://zenodo.org/badge/841602738.svg)](https://doi.org/10.5281/zenodo.14704737)-->
 <!--[![Publication DOI](https://img.shields.io/badge/publication%20doi-10.3847%2F1538--4357%2Fac7f9e-blue)](https://doi.org/10.3847/1538-4357/ac7f9e)-->
 [![arXiv](https://img.shields.io/badge/arXiv-2410.13985-blue)](https://arxiv.org/pdf/2410.13985)
+
 Redshift-estimator (X-ray) is a reliable ensemble machine learning (ML) framework developed to estimate the redshift of X-ray gamma-ray bursts (GRBs) based on the GRB features. We have used all the GRB light-curve (LC) phases in this framework, prompt, X-ray plateau, and X-ray afterglow, as features to train and test the models.
 This ML framework is developed to predict the redshift of a GRB as soon as a new GRB is detected, which will help other facilities to have quick and more precise follow-up observations. In this ML framework, we have also incorporated ML techniques like outlier removal (removing bad data points), feature selection (to select the best features for redshift regression and to reduce the dimensionality), imputing missing data (to increase the sample size) improve the performance of the ML model.
 Our ML model is more reliable because we use an ensemble model (combining many ML algorithms in a single framework using SuperLearner) rather than traditional methods that use a single ML algorithm. This further increases the prediction accuracy.
 # Documentation
 The Redshift-estimator's (X-Ray) documentation is available in this repository and also hosted
-on [readthedocs.io](https://redshift-classifier.readthedocs.io/en/latest/).
+on [readthedocs.io](https://grb-web-app.readthedocs.io/en/latest/).
 Although the documentation is fairly complete, if you are trying to use the Redshift-estimator (X-ray) Web app and run into issues,
 please get in touch with us!
 # Publications
