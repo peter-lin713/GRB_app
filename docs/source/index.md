@@ -20,7 +20,7 @@ Note that although Redshift-Estimator (X-Ray) current documentation is fairly su
 Redshift-Estimator (X-ray) is a reliable ensemble machine learning (ML) framework developed to estimate the redshift of X-ray gamma-ray bursts (GRBs) based on the GRB features. We have used all the GRB light-curve (LC) phases in this framework, prompt, X-ray plateau, and X-ray afterglow, as features to train and test the models. This ML framework is developed to predict the redshift of a GRB as soon as a new GRB is detected, which will help other facilities to have quick and more precise follow-up observations. In this ML framework, we have also incorporated ML techniques like outlier removal (removing bad data points), feature selection (to select the best features for redshift regression and to reduce the dimensionality), imputing missing data (to increase the sample size) improve the performance of the ML model. Our ML model is more reliable because we use an ensemble model (combining many ML algorithms in a single framework using SuperLearner) rather than traditional methods that use a single ML algorithm. This further increases the prediction accuracy.
 
 
-## First Steps with Redshift-Classifier (X-Ray)
+## First Steps with Redshift-Estimator (X-Ray)
 0. For a quick blog-esque introduction to the most important features of Redshift-Estimator(X-Ray), please check out [About](./About_XRC.md).
 :::{tip}
 For a deep-dive, Please refer to [Narendra et al. 2025](https://arxiv.org/abs/2410.13985).
