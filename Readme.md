@@ -38,7 +38,7 @@ archivePrefix = {arXiv},
 }
 ```
 # License
-Copyright 2025 Maria Giovanna Dainotti, Malgorzata Bogdan, Aditya Narendra, Agnieszka Pollo, Milind Sarkar, Aleksander Lenart, Aleksandra Rabeda & contributors
+Copyright 2025 Aditya Narendra, Maria Dainotti, Milind Sarkar, Aleksander Lenart, Malgorzata Bogdan, Agnieszka Pollo, Bing Zhang, Aleksandra Rabeda, Vahe Petrosian, Iwasaki Kazunari & contributors
 Made available under a [GNU GPL
 v3.0](https://github.com/gammarayapp/GRB-Web-App/blob/main/LICENSE)
 license.
