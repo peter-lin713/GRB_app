@@ -21,4 +21,4 @@ git clone https://github.com/gammarayapp/GRB-Web-App.git
 
 This project also requires the Python libraries **Streamlit**, **Pandas**, and **Pillow**, which can be installed with `pip install -r requirements.txt`
 
-3. Please copy out all the R files from the script folder to the working directory where app.py is present before running the webapp.
+3. Please copy out all the files from the scripts and data folders to the working directory where app.py is present before running the webapp.
