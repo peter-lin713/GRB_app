@@ -99,7 +99,7 @@ Plotting_scatter_and_dist <- function(Real_GRBs,Simulated_GRBs,max_cols=11){
 
 source('Load_Imports.R')
 
-run_locally =  F #Set to true for debugging.
+run_locally =  T #Set to true for debugging.
 
 
   #raw_xray_data <- read.csv("combined_data_with_redshift_V3.csv", header = T, row.names = 1)
@@ -453,7 +453,7 @@ colnames(Algo_risk) <- libs
 
 all_lasso_vars <- character()
 
-
+supmodel = FALSE
 
 ######## READING IN THE GENERALIZATION DATA ###########
 
@@ -463,6 +463,7 @@ if(run_locally){
   gen_dat$photon_index <- as.numeric(gsub("[^0-9.]", "", gen_dat$photon_index))
   gen_dat$logPeakFlux = as.numeric(gen_dat$logPeakFlux)
   gen_dat$errorphotonindex = as.numeric(gsub("[^0-9.]", "", gen_dat$errorphotonindex))
+  supmodel = FALSE
   
 } else {
   args <- commandArgs(trailingOnly = TRUE)
