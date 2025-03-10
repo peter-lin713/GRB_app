@@ -20,3 +20,5 @@ git clone https://github.com/gammarayapp/GRB-Web-App.git
 2. Install the necessary R packages, open and run `Package_install.Rmd` in RStudio. Alternatively, use the `install.packages()` command in R with `packages.txt` and `https://cran.r-project.org` as the base URL of repositories.
 
 This project also requires the Python libraries **Streamlit**, **Pandas**, and **Pillow**, which can be installed with `pip install -r requirements.txt`
+
+3. Please copy out all the R files from the script folder to the working directory where app.py is present before running the webapp.
