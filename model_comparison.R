@@ -206,13 +206,13 @@ Responses <- subset(GRBPred,select = c("Redshift_crosscheck", "log10z"))
 #                                          log10PeakFluxSqr,
 #                                          log10T90Sqr,
 #                                          PhotonIndexSqr
-                                         # ,
-                                         # log10FaErr,
-                                         # log10TaErr,
-                                         # log10PeakFluxErr,
-                                         # log10T90Err,
-                                         # PhotonIndexErr
-                                         ##))
+# ,
+# log10FaErr,
+# log10TaErr,
+# log10PeakFluxErr,
+# log10T90Err,
+# PhotonIndexErr
+##))
 # EXCLUDING LOG10Z, INVZ, Z,
 # Alpha, Beta, Gamma, and Fluence
 O1Predictors = subset(GRBPred,select=lassovar)
@@ -283,7 +283,7 @@ tune_caret = list(
 )
 
 caret_learner <- create.Learner('SL.caret',
-                          tune = tune_caret,detailed_names = T)
+                                tune = tune_caret,detailed_names = T)
 
 libs=c(learner1$names, sl_glm1$names,caret_learner$names)
 
@@ -302,14 +302,14 @@ registerDoParallel(clust)
 
 if(analyze_all){
   libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction','SL.glm',
-           #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
-           #'SL.ksvm', #probably the line that errors out
-           #'SL.caret', #takes too long
-           'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
-           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
-           'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
-           learner1$names, sl_glm1$names) # the 29 that work + GAM1
+    #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
+    #'SL.ksvm', #probably the line that errors out
+    #'SL.caret', #takes too long
+    'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
+    'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
+    'SL.rpart',  'SL.step', 'SL.step.forward',
+    'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
+    learner1$names, sl_glm1$names) # the 29 that work + GAM1
   libnames<- '_ALL_'
 }
 
@@ -342,8 +342,8 @@ print(loop)
 CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
                  .export = c(libs,'PLOTaddr')
 )%dopar%{
-  print("Loop: ",j)
-  print(j)
+  #print("Loop: ",j)
+  #print(j)
   source('Custom_SL/sl_mgcv_gam.R')
   source('Custom_SL/sl_custom_glm.R')
   source('Custom_SL/sl_custom_bayesglm.R')
@@ -492,38 +492,38 @@ for (j in 1:loop) { # Iterate through the number of times SuperLearner was run t
 
 #plot(Response, rowMeans(preds) )
 
-png(filename = paste(PLOTaddr,'model_compare_plot.png'),res=500,width=3000,height=3000)
+png(filename = paste0(PLOTaddr,'model_compare_plot.png'),res=500,width=3000,height=3000)
 par(mar=c(5, 10, 4, 2))
 barplot(sort(colMeans(co)), names.arg = libs[order(colMeans(co))], horiz = T, las=1,)
 
 dev.off()
+quit()
 
-
-barplot(colMeans(co), names.arg = libs, horiz = T, las=1,)
-par(mar=c(5, 4, 4, 2))
-
-{ # THIS PLOTS ALL THE GRBS CORRELATION PLOT
-  #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_with_catOutl_',plotnames,sep='')
-  results<-result_plotter(rownames(TrainingData),rowMeans(preds),Response
-                          ,apply(preds,1,max),apply(preds,1,min)) # HERE THE MAX MIN PREDICTIONS ARE DETERMINED
-}
-
-InsideCone <- read.csv(paste(addr,'Results_wo_catout',plotnames,'.csv',sep = ''),row.names = 1)
-rownames(InsideCone)
-##This saves the trained model
-sl_model=SuperLearner(Y = Response, X = Predictors,family = gaussian(), SL.library = libs,verbose = F)
-saveRDS(sl_model, file = "superlearner_model")
-
-{ # THIS PRINTS THE CORRELATION PLOT FOR DATA INSIDE 2SIGMA
-  #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_without_catOutl_',plotnames,sep='')
-  Good_results <-  result_plotter(rownames(InsideCone),InsideCone$InvZphot,InsideCone$InvZspec
-                                  ,InsideCone$pred_max,InsideCone$pred_min)
-}
-#go
-
-
-
+# barplot(colMeans(co), names.arg = libs, horiz = T, las=1,)
+# par(mar=c(5, 4, 4, 2))
+# 
+# { # THIS PLOTS ALL THE GRBS CORRELATION PLOT
+#   #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
+#   plotnames<- "correlation_plot"
+#   plotnames<-paste('_with_catOutl_',plotnames,sep='')
+#   results<-result_plotter(rownames(TrainingData),rowMeans(preds),Response
+#                           ,apply(preds,1,max),apply(preds,1,min)) # HERE THE MAX MIN PREDICTIONS ARE DETERMINED
+# }
+# 
+# InsideCone <- read.csv(paste(addr,'Results_wo_catout',plotnames,'.csv',sep = ''),row.names = 1)
+# rownames(InsideCone)
+# ##This saves the trained model
+# sl_model=SuperLearner(Y = Response, X = Predictors,family = gaussian(), SL.library = libs,verbose = F)
+# saveRDS(sl_model, file = "superlearner_model")
+# 
+# { # THIS PRINTS THE CORRELATION PLOT FOR DATA INSIDE 2SIGMA
+#   #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
+#   plotnames<- "correlation_plot"
+#   plotnames<-paste('_without_catOutl_',plotnames,sep='')
+#   Good_results <-  result_plotter(rownames(InsideCone),InsideCone$InvZphot,InsideCone$InvZspec
+#                                   ,InsideCone$pred_max,InsideCone$pred_min)
+# }
+# #go
+# 
+# 
+# 

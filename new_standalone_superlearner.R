@@ -1,26 +1,45 @@
 source('Load_Imports.R')
-source('Result_plot_maker.R')
 
-run_locally = F  #Set to true for debugging.T
+# loading in labeled data
+#raw_xray_data <- read.csv("SORTED_FINAL_X-Ray_DATA.csv", header = T, row.names = 1)
+#raw_xray_data <- read.csv(file = "OutputFiles/MEstimator/grb_xray_m_est.csv", header = TRUE, row.names = 1) 
+
+######HAVE USER DECIDE, MAYBE VIA CHECKBOX??
+#do_mice = T
+
+# args <- commandArgs(trailingOnly = TRUE)
+# input_file <- args[1]
+
+run_locally = F #Set to true for debugging.
+
 if(run_locally){
-  raw_xray_data <- read.csv("combined_data_with_redshift_V8.csv", header = T, row.names = 1)
-  do_mice = T
-  upsampling = F
+  raw_xray_data <- read.csv("SORTED_FINAL_X-Ray_DATA.csv", header = T, row.names = 1)
+  do_mice = T 
   do_m_estimator = T
-  custom_models = F
-  weight_threshold = 0.65
-  loop = 10
+  remove_catout = T
+  weight_threshold = 0.5
 } else {
   args <- commandArgs(trailingOnly = TRUE)
   input_file <- args[1]
   do_mice <- as.logical(tolower(args[2]) == "true")
-  upsampling <- as.logical(tolower(args[3]) == "true")
-  do_m_estimator <- as.logical(tolower(args[4]) == "true")
-  custom_models <- as.logical(tolower(args[5]) == "true")
-  weight_threshold <- as.numeric(args[6])
-  loop <- as.numeric(args[7])
+  do_m_estimator <- as.logical(tolower(args[3]) == "true")
+  remove_catout <- as.logical(tolower(args[4]) == "true")
+  weight_threshold <- as.numeric(args[5])
   raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
 }
+
+#do_mice = T
+
+###Uncomment this when debugging with input file
+#raw_xray_data <- read.csv("SORTED_FINAL_X-Ray_DATA.csv", header = T, row.names = 1)
+##Uncomment this when taking file from user
+#raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
+
+#colnames(GRBPred)
+
+##### NEEDS TO BE EDITED WHEN WE WORK ON MICE
+# checking for NA values, if using MICE, should have none
+#md.pattern(GRBPred, rotate.names = T)
 
 
 SqrTermGen <- function(inputData) {
@@ -38,16 +57,16 @@ SqrTermGen <- function(inputData) {
   return(inputData)
 }
 
+addr <-paste("Results") #THIS HOLDS THE ADDRESS AT WHICH THE FILES ARE OUTPUT
+PLOTaddr <-paste("Plot_Output") #THIS HOLDS THE ADDRESS AT WHICH THE PLOTS ARE OUTPUT
+
 sz<-0.8
 rez=120
 
 
-addr <-paste("Results/") #THIS HOLDS THE ADDRESS AT WHICH THE FILES ARE OUTPUT
-PLOTaddr <-paste("Plot_Output/") #THIS HOLDS THE ADDRESS AT WHICH THE PLOTS ARE OUTPUT
-
 ## CREATE DIRECTORIES IF THEY DONT EXIST
-if(!dir.exists(PLOTaddr)){dir.create(PLOTaddr)}
-if(!dir.exists(addr)){dir.create(addr)}
+#if(!dir.exists(PLOTaddr)){dir.create(PLOTaddr)}
+#if(!dir.exists(addr)){dir.create(addr)}
 
 
 # Pick out Long GRBs
@@ -96,9 +115,7 @@ features_for_mice_preds$PhotonIndex[features_for_mice_preds$PhotonIndex < 0] <- 
 
 if(do_mice){
   set.seed(1)
-  png(filename = "MICE_missing_features.png",width = 1000, height = 1000, res = 200)
-  md.pattern(features_for_mice_preds,rotate.names = T)
-  dev.off()
+  
   # features_for_mice_all <- cbind(features_for_mice_preds, features_for_mice_errs)
   mice_model_preds <- mice(data = features_for_mice_preds,
                            m = 20,
@@ -133,12 +150,9 @@ GRBPred$log10T90Err <- GRBPred$T90Err/(T90 * log(10))
 GRBPred$log10FluenceErr <- GRBPred$FluenceErr/(Fluence * log(10))
 GRBPred$log10PeakFluxErr <- GRBPred$PeakFluxErr/(PeakFlux * log(10))
 
-source('lasso.R')
-lassovar=head(lassovar,7)
 
 # generating squared terms for future ML methods
-Variables <- subset(GRBPred, select = lassovar)#colnames(features_for_mice_preds))
-
+Variables <- subset(GRBPred, select = colnames(features_for_mice_preds))
 Responses_and_Err <- subset(GRBPred, select = !colnames(GRBPred) %in% colnames(Variables))
 
 GRBPred <- SqrTermGen(Variables)
@@ -159,66 +173,45 @@ GRBPred$log10z <- log10(GRBPred$Redshift_crosscheck + 1)
 # unscaled_GRBPred$invz <- GRBPred$invz
 
 
-if (!dir.exists("OutputFiles")) {
-  dir.create("OutputFiles")
-}
-
 # writing file to output directory
 if (do_mice){
-  write.csv(GRBPred, "OutputFiles/grb_xray_imputed.csv")
+  write.csv(GRBPred, "OutputFiles/DataHandle/grb_xray_imputed.csv")
   # write.csv(GRB_Err, "OutputFiles/DataHandle/grb_xray_errors.csv")
 } else {
-  write.csv(GRBPred, "OutputFiles/grb_xray.csv")
+  write.csv(GRBPred, "OutputFiles/DataHandle/grb_xray.csv")
   # write.csv(GRB_Err, "OutputFiles/DataHandle/grb_xray_errors.csv")
-}
-
-if (upsampling){
-  source("upsampling.R")
 }
 
 if (do_m_estimator){
   source("m_estimator.R")
 }
-
-# skip_m_estimator = F
-# if (skip_m_estimator){
-#   GRBPred = read.csv("good_mice_m_est.csv", header = T, row.names = 1)
-# } else {
-#   source("m_estimator.R") 
-# }
-
 #WE'LL DECIDE IF WE NEED IT
 ##source("m_estimator.R")
 
 Responses <- subset(GRBPred,select = c("Redshift_crosscheck", "log10z"))
 
-
 # cutting all but the 6 best predictors
-# Predictors <- subset(GRBPred, select = c(log10Fa,
-#                                          log10Ta,
-#                                          log10NH,
-#                                          log10PeakFlux,
-#                                          log10T90,
-#                                          PhotonIndex,
-#                                          log10FaSqr,
-#                                          log10TaSqr,
-#                                          log10NHSqr,
-#                                          log10PeakFluxSqr,
-#                                          log10T90Sqr,
-#                                          PhotonIndexSqr
-                                         # ,
-                                         # log10FaErr,
-                                         # log10TaErr,
-                                         # log10PeakFluxErr,
-                                         # log10T90Err,
-                                         # PhotonIndexErr
-                                         ##))
+Predictors <- subset(GRBPred, select = c(log10Fa,
+                                         log10Ta,
+                                         log10NH,
+                                         log10PeakFlux,
+                                         log10T90,
+                                         PhotonIndex,
+                                         log10FaSqr,
+                                         log10TaSqr,
+                                         log10NHSqr,
+                                         log10PeakFluxSqr,
+                                         log10T90Sqr,
+                                         PhotonIndexSqr,
+                                         log10FaErr,
+                                         log10TaErr,
+                                         log10PeakFluxErr,
+                                         log10T90Err,
+                                         PhotonIndexErr))
 # EXCLUDING LOG10Z, INVZ, Z,
 # Alpha, Beta, Gamma, and Fluence
-O1Predictors = subset(GRBPred,select=lassovar)
-O2Predictors = SqrTermGen(O1Predictors)
 
-GRBPred <- cbind(O2Predictors, Responses)
+GRBPred <- cbind(Predictors, Responses)
 
 PredictionData <- tail(GRBPred, n = 0.20 * nrow(GRBPred))
 dim(PredictionData)
@@ -233,16 +226,9 @@ Predictors <- subset(TrainingData
                      ,select = -c(log10z, Redshift_crosscheck)) # EXCLUDING LOG10Z, INVZ AND Z
 
 source('Custom_SL/sl_mgcv_gam.R')
-# 
-# bestGAM1 <- Response ~ s(log10NH) + s(log10T90) + s(log10Ta) + log10Fa + PhotonIndex + log10PeakFlux
-# 
-# tuner = list(gam.model = c(bestGAM1),
-#              select = TRUE,
-#              drop.intercept = TRUE
-# )
 
-formula_table_GAM = read.table("Best_formula_GAM.txt")
-bestGAM1 = apply(as.matrix(formula_table_GAM[,2]),1,as.formula)
+bestGAM1 <- Response ~ s(log10NH) + s(log10T90) + s(log10Ta) + log10Fa + PhotonIndex + log10PeakFlux
+
 tuner = list(gam.model = c(bestGAM1),
              select = TRUE,
              drop.intercept = TRUE
@@ -250,48 +236,22 @@ tuner = list(gam.model = c(bestGAM1),
 
 learner1 = create.Learner("SL.mgcv_gam", tune = tuner, detailed_names = F, name_prefix = "gam",verbose = T)
 
-#best_lm3 <- log10z ~ (log10NHSqr + log10T90Sqr + log10TaSqr + log10FaSqr + log10NH + PhotonIndex + log10T90 + log10Ta)^2 + log10Fa + log10PeakFlux + PhotonIndexSqr + log10PeakFluxSqr
+best_lm3 <- log10z ~ (log10NHSqr + log10T90Sqr + log10TaSqr + log10FaSqr + log10NH + PhotonIndex + log10T90 + log10Ta)^2 + log10Fa + log10PeakFlux + PhotonIndexSqr + log10PeakFluxSqr
 
 source('Custom_SL/sl_custom_glm.R')
-
-formula_table_GLM = read.table("Best_formula_GLM.txt")
-best_lm3 = apply(as.matrix(formula_table_GLM[,2]),1,as.formula)
-
 sl_glm1 <- create.Learner('SL.custom_glm',
                           tune = list(glm.model=c(best_lm3)))
 
 source('Custom_SL/sl_custom_bayesglm.R')
-sl_bglm <- create.Learner('SL.custom_bayesglm'
-                          ,tune=list(bglm.model=c(best_lm3))
-)
 
-#if (custom_models){
-###EDIT TO READ MODEL NAMES BASED ON USER SELECTION  
-#  libs_line <- readLines("selected_models.txt")
-#  eval(parse(text = libs_line))
-#  print(libs)
-#} else {
-#  libs <- c(learner1$names, sl_glm1$names)
-#  libnames <- "_OG_1GAM_1GLM_"
-#}
+libs <- c(learner1$names, sl_glm1$names)
 libnames <- "_OG_1GAM_1GLM_"
-###### CARET #####
-
-tune_caret = list(
-  method = c("rf")
-  ,tuneLength=1,verboseIter=F
-)
-
-caret_learner <- create.Learner('SL.caret',
-                          tune = tune_caret,detailed_names = T)
-
-libs=c(learner1$names, sl_glm1$names,caret_learner$names)
-
 
 #### Super Learner Cross-validation and Plotting Results ####
 test = F
 balancing = F
 analyze_all = F
+loop <- 20
 
 ####START OF RUN SUPERLEARNER
 ### Setup ###
@@ -301,28 +261,21 @@ clust <- makeCluster(numCores)
 registerDoParallel(clust)
 
 if(analyze_all){
-  libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction','SL.glm',
-           #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
-           #'SL.ksvm', #probably the line that errors out
-           #'SL.caret', #takes too long
-           'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
-           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
-           'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
-           learner1$names, sl_glm1$names) # the 29 that work + GAM1
+  libs = c('SL.bayesglm', 'SL.biglasso', 'SL.caret', 'SL.caret.rpart','SL.cforest','SL.earth'
+           , 'SL.glm', 'SL.glm.interaction', 'SL.glmnet','SL.ipredbagg', 'SL.ksvm'
+           , 'SL.lm', 'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger'
+           , 'SL.ridge', 'SL.rpart', 'SL.rpartPrune', 'SL.step', 'SL.step.forward'
+           , 'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', learner2$names,
+           sl_glm$names, sl_bayes_glm$names) # the 29 that work + GAM1
   libnames<- '_ALL_'
 }
 
-if (custom_models){
-  ###EDIT TO READ MODEL NAMES BASED ON USER SELECTION  
-  libs_line <- readLines("selected_models.txt")
-  eval(parse(text = libs_line))
-  print(libs)
-  libnames="_custom_models_"
-}
+plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
 
-#plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-plotnames<- "correlation_plot"
+print(libnames)
+print(plotnames)
+print(loop)
+print("Starting 10fCV")
 
 TrainData <- TrainingData
 
@@ -336,14 +289,12 @@ colnames(Algo_risk) <- libs
 
 all_lasso_vars <- character()
 
-print("before loop")
-print(loop)
+# print(
 # system.time({
 CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
                  .export = c(libs,'PLOTaddr')
 )%dopar%{
-  print("Loop: ",j)
-  print(j)
+  #print("Loop: ",i)
   source('Custom_SL/sl_mgcv_gam.R')
   source('Custom_SL/sl_custom_glm.R')
   source('Custom_SL/sl_custom_bayesglm.R')
@@ -474,7 +425,6 @@ for (j in 1:loop) { # Iterate through the number of times SuperLearner was run t
   correl[j]<-cor(preds[,j],Response) #*
   
   LinearCorrel[j]<-cor( 10^preds[,j] - z_e, TrainingData$Redshift_crosscheck  ) #*
-  linearrms[j] = sqrt(mean((TrainingData$Redshift_crosscheck - (10^preds[,j]-1))^2))
   
   # CVmetrics <- metrics(Response, preds[,j], linear = FALSE, print = FALSE)
   # 
@@ -492,38 +442,27 @@ for (j in 1:loop) { # Iterate through the number of times SuperLearner was run t
 
 #plot(Response, rowMeans(preds) )
 
-png(filename = paste(PLOTaddr,'model_compare_plot.png'),res=500,width=3000,height=3000)
-par(mar=c(5, 10, 4, 2))
-barplot(sort(colMeans(co)), names.arg = libs[order(colMeans(co))], horiz = T, las=1,)
 
-dev.off()
-
-
-barplot(colMeans(co), names.arg = libs, horiz = T, las=1,)
-par(mar=c(5, 4, 4, 2))
+### Plotting observed vs predicted
+source('Result_plot_maker.R')
 
 { # THIS PLOTS ALL THE GRBS CORRELATION PLOT
-  #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_with_catOutl_',plotnames,sep='')
+  plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
+  plotnames<-paste('_OG_',plotnames,sep='')
   results<-result_plotter(rownames(TrainingData),rowMeans(preds),Response
                           ,apply(preds,1,max),apply(preds,1,min)) # HERE THE MAX MIN PREDICTIONS ARE DETERMINED
 }
 
 InsideCone <- read.csv(paste(addr,'Results_wo_catout',plotnames,'.csv',sep = ''),row.names = 1)
 rownames(InsideCone)
-##This saves the trained model
-sl_model=SuperLearner(Y = Response, X = Predictors,family = gaussian(), SL.library = libs,verbose = F)
-saveRDS(sl_model, file = "superlearner_model")
+
 
 { # THIS PRINTS THE CORRELATION PLOT FOR DATA INSIDE 2SIGMA
-  #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_without_catOutl_',plotnames,sep='')
+  plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
+  plotnames<-paste('_removing_CatOutl_',plotnames)
   Good_results <-  result_plotter(rownames(InsideCone),InsideCone$InvZphot,InsideCone$InvZspec
                                   ,InsideCone$pred_max,InsideCone$pred_min)
 }
-#go
 
 
 

@@ -1,26 +1,28 @@
 source('Load_Imports.R')
 source('Result_plot_maker.R')
 
-run_locally = F  #Set to true for debugging.T
+library(SuperLearner)
+######INFLUENCE CALCULATION######   
+run_locally = F #Set to true for debugging.
+
 if(run_locally){
-  raw_xray_data <- read.csv("combined_data_with_redshift_V8.csv", header = T, row.names = 1)
-  do_mice = T
+  raw_xray_data <- read.csv("combined_data_with_redshift.csv", header = T, row.names = 1)
+} else {
+  source('Load_Imports.R')
+  args <- commandArgs(trailingOnly = TRUE)
+  input_file <- args[1]
+  raw_xray_data <- read.csv(input_file, header = T, row.names = 1)
   upsampling = F
   do_m_estimator = T
   custom_models = F
   weight_threshold = 0.65
-  loop = 10
-} else {
-  args <- commandArgs(trailingOnly = TRUE)
-  input_file <- args[1]
-  do_mice <- as.logical(tolower(args[2]) == "true")
-  upsampling <- as.logical(tolower(args[3]) == "true")
-  do_m_estimator <- as.logical(tolower(args[4]) == "true")
-  custom_models <- as.logical(tolower(args[5]) == "true")
-  weight_threshold <- as.numeric(args[6])
-  loop <- as.numeric(args[7])
-  raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
+  loop = 5
 }
+
+do_mice = T 
+do_m_estimator = T
+remove_catout = T
+weight_threshold = 0.65
 
 
 SqrTermGen <- function(inputData) {
@@ -206,13 +208,13 @@ Responses <- subset(GRBPred,select = c("Redshift_crosscheck", "log10z"))
 #                                          log10PeakFluxSqr,
 #                                          log10T90Sqr,
 #                                          PhotonIndexSqr
-                                         # ,
-                                         # log10FaErr,
-                                         # log10TaErr,
-                                         # log10PeakFluxErr,
-                                         # log10T90Err,
-                                         # PhotonIndexErr
-                                         ##))
+# ,
+# log10FaErr,
+# log10TaErr,
+# log10PeakFluxErr,
+# log10T90Err,
+# PhotonIndexErr
+##))
 # EXCLUDING LOG10Z, INVZ, Z,
 # Alpha, Beta, Gamma, and Fluence
 O1Predictors = subset(GRBPred,select=lassovar)
@@ -283,7 +285,7 @@ tune_caret = list(
 )
 
 caret_learner <- create.Learner('SL.caret',
-                          tune = tune_caret,detailed_names = T)
+                                tune = tune_caret,detailed_names = T)
 
 libs=c(learner1$names, sl_glm1$names,caret_learner$names)
 
@@ -302,14 +304,14 @@ registerDoParallel(clust)
 
 if(analyze_all){
   libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction','SL.glm',
-           #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
-           #'SL.ksvm', #probably the line that errors out
-           #'SL.caret', #takes too long
-           'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
-           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
-           'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
-           learner1$names, sl_glm1$names) # the 29 that work + GAM1
+    #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
+    #'SL.ksvm', #probably the line that errors out
+    #'SL.caret', #takes too long
+    'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
+    'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
+    'SL.rpart',  'SL.step', 'SL.step.forward',
+    'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
+    learner1$names, sl_glm1$names) # the 29 that work + GAM1
   libnames<- '_ALL_'
 }
 
@@ -527,3 +529,85 @@ saveRDS(sl_model, file = "superlearner_model")
 
 
 
+
+
+#namecols <- c('z', 'invz', 'log10z','Fit')
+inf_names <- c(
+  "log10Fa" = "log(Fa)",
+  "log10Ta" = "log(Ta)",
+  "Alpha" = "α",         
+  "Beta"  = "β",         
+  "PhotonIndex" = "Photon Index",   
+  "log10NH" = "log(NH)",
+  "log10PeakFlux" = "log(Peak flux)",       
+  "log10FaSqr"  = expression("log(Fa)"^2),     
+  "log10TaSqr" = expression("log(Ta)"^2),     
+  "AlphaSqr"  = expression("α"^2),     
+  "BetaSqr"   = expression("β"^2),    
+  "PhotonIndexSqr"=expression("Photon Index"^2),
+  "log10NHSqr"  = expression("log(NH)"^2),     
+  "log10PeakFluxSqr" = expression("log(Peak flux)"^2),
+  "log10T90Sqr" = expression("log(T90)"^2),
+  "log10T90" = expression("log(T90)"),
+  "Gamma" = "γ",
+  "GammaSqr" = expression("γ"^2) 
+)
+
+system.time({
+  #TrainData$LabelNo<-as.numeric(TrainData$LabelNo)
+  model <- SuperLearner(Y = Response, X = Predictors, family = gaussian(), SL.library = libs) #To train model accurately
+  numCores = detectCores()
+  registerDoParallel(numCores)
+  #for (j in 1:4){influences[,j] = inflFunc(full_dat,model)} # SEQUENTIAL INFLUENCE CALC
+  infl<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
+                .combine = cbind)%dopar% { ### PARALLEL INLFUENCE CALCULATION
+                  
+                  source('Custom_SL/sl_mgcv_gam.R')
+                  source('Custom_SL/sl_custom_glm.R')
+                  source('Custom_SL/sl_custom_bayesglm.R')
+                  source('importance.R')
+                  
+                  infMat<-inflFunc(Predictors,model)
+                  
+                  infMat
+                }
+  #infl # CONTAINS THE AVERAGE OF THE INFLUENCES OF ALL THE RUNS. VERIFIED WITH CORRELATION BTWN THIS AND THE NORMAL INFLUENCE VARIABLE
+  #avgInf = as.data.frame(t(rowMeans(infl)))
+  avgInf = apply(infl,1,mean)
+  #names(avgInf)=names(TrainData)
+  #names(avgInf)=names(TrainData[,c(-1,-2,-3,-4)])
+  #names(avgInf)=names(Predictors)
+  
+  #avgInf
+  relinf <- avgInf[order(-avgInf)]
+  par(mar=c(5,6,4,1)+.1)
+  
+  write.csv(relinf, file=paste(addr,"RefInf_Selective",plotnames,'.csv',sep=""))
+  par(mar=c(5,6,4,1)+.1)
+  
+  png(filename = paste(PLOTaddr,"Relinf_SelectiveVariables",plotnames,".png",sep=""),width = 1000*sz,height = 1000*sz,res = 160)
+  par(mar=c(5,8,0,1)+.1)
+  barplot(as.numeric(relinf)
+          ,cex.names = 1.2,horiz = TRUE, las=1
+          ,cex.axis = 2,cex.lab=2
+          ,names.arg=inf_names[names(relinf)]#, main = "Relative Influence"
+          ,xlab="Percentage"
+          ,font.axis=2,font.lab=2
+          ,col = rainbow(length(relinf)), xpd = F)
+  dev.off()
+  #barplot(as.numeric(relinf),cex.lab = 0.5,horiz = TRUE, las=2, names.arg=names(relinf), main = "Relative Influence",xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+  barplot(as.numeric(relinf),cex.names = 0.9,horiz = TRUE, las=1,names.arg = inf_names[names(relinf)],main = "Relative Influence",xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+})
+#head(relinf)
+#ncol(relinf)
+save.image(file = paste(addr,"Workspace_Influence",plotnames,".Rdata",sep = ""))
+
+
+
+#names(relinf) = c("Photon Index","log(Ta)","log(Peak)","log(NH)","α","log(Fluence)","β","log(Fa)","log(T90)")
+#c("log(Ta)","log(Peak)","Photon Index","α","log(NH)","log(Fluence)","log(Fa)","log(T90)","β")
+
+par(mar=c(5,7,0.5,1)+.1)
+barplot(as.numeric(relinf),cex.names = 1.2,horiz = TRUE, las=1,names.arg = names(relinf),cex.axis = 1.2,cex.lab=1.2
+        ,xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+relinf

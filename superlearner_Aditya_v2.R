@@ -1,24 +1,25 @@
-source('Load_Imports.R')
-source('Result_plot_maker.R')
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-run_locally = F  #Set to true for debugging.T
+source('Load_Imports.R')
+
+run_locally = T  #Set to true for debugging.
+
 if(run_locally){
+  #raw_xray_data <- read.csv("combined_data_with_redshift_V3.csv", header = T, row.names = 1)
   raw_xray_data <- read.csv("combined_data_with_redshift_V8.csv", header = T, row.names = 1)
-  do_mice = T
-  upsampling = F
+  do_mice = T 
   do_m_estimator = T
   custom_models = F
   weight_threshold = 0.65
-  loop = 10
+  loop = 100
 } else {
   args <- commandArgs(trailingOnly = TRUE)
   input_file <- args[1]
   do_mice <- as.logical(tolower(args[2]) == "true")
-  upsampling <- as.logical(tolower(args[3]) == "true")
-  do_m_estimator <- as.logical(tolower(args[4]) == "true")
-  custom_models <- as.logical(tolower(args[5]) == "true")
-  weight_threshold <- as.numeric(args[6])
-  loop <- as.numeric(args[7])
+  do_m_estimator <- as.logical(tolower(args[3]) == "true")
+  custom_models <- as.logical(tolower(args[4]) == "true")
+  weight_threshold <- as.numeric(args[5])
+  loop <- as.numeric(args[6])
   raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
 }
 
@@ -38,21 +39,26 @@ SqrTermGen <- function(inputData) {
   return(inputData)
 }
 
+addr <-paste("Results") #THIS HOLDS THE ADDRESS AT WHICH THE FILES ARE OUTPUT
+PLOTaddr <-paste("Plot_Output_New_gam6+gam4+xgb_V8.1_7V/") #THIS HOLDS THE ADDRESS AT WHICH THE PLOTS ARE OUTPUT
+
+if (!dir.exists(PLOTaddr)) {
+  dir.create(PLOTaddr)
+}
+
 sz<-0.8
 rez=120
 
 
-addr <-paste("Results/") #THIS HOLDS THE ADDRESS AT WHICH THE FILES ARE OUTPUT
-PLOTaddr <-paste("Plot_Output/") #THIS HOLDS THE ADDRESS AT WHICH THE PLOTS ARE OUTPUT
-
 ## CREATE DIRECTORIES IF THEY DONT EXIST
-if(!dir.exists(PLOTaddr)){dir.create(PLOTaddr)}
-if(!dir.exists(addr)){dir.create(addr)}
+#if(!dir.exists(PLOTaddr)){dir.create(PLOTaddr)}
+#if(!dir.exists(addr)){dir.create(addr)}
 
 
 # Pick out Long GRBs
+dim(raw_xray_data)
 raw_xray_data = raw_xray_data[raw_xray_data$T90 > 2,]
-
+dim(raw_xray_data)
 raw_xray_data$log10T90 = log10(raw_xray_data$T90)
 
 
@@ -96,9 +102,11 @@ features_for_mice_preds$PhotonIndex[features_for_mice_preds$PhotonIndex < 0] <- 
 
 if(do_mice){
   set.seed(1)
-  png(filename = "MICE_missing_features.png",width = 1000, height = 1000, res = 200)
+  
+  png(filename = paste0(PLOTaddr,"MICE_missing_features.png"),width = 1000, height = 1000, res = 200)
   md.pattern(features_for_mice_preds,rotate.names = T)
   dev.off()
+  
   # features_for_mice_all <- cbind(features_for_mice_preds, features_for_mice_errs)
   mice_model_preds <- mice(data = features_for_mice_preds,
                            m = 20,
@@ -138,12 +146,11 @@ lassovar=head(lassovar,7)
 
 # generating squared terms for future ML methods
 Variables <- subset(GRBPred, select = lassovar)#colnames(features_for_mice_preds))
-
 Responses_and_Err <- subset(GRBPred, select = !colnames(GRBPred) %in% colnames(Variables))
 
 GRBPred <- SqrTermGen(Variables)
 GRBPred <- cbind(GRBPred, Responses_and_Err)
-
+dim(GRBPred)
 # adding z back into original dset
 #GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck
 #GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck[rownames(GRBPred)]
@@ -158,7 +165,6 @@ GRBPred$log10z <- log10(GRBPred$Redshift_crosscheck + 1)
 # GRBPred$invz <- 1/(raw_xray_data$Redshift_crosscheck + z_e)
 # unscaled_GRBPred$invz <- GRBPred$invz
 
-
 if (!dir.exists("OutputFiles")) {
   dir.create("OutputFiles")
 }
@@ -172,26 +178,16 @@ if (do_mice){
   # write.csv(GRB_Err, "OutputFiles/DataHandle/grb_xray_errors.csv")
 }
 
-if (upsampling){
-  source("upsampling.R")
-}
+#source("Omar_upsampling.R")
 
 if (do_m_estimator){
   source("m_estimator.R")
 }
-
-# skip_m_estimator = F
-# if (skip_m_estimator){
-#   GRBPred = read.csv("good_mice_m_est.csv", header = T, row.names = 1)
-# } else {
-#   source("m_estimator.R") 
-# }
-
+dim(GRBPred)
 #WE'LL DECIDE IF WE NEED IT
 ##source("m_estimator.R")
 
 Responses <- subset(GRBPred,select = c("Redshift_crosscheck", "log10z"))
-
 
 # cutting all but the 6 best predictors
 # Predictors <- subset(GRBPred, select = c(log10Fa,
@@ -225,7 +221,8 @@ dim(PredictionData)
 
 TrainingData <- GRBPred[!(rownames(GRBPred) %in% rownames(PredictionData)),]
 intersect(rownames(PredictionData),rownames(TrainingData))
-
+dim(PredictionData)
+dim(TrainingData)
 #write.csv(TrainingData,paste(addr,'TrainingData_for_the_run.csv',sep=''))
 
 Response <- TrainingData$log10z
@@ -241,6 +238,7 @@ source('Custom_SL/sl_mgcv_gam.R')
 #              drop.intercept = TRUE
 # )
 
+#formula_table_GAM = read.table("Omar_best_formulas/Best_formula_GAM.txt")
 formula_table_GAM = read.table("Best_formula_GAM.txt")
 bestGAM1 = apply(as.matrix(formula_table_GAM[,2]),1,as.formula)
 tuner = list(gam.model = c(bestGAM1),
@@ -254,38 +252,55 @@ learner1 = create.Learner("SL.mgcv_gam", tune = tuner, detailed_names = F, name_
 
 source('Custom_SL/sl_custom_glm.R')
 
+#formula_table_GLM = read.table("Omar_best_formulas/Best_formula_GLM.txt")
 formula_table_GLM = read.table("Best_formula_GLM.txt")
 best_lm3 = apply(as.matrix(formula_table_GLM[,2]),1,as.formula)
 
 sl_glm1 <- create.Learner('SL.custom_glm',
                           tune = list(glm.model=c(best_lm3)))
 
-source('Custom_SL/sl_custom_bayesglm.R')
-sl_bglm <- create.Learner('SL.custom_bayesglm'
-                          ,tune=list(bglm.model=c(best_lm3))
-)
 
-#if (custom_models){
+# source('Custom_SL/sl_custom_bayesglm.R')
+# formula_table_BGLM = read.table("7Variables/GLM_2024-01-10/Best_GLM_formula2024-01-10.txt")
+# best_bglm3 = apply(as.matrix(formula_table_BGLM[,2]),1,as.formula)
+# 
+# sl_bglm1 <- create.Learner('SL.custom_bayesglm',
+#                           tune = list(bglm.model=c(best_bglm3)))
+
+
+if (custom_models){
 ###EDIT TO READ MODEL NAMES BASED ON USER SELECTION  
-#  libs_line <- readLines("selected_models.txt")
-#  eval(parse(text = libs_line))
-#  print(libs)
-#} else {
-#  libs <- c(learner1$names, sl_glm1$names)
-#  libnames <- "_OG_1GAM_1GLM_"
-#}
-libnames <- "_OG_1GAM_1GLM_"
+  libs_line <- readLines("selected_models.txt")
+  eval(parse(text = libs_line))
+  print(libs)
+} else {
+  libs <- c(learner1$names, sl_glm1$names,'SL.stepAIC')
+  #libs <- c(sl_bglm1$names)
+  libnames <- "_OG_3BGLM_"
+}
+#libnames <- "_OG_1GAM_1GLM_"
+plotnames<- "_OG_3GAM_3GLM_100times"
+
 ###### CARET #####
 
 tune_caret = list(
-  method = c("rf")
+  #method = c("glmStepAIC",'xgbDART','gcvEarth','rf','ranger')
+  method = c('xgbTree')
+  #method = c('gbm')
   ,tuneLength=1,verboseIter=F
 )
 
 caret_learner <- create.Learner('SL.caret',
                           tune = tune_caret,detailed_names = T)
 
-libs=c(learner1$names, sl_glm1$names,caret_learner$names)
+
+#libs=c(learner1$names, sl_glm1$names,caret_learner$names)
+libs=c(learner1$names[6],learner1$names[4],caret_learner$names)
+#libs=c(learner1$names, sl_glm1$names)
+#libs=c(sl_glm1$names)
+print(libs)
+#test_caret_SL = SuperLearner(Y = Response, X = Predictors,SL.library = libs,family = "gaussian",verbose = F)
+#test_caret_SL = CV.SuperLearner(Y = Response, X = Predictors,SL.library = libs,family = "gaussian",verbose = F)
 
 
 #### Super Learner Cross-validation and Plotting Results ####
@@ -299,7 +314,7 @@ analyze_all = F
 numCores = detectCores()
 clust <- makeCluster(numCores)
 registerDoParallel(clust)
-
+#source("Custom_SL/SL.custom_caret.R")
 if(analyze_all){
   libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction','SL.glm',
            #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
@@ -313,16 +328,15 @@ if(analyze_all){
   libnames<- '_ALL_'
 }
 
-if (custom_models){
-  ###EDIT TO READ MODEL NAMES BASED ON USER SELECTION  
-  libs_line <- readLines("selected_models.txt")
-  eval(parse(text = libs_line))
-  print(libs)
-  libnames="_custom_models_"
-}
+
 
 #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-plotnames<- "correlation_plot"
+
+
+print(libnames)
+print(plotnames)
+print(loop)
+print("Starting 10fCV")
 
 TrainData <- TrainingData
 
@@ -336,14 +350,12 @@ colnames(Algo_risk) <- libs
 
 all_lasso_vars <- character()
 
-print("before loop")
-print(loop)
+# print(
 # system.time({
 CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
                  .export = c(libs,'PLOTaddr')
 )%dopar%{
-  print("Loop: ",j)
-  print(j)
+  #print("Loop: ",i)
   source('Custom_SL/sl_mgcv_gam.R')
   source('Custom_SL/sl_custom_glm.R')
   source('Custom_SL/sl_custom_bayesglm.R')
@@ -398,7 +410,10 @@ CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "ra
       s9<-SuperLearner(Y = invZtrain, X = train_set, family = gaussian(), newX=test_set, SL.library = libs,verbose = F)
       ,file=nullfile())
     
-    pr<- s9$SL.predict # PREDICTIONS FOR 1/10
+    pr<- s9$SL.predict 
+    
+    
+    
     
     Zpred <- 10^(pr[,1]) - 1
     
@@ -474,6 +489,7 @@ for (j in 1:loop) { # Iterate through the number of times SuperLearner was run t
   correl[j]<-cor(preds[,j],Response) #*
   
   LinearCorrel[j]<-cor( 10^preds[,j] - z_e, TrainingData$Redshift_crosscheck  ) #*
+  
   linearrms[j] = sqrt(mean((TrainingData$Redshift_crosscheck - (10^preds[,j]-1))^2))
   
   # CVmetrics <- metrics(Response, preds[,j], linear = FALSE, print = FALSE)
@@ -492,38 +508,145 @@ for (j in 1:loop) { # Iterate through the number of times SuperLearner was run t
 
 #plot(Response, rowMeans(preds) )
 
-png(filename = paste(PLOTaddr,'model_compare_plot.png'),res=500,width=3000,height=3000)
+png(filename = paste0(PLOTaddr,'model_compare_plot.png'),res=500,width=3000,height=3000)
 par(mar=c(5, 10, 4, 2))
 barplot(sort(colMeans(co)), names.arg = libs[order(colMeans(co))], horiz = T, las=1,)
 
 dev.off()
 
 
-barplot(colMeans(co), names.arg = libs, horiz = T, las=1,)
+#barplot(colMeans(co), names.arg = libs, horiz = T, las=1,)
 par(mar=c(5, 4, 4, 2))
+
+### Plotting observed vs predicted
+source('Result_plot_maker.R')
 
 { # THIS PLOTS ALL THE GRBS CORRELATION PLOT
   #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_with_catOutl_',plotnames,sep='')
+  plotnames<- "_OG_1GAM_1GLM_2algo_17vrb_20times"
+  plotnames<-paste('_OG_',plotnames,sep='')
   results<-result_plotter(rownames(TrainingData),rowMeans(preds),Response
                           ,apply(preds,1,max),apply(preds,1,min)) # HERE THE MAX MIN PREDICTIONS ARE DETERMINED
 }
 
 InsideCone <- read.csv(paste(addr,'Results_wo_catout',plotnames,'.csv',sep = ''),row.names = 1)
 rownames(InsideCone)
-##This saves the trained model
-sl_model=SuperLearner(Y = Response, X = Predictors,family = gaussian(), SL.library = libs,verbose = F)
-saveRDS(sl_model, file = "superlearner_model")
+
 
 { # THIS PRINTS THE CORRELATION PLOT FOR DATA INSIDE 2SIGMA
   #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
-  plotnames<- "correlation_plot"
-  plotnames<-paste('_without_catOutl_',plotnames,sep='')
+  plotnames<- "_OG_1GAM_1GLM_2algo_17vrb_20times"
+  plotnames<-paste('_removing_CatOutl_',plotnames)
   Good_results <-  result_plotter(rownames(InsideCone),InsideCone$InvZphot,InsideCone$InvZspec
                                   ,InsideCone$pred_max,InsideCone$pred_min)
 }
-#go
+
+addr=PLOTaddr
+source('GRB_3way_Split_Bias_correction_zspec.R')
+
+#### FOR PLOTTING RMSE VS REDSHIFT ####
+
+for (j in 1:loop) {
+  linearrms[j] = sqrt(mean((TrainingData$Redshift_crosscheck - (10^preds[,j]-1))^2))
+}
+
+RMSE_vector=apply(10^preds-1, 1, function(x){sqrt(mean(x^2))}   )
+#RMSE_vector=apply(10^preds-1, 1, sd  )
+
+png(filename = "RMSE_vs_z.png",width = 800,height = 800,res = 150)
+par(mar=c(4,5,1,1))
+plot(TrainingData$Redshift_crosscheck,RMSE_vector
+     ,xlab='Redshift',ylab="RMSE"
+     ,cex.axis=2,cex.lab=1.75,font.axis=1,font.lab=2,pch=4
+     )
+abline(h = mean(RMSE_vector)
+       ,col='red')
+dev.off()
+
+save.image(file = paste0(PLOTaddr,"Workspace.Rdata"))
+
+##### CALCULATING INFLUENCE #####
+
+#namecols <- c('z', 'invz', 'log10z','Fit')
+inf_names <- c(
+  "log10Fa" = "log(Fa)",
+  "log10Ta" = "log(Ta)",
+  "Alpha" = "α",         
+  "Beta"  = "β",
+  "Gamma" = "γ",
+  "PhotonIndex" = "Photon Index",   
+  "log10NH" = "log(NH)",
+  "log10PeakFlux" = "log(Peak flux)",       
+  "log10FaSqr"  = expression("log(Fa)"^2),     
+  "log10TaSqr" = expression("log(Ta)"^2),     
+  "AlphaSqr"  = expression("α"^2),     
+  "BetaSqr"   = expression("β"^2),
+  "GammaSqr"  = expression("γ"^2),
+  "PhotonIndexSqr"=expression("Photon Index"^2),
+  "log10NHSqr"  = expression("log(NH)"^2),     
+  "log10PeakFluxSqr" = expression("log(Peak flux)"^2),
+  "log10T90Sqr" = expression("log(T90)"^2),
+  "log10T90" = expression("log(T90)")
+)
+
+system.time({
+ 
+  model <- SuperLearner(Y = Response, X = Predictors, family = gaussian(), SL.library = libs) #To train model accurately
+  numCores = detectCores()
+  registerDoParallel(numCores)
+  #for (j in 1:4){influences[,j] = inflFunc(full_dat,model)} # SEQUENTIAL INFLUENCE CALC
+  infl<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
+                .combine = cbind)%dopar% { ### PARALLEL INLFUENCE CALCULATION
+                  
+                  source('Custom_SL/sl_mgcv_gam.R')
+                  source('Custom_SL/sl_custom_glm.R')
+                  source('Custom_SL/sl_custom_bayesglm.R')
+                  source('importance.R')
+                  
+                  infMat<-inflFunc(Predictors,model)
+                  
+                  infMat
+                }
+  #infl # CONTAINS THE AVERAGE OF THE INFLUENCES OF ALL THE RUNS. 
+  #VERIFIED WITH CORRELATION BTWN THIS AND THE NORMAL INFLUENCE VARIABLE
+  
+  #avgInf = as.data.frame(t(rowMeans(infl)))
+  avgInf = apply(infl,1,mean)
+  #names(avgInf)=names(TrainData)
+  #names(avgInf)=names(TrainData[,c(-1,-2,-3,-4)])
+  #names(avgInf)=names(Predictors)
+  
+  #avgInf
+  relinf <- avgInf[order(-avgInf)]
+  par(mar=c(5,6,4,1)+.1)
+  
+  write.csv(relinf, file=paste(PLOTaddr,"RefInf_Selective",plotnames,'.csv',sep=""))
+  par(mar=c(5,6,4,1)+.1)
+  
+  png(filename = paste(PLOTaddr,"Relinf_SelectiveVariables",plotnames,".png",sep=""),width = 1000*sz,height = 1000*sz,res = 160)
+  par(mar=c(5,8,0,1)+.1)
+  barplot(as.numeric(relinf)
+          ,cex.names = 1.2,horiz = TRUE, las=1
+          ,cex.axis = 2,cex.lab=2
+          ,names.arg=inf_names[names(relinf)]#, main = "Relative Influence"
+          ,xlab="Percentage"
+          ,font.axis=2,font.lab=2
+          ,col = rainbow(length(relinf)), xpd = F)
+  dev.off()
+  #barplot(as.numeric(relinf),cex.lab = 0.5,horiz = TRUE, las=2, names.arg=names(relinf), main = "Relative Influence",xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+  barplot(as.numeric(relinf),cex.names = 0.9,horiz = TRUE, las=1,names.arg = inf_names[names(relinf)],main = "Relative Influence",xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+})
+#head(relinf)
+#ncol(relinf)
+save.image(file = paste(addr,"Workspace_Influence.Rdata",sep = ""))
 
 
+
+#names(relinf) = c("Photon Index","log(Ta)","log(Peak)","log(NH)","α","log(Fluence)","β","log(Fa)","log(T90)")
+#c("log(Ta)","log(Peak)","Photon Index","α","log(NH)","log(Fluence)","log(Fa)","log(T90)","β")
+
+par(mar=c(5,7,0.5,1)+.1)
+barplot(as.numeric(relinf),cex.names = 1.2,horiz = TRUE, las=1,names.arg = names(relinf),cex.axis = 1.2,cex.lab=1.2
+        ,xlab="Percentage", col = rainbow(length(relinf)), xpd = F)
+relinf
 

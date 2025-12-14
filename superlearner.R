@@ -11,6 +11,7 @@ if(run_locally){
   weight_threshold = 0.65
   loop = 10
 } else {
+  print('not running locally')
   args <- commandArgs(trailingOnly = TRUE)
   input_file <- args[1]
   do_mice <- as.logical(tolower(args[2]) == "true")
@@ -19,8 +20,21 @@ if(run_locally){
   custom_models <- as.logical(tolower(args[5]) == "true")
   weight_threshold <- as.numeric(args[6])
   loop <- as.numeric(args[7])
-  raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
+  # raw_xray_data <- read.csv(input_file, header = TRUE, row.names = 1)
+  raw_xray_data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
+  stopifnot(!anyDuplicated(raw_xray_data$GRB))
+  rownames(raw_xray_data) <- raw_xray_data$GRB
+
 }
+
+raw_xray_data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
+
+cat("Column names found:\n")
+print(colnames(raw_xray_data))
+
+cat("\nFirst 5 rows:\n")
+print(head(raw_xray_data, 5))
+
 
 
 SqrTermGen <- function(inputData) {
@@ -51,9 +65,9 @@ if(!dir.exists(addr)){dir.create(addr)}
 
 
 # Pick out Long GRBs
-raw_xray_data = raw_xray_data[raw_xray_data$T90 > 2,]
+raw_xray_data = raw_xray_data[raw_xray_data$log10T9 > 0.301,]
 
-raw_xray_data$log10T90 = log10(raw_xray_data$T90)
+# raw_xray_data$log10T90 = log10(raw_xray_data$T90)
 
 
 # creating new subset for only numeric features that are not tied to the response (Redshift_crosscheck)
@@ -93,6 +107,8 @@ features_for_mice_preds$Alpha[features_for_mice_preds$Alpha > 3] <- NA
 
 features_for_mice_preds$PhotonIndex[features_for_mice_preds$PhotonIndex < 0] <- NA
 
+print("Reached point A")
+
 
 if(do_mice){
   set.seed(1)
@@ -123,6 +139,7 @@ if(do_mice){
   GRBPred <- na.omit(cbind(features_for_mice_preds, features_for_mice_errs))
 }
 
+print("Reached point B")
 ########### Adding log error columns ###########
 # log10T90
 T90 <- 10^GRBPred$log10T90
@@ -133,8 +150,31 @@ GRBPred$log10T90Err <- GRBPred$T90Err/(T90 * log(10))
 GRBPred$log10FluenceErr <- GRBPred$FluenceErr/(Fluence * log(10))
 GRBPred$log10PeakFluxErr <- GRBPred$PeakFluxErr/(PeakFlux * log(10))
 
+GRBPred$GRB <- raw_xray_data$GRB
+
+# See all column names
+print("Printing colu")
+print(colnames(GRBPred))
+
+# See column names with exact representation (shows spaces, weird chars)
+dput(colnames(raw_xray_data))
+
+# Find any column whose name contains "Redshift"
+grep("Redshift", colnames(raw_xray_data), value = TRUE)
+
+head(raw_xray_data[, c("GRB", "Redshift_crosscheck")], 5)
+
+cat("\nFirst 5 rows NOW:\n")
+print(head(raw_xray_data, 5))
+
+
+
+print("Reached point C")
 source('lasso.R')
+print("Reached point D")
 lassovar=head(lassovar,7)
+print("Reached point E")
+
 
 # generating squared terms for future ML methods
 Variables <- subset(GRBPred, select = lassovar)#colnames(features_for_mice_preds))
@@ -147,14 +187,15 @@ GRBPred <- cbind(GRBPred, Responses_and_Err)
 # adding z back into original dset
 #GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck
 #GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck[rownames(GRBPred)]
-GRBPred$Redshift_crosscheck <- raw_xray_data[rownames(GRBPred),1]
+# GRBPred$Redshift_crosscheck <- raw_xray_data[rownames(GRBPred),1]
+GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck
 # unscaled_GRBPred$Redshift_crosscheck <- GRBPred$Redshift_crosscheck
 
 # adding log10z back into original dataset
 #GRBPred$log10z <- log10(raw_xray_data$Redshift_crosscheck + 1)
+print('Reached point F')
 GRBPred$log10z <- log10(GRBPred$Redshift_crosscheck + 1)
 # unscaled_GRBPred$log10z <- GRBPred$log10z 
-
 # GRBPred$invz <- 1/(raw_xray_data$Redshift_crosscheck + z_e)
 # unscaled_GRBPred$invz <- GRBPred$invz
 
@@ -286,7 +327,7 @@ caret_learner <- create.Learner('SL.caret',
                           tune = tune_caret,detailed_names = T)
 
 libs=c(learner1$names, sl_glm1$names,caret_learner$names)
-
+# libs=c(learner1$library, sl_glm1$library, caret_learner$library)
 
 #### Super Learner Cross-validation and Plotting Results ####
 test = F
@@ -308,8 +349,8 @@ if(analyze_all){
            'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
            'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
            'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost', 
-           learner1$names, sl_glm1$names) # the 29 that work + GAM1
+           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost') # the 29 that work + GAM1
+  libs <- c(libs, sl_glm1$library) 
   libnames<- '_ALL_'
 }
 
@@ -320,6 +361,16 @@ if (custom_models){
   print(libs)
   libnames="_custom_models_"
 }
+
+libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction','SL.glm',
+           #'SL.cforest', 'SL.bayesglm', 'SL.biglasso', 
+           #'SL.ksvm', #probably the line that errors out
+           #'SL.caret', #takes too long
+           'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
+           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
+           'SL.rpart',  'SL.step', 'SL.step.forward',
+           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost') # the 29 that work + GAM1
+libs <- c(libs, sl_glm1$library, learner1$library, caret_learner$library) 
 
 #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
 plotnames<- "correlation_plot"
@@ -336,17 +387,35 @@ colnames(Algo_risk) <- libs
 
 all_lasso_vars <- character()
 
+gam_vars <- c(
+  "log10FaSqr", "log10Fa", "log10PeakFlux",
+  "log10NHSqr", "log10NH",
+  "PhotonIndex", "PhotonIndexSqr",
+  "log10Ta", "log10TaSqr",
+  "Gamma", "GammaSqr",
+  "Alpha", "AlphaSqr"
+)
+
+missing <- setdiff(gam_vars, colnames(GRBPred))
+print(missing)
+
 print("before loop")
 print(loop)
 # system.time({
-CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
-                 .export = c(libs,'PLOTaddr')
-)%dopar%{
-  print("Loop: ",j)
-  print(j)
+# CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
+#                  .export = c(libs,'PLOTaddr')
+# )%dopar%{
+CVmodel <- foreach(
+  j = 1:loop,
+  .packages = c("SuperLearner","caret","xgboost","randomForest","gbm","lattice",
+                "latticeExtra","Matrix","glmnet","biglasso","e1071","earth","party"),
+  .export = c("libs","PLOTaddr","PredictionData")
+) %dopar% {
   source('Custom_SL/sl_mgcv_gam.R')
   source('Custom_SL/sl_custom_glm.R')
   source('Custom_SL/sl_custom_bayesglm.R')
+
+  print('Entering main part of loop')
   
   responses <- c('Redshift_crosscheck', 'invz', 'log10z')
   all_data_scale_wo <- TrainData
@@ -377,7 +446,8 @@ CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "ra
   correlation_log_test <- numeric()
   rmse_log_test <- numeric()
   sus_GRBs <- character()
-  
+  print("Reached point before SuperLearner")
+
   for(i in 1:length(folds)){
     
     train_set<-all_data_scale_wo[-folds[[i]],]
@@ -393,6 +463,8 @@ CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "ra
     
     train_set<-as.data.frame(train_set)
     test_set<-as.data.frame(test_set)
+
+    
     
     capture.output(
       s9<-SuperLearner(Y = invZtrain, X = train_set, family = gaussian(), newX=test_set, SL.library = libs,verbose = F)
