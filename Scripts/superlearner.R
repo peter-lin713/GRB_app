@@ -1,5 +1,5 @@
-source('Scripts/Load_Imports.R')
-source('Scripts/Result_plot_maker.R')
+source('Load_Imports.R')
+source('Result_plot_maker.R')
 
 run_locally = F  #Set to true for debugging.T
 if(run_locally){
@@ -94,7 +94,7 @@ features_for_mice_preds$Alpha[features_for_mice_preds$Alpha > 3] <- NA
 features_for_mice_preds$PhotonIndex[features_for_mice_preds$PhotonIndex < 0] <- NA
 
 
-if(do_mice || any(is.na(features_for_mice_preds))){ #changed this.
+if(do_mice){
   set.seed(1)
   png(filename = "MICE_missing_features.png",width = 1000, height = 1000, res = 200)
   md.pattern(features_for_mice_preds,rotate.names = T)
@@ -133,7 +133,7 @@ GRBPred$log10T90Err <- GRBPred$T90Err/(T90 * log(10))
 GRBPred$log10FluenceErr <- GRBPred$FluenceErr/(Fluence * log(10))
 GRBPred$log10PeakFluxErr <- GRBPred$PeakFluxErr/(PeakFlux * log(10))
 
-source('Scripts/lasso.R')
+source('lasso.R')
 lassovar=head(lassovar,7)
 
 # generating squared terms for future ML methods
@@ -173,11 +173,11 @@ if (do_mice){
 }
 
 if (upsampling){
-  source("Scripts/upsampling.R")
+  source("upsampling.R")
 }
 
 if (do_m_estimator){
-  source("Scripts/m_estimator.R")
+  source("m_estimator.R")
 }
 
 # skip_m_estimator = F
@@ -241,7 +241,7 @@ source('Custom_SL/sl_mgcv_gam.R')
 #              drop.intercept = TRUE
 # )
 
-formula_table_GAM = read.table("Data/Best_formula_GAM.txt")
+formula_table_GAM = read.table("Best_formula_GAM.txt")
 bestGAM1 = apply(as.matrix(formula_table_GAM[,2]),1,as.formula)
 tuner = list(gam.model = c(bestGAM1),
              select = TRUE,
@@ -254,7 +254,7 @@ learner1 = create.Learner("SL.mgcv_gam", tune = tuner, detailed_names = F, name_
 
 source('Custom_SL/sl_custom_glm.R')
 
-formula_table_GLM = read.table("Data/Best_formula_GLM.txt")
+formula_table_GLM = read.table("Best_formula_GLM.txt")
 best_lm3 = apply(as.matrix(formula_table_GLM[,2]),1,as.formula)
 
 sl_glm1 <- create.Learner('SL.custom_glm',
@@ -315,7 +315,7 @@ if(analyze_all){
 
 if (custom_models){
   ###EDIT TO READ MODEL NAMES BASED ON USER SELECTION  
-  libs_line <- readLines("Data/selected_models.txt")
+  libs_line <- readLines("selected_models.txt")
   eval(parse(text = libs_line))
   print(libs)
   libnames="_custom_models_"
@@ -514,7 +514,7 @@ InsideCone <- read.csv(paste(addr,'Results_wo_catout',plotnames,'.csv',sep = '')
 rownames(InsideCone)
 ##This saves the trained model
 sl_model=SuperLearner(Y = Response, X = Predictors,family = gaussian(), SL.library = libs,verbose = F)
-saveRDS(sl_model, file = "Data/superlearner_model")
+saveRDS(sl_model, file = "superlearner_model")
 
 { # THIS PRINTS THE CORRELATION PLOT FOR DATA INSIDE 2SIGMA
   #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")

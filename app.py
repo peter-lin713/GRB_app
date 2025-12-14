@@ -77,6 +77,7 @@ if task == "**Redshift Estimator**":
             output_text_file = "output.txt"  # Name of the output file from R script
             # Run the R script
             #run_r_script("redshift_estimator.R", temp_input_file, output_text_file, str(apply_mice), str(supmodel))
+            print(apply_mice, supmodel)
             run_r_script("Generalization_Aditya_v2.R", temp_input_file, output_text_file, str(apply_mice), str(supmodel))
             # Display output text and provide a download link
             if os.path.exists(output_text_file):
@@ -324,7 +325,7 @@ elif task == "**Superlearner**":
                     chosen_models.append(model)
 
             # Write the selected models to a file
-            with open('Data/selected_models.txt', 'w') as file:
+            with open('selected_models.txt', 'w') as file:
                 file.write('libs = c(' + ', '.join(f"'{lib}'" for lib in chosen_models) + ')\n')
 
         # Save the uploaded file to a temporary file
@@ -335,7 +336,7 @@ elif task == "**Superlearner**":
         # output_file = "output_superlearner.txt"  # Output file name
         # Run the (yet to be created) R script for Superlearner
         #run_r_script("new_standalone_superlearner.R", temp_input_file, apply_mice=str(apply_mice), m_estimator=str(m_estimator), custom_models=str(custom_models), m_est_weight=m_est_weight)
-        run_r_script("Scripts/superlearner.R", temp_input_file, apply_mice=str(apply_mice), upsampling=str(upsampling), m_estimator=str(m_estimator), custom_models=str(custom_models), m_est_weight=m_est_weight, n_loops=5)
+        run_r_script("superlearner.R", temp_input_file, apply_mice=str(apply_mice), upsampling=str(upsampling), m_estimator=str(m_estimator), custom_models=str(custom_models), m_est_weight=m_est_weight, n_loops=5)
 
         # Display output as a table
         # if os.path.exists(output_file):
