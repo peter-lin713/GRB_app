@@ -1,6 +1,8 @@
 source('Load_Imports.R')
 source('Result_plot_maker.R')
 
+### SL.loess was given weight 0. This seemed to be causing some errors.
+
 run_locally = F  #Set to true for debugging.T
 if(run_locally){
   raw_xray_data <- read.csv("combined_data_with_redshift_V8.csv", header = T, row.names = 1)
@@ -347,9 +349,9 @@ if(analyze_all){
            #'SL.ksvm', #probably the line that errors out
            #'SL.caret', #takes too long
            'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
-           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
+          'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
            'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost') # the 29 that work + GAM1
+           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost') # the 29 that work + GAM1 # removed loess bc it was causing errors
   libs <- c(libs, sl_glm1$library) 
   libnames<- '_ALL_'
 }
@@ -367,10 +369,10 @@ libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction'
            #'SL.ksvm', #probably the line that errors out
            #'SL.caret', #takes too long
            'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
-           'SL.loess', 'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
+           'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
            'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC', 'SL.xgboost') # the 29 that work + GAM1
-libs <- c(libs, sl_glm1$library, learner1$library, caret_learner$library) 
+           'SL.step.interaction', 'SL.stepAIC') # the 29 that work + GAM1
+libs <- c(libs, sl_glm1$library, learner1$library, caret_learner$library) # removed loess bc it was causing errors
 
 #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
 plotnames<- "correlation_plot"
@@ -395,6 +397,8 @@ gam_vars <- c(
   "Gamma", "GammaSqr",
   "Alpha", "AlphaSqr"
 )
+cat("The number of NAs in GRBPred is: ", sum(is.na(GRBPred)))
+
 
 missing <- setdiff(gam_vars, colnames(GRBPred))
 print(missing)
@@ -405,109 +409,220 @@ print(loop)
 # CVmodel<-foreach(j = 1:loop, .packages=c("SuperLearner", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "latticeExtra", "Matrix", "glmnet", "biglasso","e1071",'earth','party'), 
 #                  .export = c(libs,'PLOTaddr')
 # )%dopar%{
-CVmodel <- foreach(
-  j = 1:loop,
-  .packages = c("SuperLearner","caret","xgboost","randomForest","gbm","lattice",
-                "latticeExtra","Matrix","glmnet","biglasso","e1071","earth","party"),
-  .export = c("libs","PLOTaddr","PredictionData")
-) %dopar% {
-  source('Custom_SL/sl_mgcv_gam.R')
-  source('Custom_SL/sl_custom_glm.R')
-  source('Custom_SL/sl_custom_bayesglm.R')
+# CVmodel <- foreach(
+#   j = 1:loop,
+#   .packages = c("SuperLearner","caret","xgboost","randomForest","gbm","lattice",
+#                 "latticeExtra","Matrix","glmnet","biglasso","e1071","earth","party"),
+#   .export = c("libs","PLOTaddr","PredictionData")
+# ) %dopar% {
+#   source('Custom_SL/sl_mgcv_gam.R')
+#   source('Custom_SL/sl_custom_glm.R')
+#   source('Custom_SL/sl_custom_bayesglm.R')
 
-  print('Entering main part of loop')
+#   print('Entering main part of loop')
   
-  responses <- c('Redshift_crosscheck', 'invz', 'log10z')
+#   responses <- c('Redshift_crosscheck', 'invz', 'log10z')
+#   all_data_scale_wo <- TrainData
+  
+#   all_data_scale_wo <- subset(all_data_scale_wo, 
+#                               select = !(colnames(TrainData) %in% responses)) # eliminates Z dependent cols
+#   PredictionData <- PredictionData[,colnames(all_data_scale_wo)]
+#   allZ_wo <- TrainData$Redshift_crosscheck
+#   invallZ_wo <- TrainData$log10z
+  
+#   nwo = nrow(all_data_scale_wo)
+  
+#   results_cv<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
+#   results_cv_log<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
+  
+#   results_cv_mgcv<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
+  
+#   ind<-sample(nwo,nwo)
+#   folds<-vector('list',10)
+#   foldlen <- floor(nwo/10)
+  
+#   folds <- createFolds(allZ_wo, k = 10) # use caret to make k folds (this return the indices of the fold)
+  
+#   CVpred <- matrix(0,nrow = dim(PredictionData)[1],ncol=0)
+#   #Valpred <- matrix(0,nrow = dim(ValidationSet)[1],ncol=0)
+#   # UKpred <- matrix(0,nrow = dim(UnknownSet)[1],ncol=0)
+  
+#   correlation_log_test <- numeric()
+#   rmse_log_test <- numeric()
+#   sus_GRBs <- character()
+#   print("Reached point before SuperLearner")
+
+#   for(i in 1:length(folds)){
+    
+#     train_set<-all_data_scale_wo[-folds[[i]],]
+#     test_set<-all_data_scale_wo[folds[[i]],]
+    
+#     #
+#     Ztrain<-allZ_wo[-folds[[i]]]
+#     Ztest<-allZ_wo[folds[[i]]]
+    
+    
+#     invZtrain<-invallZ_wo[-folds[[i]]]
+#     invZtest<-invallZ_wo[folds[[i]]]
+    
+#     train_set<-as.data.frame(train_set)
+#     test_set<-as.data.frame(test_set)
+
+    
+    
+#     capture.output(
+#       s9<-SuperLearner(Y = invZtrain, X = train_set, family = gaussian(), newX=test_set, SL.library = libs,verbose = F)
+#       ,file=nullfile())
+    
+#     pr<- s9$SL.predict # PREDICTIONS FOR 1/10
+    
+#     Zpred <- 10^(pr[,1]) - 1
+    
+#     results_cv$Predicted[folds[[i]]]<-pr[,1]
+#     results_cv$Observed[folds[[i]]]=invZtest
+    
+#     logZpred<-pr[,1]
+#     logZtest<-invZtest
+#     test
+    
+#     correlation_log_test = c(correlation_log_test, c(cor(logZpred,logZtest)))
+#     rmse_log_test = c(rmse_log_test, sqrt(mean((logZpred - logZtest)^2)))
+    
+#     testsetGRB <- rownames(test_set)
+    
+#     Algo_coeff <- rbind(Algo_coeff,coef(s9))
+    
+#     Algo_risk <- rbind(Algo_risk,s9$cvRisk)
+    
+#     CVpred <- cbind(predict(s9,PredictionData)$pred,CVpred) # POTENTIAL ERROR POINT
+#     #Valpred <- cbind(predict(s9,ValidationSet)$pred,Valpred) # POTENTIAL ERROR POINT
+#     gc()
+#   }
+  
+#   Algo_coeff <- na.omit(Algo_coeff)
+#   Algo_risk <- na.omit(Algo_risk)
+#   return(list(rowMeans(CVpred),colMeans(Algo_coeff),results_cv$Predicted,colMeans(Algo_risk), correlation_log_test, sus_GRBs, results_cv_mgcv$Predicted, rmse_log_test))
+# }
+
+# # }))
+
+# stopCluster(clust)
+
+# doParallel::stopImplicitCluster()
+# closeAllConnections()
+
+#save.image(file = paste("Workspace_10fCV",plotnames,".Rdata",sep = ""))
+
+options(error = recover)  # interactive traceback
+CVmodel <- vector("list", loop)
+
+for (j in 1:loop) {
+
+  # If you want messages in the console:
+  cat("j =", j, "\n")
+
+  source("Custom_SL/sl_mgcv_gam.R")
+  source("Custom_SL/sl_custom_glm.R")
+  source("Custom_SL/sl_custom_bayesglm.R")
+
+  cat("Entering main part of loop\n")
+
+  responses <- c("Redshift_crosscheck", "invz", "log10z")
   all_data_scale_wo <- TrainData
-  
-  all_data_scale_wo <- subset(all_data_scale_wo, 
-                              select = !(colnames(TrainData) %in% responses)) # eliminates Z dependent cols
-  PredictionData <- PredictionData[,colnames(all_data_scale_wo)]
+
+  all_data_scale_wo <- subset(
+    all_data_scale_wo,
+    select = !(colnames(TrainData) %in% responses)
+  )
+
+  # Avoid permanently overwriting global PredictionData
+  PredictionData_j <- PredictionData[, colnames(all_data_scale_wo)]
+
   allZ_wo <- TrainData$Redshift_crosscheck
   invallZ_wo <- TrainData$log10z
-  
-  nwo = nrow(all_data_scale_wo)
-  
-  results_cv<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
-  results_cv_log<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
-  
-  results_cv_mgcv<-data.frame(Predicted=numeric(nwo),Observed=numeric(nwo))
-  
-  ind<-sample(nwo,nwo)
-  folds<-vector('list',10)
-  foldlen <- floor(nwo/10)
-  
-  folds <- createFolds(allZ_wo, k = 10) # use caret to make k folds (this return the indices of the fold)
-  
-  CVpred <- matrix(0,nrow = dim(PredictionData)[1],ncol=0)
-  #Valpred <- matrix(0,nrow = dim(ValidationSet)[1],ncol=0)
-  # UKpred <- matrix(0,nrow = dim(UnknownSet)[1],ncol=0)
-  
+
+  nwo <- nrow(all_data_scale_wo)
+
+  results_cv <- data.frame(Predicted = numeric(nwo), Observed = numeric(nwo))
+  results_cv_log <- data.frame(Predicted = numeric(nwo), Observed = numeric(nwo))
+  results_cv_mgcv <- data.frame(Predicted = numeric(nwo), Observed = numeric(nwo))
+
+  folds <- createFolds(allZ_wo, k = 10)
+
+  CVpred <- matrix(0, nrow = nrow(PredictionData_j), ncol = 0)
+
   correlation_log_test <- numeric()
   rmse_log_test <- numeric()
   sus_GRBs <- character()
-  print("Reached point before SuperLearner")
 
-  for(i in 1:length(folds)){
-    
-    train_set<-all_data_scale_wo[-folds[[i]],]
-    test_set<-all_data_scale_wo[folds[[i]],]
-    
-    #
-    Ztrain<-allZ_wo[-folds[[i]]]
-    Ztest<-allZ_wo[folds[[i]]]
-    
-    
-    invZtrain<-invallZ_wo[-folds[[i]]]
-    invZtest<-invallZ_wo[folds[[i]]]
-    
-    train_set<-as.data.frame(train_set)
-    test_set<-as.data.frame(test_set)
+  cat("Reached point before SuperLearner\n")
 
-    
-    
+  for (i in seq_along(folds)) {
+    cat("Iteration ", i, " out of 10")
+
+    train_set <- all_data_scale_wo[-folds[[i]], ]
+    test_set  <- all_data_scale_wo[ folds[[i]], ]
+
+    invZtrain <- invallZ_wo[-folds[[i]]]
+    invZtest  <- invallZ_wo[ folds[[i]]]
+
+    train_set <- as.data.frame(train_set)
+    test_set  <- as.data.frame(test_set)
+    SL.library <- libs
+
     capture.output(
-      s9<-SuperLearner(Y = invZtrain, X = train_set, family = gaussian(), newX=test_set, SL.library = libs,verbose = F)
-      ,file=nullfile())
-    
-    pr<- s9$SL.predict # PREDICTIONS FOR 1/10
-    
-    Zpred <- 10^(pr[,1]) - 1
-    
-    results_cv$Predicted[folds[[i]]]<-pr[,1]
-    results_cv$Observed[folds[[i]]]=invZtest
-    
-    logZpred<-pr[,1]
-    logZtest<-invZtest
-    test
-    
-    correlation_log_test = c(correlation_log_test, c(cor(logZpred,logZtest)))
-    rmse_log_test = c(rmse_log_test, sqrt(mean((logZpred - logZtest)^2)))
-    
+      s9 <- SuperLearner(
+        Y = invZtrain,
+        X = train_set,
+        family = gaussian(),
+        newX = test_set,
+        SL.library = libs,
+        verbose = TRUE
+      ),
+      file = nullfile()
+    )
+
+    print("HERE IS THE NULL INFORMATION")
+    # tracking which algorithms throw errors
+    is_null <- sapply(s9$fitLibrary, is.null)
+    which(is_null)
+    SL.library[which(is_null)]
+    pr <- s9$SL.predict
+
+    results_cv$Predicted[folds[[i]]] <- pr[, 1]
+    results_cv$Observed[folds[[i]]]  <- invZtest
+
+    logZpred <- pr[, 1]
+    logZtest <- invZtest
+
+    correlation_log_test <- c(correlation_log_test, cor(logZpred, logZtest))
+    rmse_log_test <- c(rmse_log_test, sqrt(mean((logZpred - logZtest)^2)))
+
     testsetGRB <- rownames(test_set)
-    
-    Algo_coeff <- rbind(Algo_coeff,coef(s9))
-    
-    Algo_risk <- rbind(Algo_risk,s9$cvRisk)
-    
-    CVpred <- cbind(predict(s9,PredictionData)$pred,CVpred) # POTENTIAL ERROR POINT
-    #Valpred <- cbind(predict(s9,ValidationSet)$pred,Valpred) # POTENTIAL ERROR POINT
+
+    Algo_coeff <- rbind(Algo_coeff, coef(s9))
+    Algo_risk  <- rbind(Algo_risk,  s9$cvRisk)
+
+    CVpred <- cbind(predict(s9, PredictionData_j)$pred, CVpred)
+
     gc()
   }
-  
+
   Algo_coeff <- na.omit(Algo_coeff)
-  Algo_risk <- na.omit(Algo_risk)
-  return(list(rowMeans(CVpred),colMeans(Algo_coeff),results_cv$Predicted,colMeans(Algo_risk), correlation_log_test, sus_GRBs, results_cv_mgcv$Predicted, rmse_log_test))
+  Algo_risk  <- na.omit(Algo_risk)
+
+  CVmodel[[j]] <- list(
+    rowMeans(CVpred),
+    colMeans(Algo_coeff),
+    results_cv$Predicted,
+    colMeans(Algo_risk),
+    correlation_log_test,
+    sus_GRBs,
+    results_cv_mgcv$Predicted,
+    rmse_log_test
+  )
 }
 
-# }))
-
-stopCluster(clust)
-
-doParallel::stopImplicitCluster()
-closeAllConnections()
-
-#save.image(file = paste("Workspace_10fCV",plotnames,".Rdata",sep = ""))
 
 z_e = 1
 
