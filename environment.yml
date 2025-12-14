@@ -1,0 +1,7 @@
+name: test_env
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - conda-lock
+prefix: /usr/local/Caskroom/miniconda/base/envs/test_env

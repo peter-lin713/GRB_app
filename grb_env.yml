@@ -1,0 +1,31 @@
+name: grb_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - r-base=4.3
+  - r-doparallel
+  - r-mice
+  - r-vim
+  - r-ggplot2
+  - r-lattice
+  - r-stringr
+  - r-dplyr
+  - r-mass
+  - r-randomforest
+  - r-earth
+  - r-glmnet
+  - r-superlearner
+  - r-mgcv
+  - r-xgboost
+  - r-gbm
+  - r-caret
+  - r-party
+  - r-arm
+  - r-dgof
+  - r-ksamples
+  - r-latticeextra
+  - r-biglasso
+  - r-matrix
+  - r-e1071
