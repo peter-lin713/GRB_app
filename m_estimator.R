@@ -31,50 +31,126 @@ rc <- GRBPred$Redshift_crosscheck
 
 Response = GRBPred$log10z
 
+### save all the information into a stable dataframe
+GRBPred_full <- GRBPred
+GRBPred <- subset(GRBPred, select = !colnames(GRBPred) %in% c("Redshift_crosscheck","log10z","invz","X", "GRB"))
 
-GRBPred <- subset(GRBPred, select = !colnames(GRBPred) %in% c("Redshift_crosscheck","log10z","invz","X"))
+# # 80/20 HIGHEST CV CORRELATION
 
-# 80/20 HIGHEST CV CORRELATION
+# rlm_formula = read.table("Best_formula_GLM.txt")
+# rlm_form = apply(as.matrix(rlm_formula[,2]),1,as.formula)
 
-rlm_formula = read.table("Best_formula_GLM.txt")
-rlm_form = apply(as.matrix(rlm_formula[,2]),1,as.formula)
+# #rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10TaSqr + log10FaSqr + log10NH + PhotonIndex + log10T90 + log10Ta)^2 + log10Fa + log10PeakFlux + PhotonIndexSqr + log10PeakFluxSqr
 
-#rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10TaSqr + log10FaSqr + log10NH + PhotonIndex + log10T90 + log10Ta)^2 + log10Fa + log10PeakFlux + PhotonIndexSqr + log10PeakFluxSqr
-
-# RLM FORMULA FOR TASK 1
-# rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10NH + log10T90)^2 + log10Fa + log10Ta + PhotonIndex + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10PeakFluxSqr
-
-
-# 80/20 AFTER NEW LOG10NH CUT
-#rlm_form <- log10z ~ (PhotonIndex + log10T90 + log10Ta + log10Fa)^2 + log10NH + log10PeakFlux
-
-#rlm_form <- log10z ~ (log10T90Sqr + PhotonIndex + log10Ta + log10Fa)^2 + log10T90 + log10NH + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10NHSqr + log10PeakFluxSqr
+# # RLM FORMULA FOR TASK 1
+# # rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10NH + log10T90)^2 + log10Fa + log10Ta + PhotonIndex + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10PeakFluxSqr
 
 
+# # 80/20 AFTER NEW LOG10NH CUT
+# #rlm_form <- log10z ~ (PhotonIndex + log10T90 + log10Ta + log10Fa)^2 + log10NH + log10PeakFlux
 
-# 90/10 HIGHEST CV CORRELATION
-#rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10NH + log10T90)^2 + log10Fa + log10Ta + PhotonIndex + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10PeakFluxSqr
-
-grb_cols <- colnames(GRBPred)
+# #rlm_form <- log10z ~ (log10T90Sqr + PhotonIndex + log10Ta + log10Fa)^2 + log10T90 + log10NH + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10NHSqr + log10PeakFluxSqr
 
 
 
-# creating a linear combo of all predictors
-# all fitting to linear redshift
-# for (i in 1:length(grb_cols)-1) {
-#   if (i == 1) {
-#     assign("rlm_form", paste("log10z ~", grb_cols[i]))
-#   } else {
-#     assign("rlm_form", paste(rlm_form, "+", grb_cols[i]))
-#   }
-# }
+# # 90/10 HIGHEST CV CORRELATION
+# #rlm_form <- log10z ~ (log10NHSqr + log10T90Sqr + log10NH + log10T90)^2 + log10Fa + log10Ta + PhotonIndex + log10PeakFlux + log10FaSqr + log10TaSqr + PhotonIndexSqr + log10PeakFluxSqr
 
-# creating M Estimate object and showing summary
-M_est <- MASS::rlm(rlm_form[[1]], data = GRBPred, method = "M")
-summary(M_est)
+# grb_cols <- colnames(GRBPred)
 
-# saving weight values and threshold
-weights <- M_est$w
+
+
+# # creating a linear combo of all predictors
+# # all fitting to linear redshift
+# # for (i in 1:length(grb_cols)-1) {
+# #   if (i == 1) {
+# #     assign("rlm_form", paste("log10z ~", grb_cols[i]))
+# #   } else {
+# #     assign("rlm_form", paste(rlm_form, "+", grb_cols[i]))
+# #   }
+# # }
+
+# # creating M Estimate object and showing summary
+# M_est <- MASS::rlm(rlm_form[[1]], data = GRBPred, method = "M")
+# summary(M_est)
+
+# # saving weight values and threshold
+# weights <- M_est$w
+
+# Save predictor-only rownames for stable mapping
+stopifnot(length(Response) == nrow(GRBPred))
+full_rows <- rownames(GRBPred)
+
+# Reconstruct "full-ish" frame for fitting (predictors + response)
+GRBPred_fit <- GRBPred
+GRBPred_fit$log10z <- Response
+
+# Build GLM formula: response ~ all predictors currently in GRBPred
+pred_cols <- colnames(GRBPred)  # predictors-only at this point
+glm_form <- as.formula(paste("log10z ~", paste(pred_cols, collapse = " + ")))
+
+# Fit GLM (drops NA rows)
+glm_fit <- glm(glm_form, data = GRBPred_fit, family = gaussian(), na.action = na.omit)
+
+# Get the exact rows used by glm (complete cases for the model)
+mf <- model.frame(glm_fit)
+used_rows <- rownames(mf)
+
+# Build design matrix aligned to mf
+X <- model.matrix(glm_fit)
+
+# Reduce X to full rank (rlm requires non-singular X)
+qrX <- qr(X)
+keep <- qrX$pivot[seq_len(qrX$rank)]
+X_reduced <- X[, keep, drop = FALSE]
+
+# Drop intercept so we can use log10z ~ . cleanly
+Xr <- X_reduced
+if ("(Intercept)" %in% colnames(Xr)) {
+  Xr <- Xr[, colnames(Xr) != "(Intercept)", drop = FALSE]
+}
+
+# Fit robust regression on the same rows, reduced design
+GRBPred_fit_reduced <- data.frame(
+  log10z = model.response(mf),
+  Xr,
+  check.names = FALSE
+)
+
+M_est <- MASS::rlm(log10z ~ ., data = GRBPred_fit_reduced, method = "M")
+weights <- M_est$w  # weights for *used_rows* only
+
+# Map weights back to full row space (length = nrow(GRBPred))
+w_full <- rep(NA_real_, length(full_rows))
+names(w_full) <- full_rows
+w_full[used_rows] <- weights
+
+keep_full <- !is.na(w_full) & (w_full > weight_threshold)
+
+# Reconstruct full GRBPred with columns restored, then cut rows
+cat("Total rows:", length(full_rows), "\n")
+cat("Rows used by glm:", length(used_rows), "\n")
+cat("Rows kept after weight threshold:", sum(keep_full), "\n")
+
+print("printing the type of weights")
+str(weights)
+class(weights)
+head(weights)
+
+print("seeing which columns are non-numeric")
+non_numeric <- names(GRBPred)[!sapply(GRBPred, is.numeric)]
+print(non_numeric)
+
+sapply(GRBPred[non_numeric], class)
+
+
+cat("Smallest 10 weights:\n")
+print(sort(weights)[1:10])
+
+cat("\nLargest 10 weights:\n")
+print(sort(weights, decreasing = TRUE)[1:10])
+
+
 
 # the higher the threshold, the more likely a data point 
 # will be classified as an outlier and is removed
@@ -138,16 +214,23 @@ color_weights <- ifelse(weights > weight_threshold, 1, 2)
   # par(mar=c(10,10,10,10))
 }
 
-# removing data with weights below the threshold (these are considered outliers)
-GRBPred$Redshift_crosscheck <- rc
-GRBPred$log10z <- Response
+# # removing data with weights below the threshold (these are considered outliers)
+# GRBPred$Redshift_crosscheck <- rc
+# GRBPred$log10z <- Response
 
-# removing data with weights lower than weight threshold
-GRBCut <- GRBPred[M_est$w > weight_threshold, ]
+# # removing data with weights lower than weight threshold
+# GRBCut <- GRBPred[M_est$w > weight_threshold, ]
 
-nrow(GRBCut)
+# nrow(GRBCut)
 
-print(rownames(GRBPred[M_est$w < weight_threshold, ]))
+# print(rownames(GRBPred[M_est$w < weight_threshold, ]))
 
-GRBPred <- GRBCut
-write.csv(GRBCut, paste(output_dir, "/grb_xray_m_est.csv", sep = ""))
+# GRBPred <- GRBCut
+
+# GRBPred_full <- GRBPred
+GRBPred_full$Redshift_crosscheck <- rc
+GRBPred_full$log10z <- Response
+
+GRBPred <- GRBPred_full[keep_full, , drop = FALSE]
+
+write.csv(GRBPred, paste(output_dir, "/grb_xray_m_est.csv", sep = ""))
