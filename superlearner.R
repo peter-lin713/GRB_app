@@ -28,8 +28,6 @@ if(run_locally){
   rownames(raw_xray_data) <- raw_xray_data$GRB
 
 }
-#remove later
-loop = 1
 
 raw_xray_data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
 
