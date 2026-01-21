@@ -67,7 +67,18 @@ if(!dir.exists(addr)){dir.create(addr)}
 
 
 # Pick out Long GRBs
-raw_xray_data = raw_xray_data[raw_xray_data$log10T9 > 0.301,]
+tail(raw_xray_data[, c("GRB", "Redshift_crosscheck")], 5)
+cat("Printing out the first 15 values of log10T90 before removing outliers:\n")
+print(raw_xray_data$log10T90[1:15])
+# raw_xray_data = raw_xray_data[raw_xray_data$log10T90 > 0.301,]
+raw_xray_data = raw_xray_data[
+  !is.na(raw_xray_data$log10T90) & raw_xray_data$log10T90 > 0.301,
+]
+
+cat("Printing out the first 15 values of log10T90 after removing outliers:\n")
+print(raw_xray_data$log10T90[1:15])
+
+tail(raw_xray_data[, c("GRB", "Redshift_crosscheck")], 5)
 
 # raw_xray_data$log10T90 = log10(raw_xray_data$T90)
 
