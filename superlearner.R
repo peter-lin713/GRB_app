@@ -28,6 +28,8 @@ if(run_locally){
   rownames(raw_xray_data) <- raw_xray_data$GRB
 
 }
+#remove later
+loop = 1
 
 raw_xray_data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
 
@@ -71,8 +73,12 @@ tail(raw_xray_data[, c("GRB", "Redshift_crosscheck")], 5)
 cat("Printing out the first 15 values of log10T90 before removing outliers:\n")
 print(raw_xray_data$log10T90[1:15])
 # raw_xray_data = raw_xray_data[raw_xray_data$log10T90 > 0.301,]
+### Below works if we only want rows with a log10T90 value
+# raw_xray_data = raw_xray_data[
+#   !is.na(raw_xray_data$log10T90) & raw_xray_data$log10T90 > 0.301,
+# ]
 raw_xray_data = raw_xray_data[
-  !is.na(raw_xray_data$log10T90) & raw_xray_data$log10T90 > 0.301,
+  is.na(raw_xray_data$log10T90) | raw_xray_data$log10T90 > 0.301,
 ]
 
 cat("Printing out the first 15 values of log10T90 after removing outliers:\n")
