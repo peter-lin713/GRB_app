@@ -386,9 +386,11 @@ libs = c(#'SL.rpartPrune', 'SL.ridge', 'SL.lm','SL.glmnet', 'SL.glm.interaction'
            'SL.caret.rpart', 'SL.earth', 'SL.ipredbagg',
            'SL.mean', 'SL.nnet',  'SL.randomForest', 'SL.ranger',
            'SL.rpart',  'SL.step', 'SL.step.forward',
-           'SL.step.interaction', 'SL.stepAIC') # the 29 that work + GAM1
+           'SL.step.interaction', 'SL.stepAIC'
+           'SL.xgboost', 'SL.gbm'
+           ) # the 29 that work + GAM1
 libs <- c(libs, sl_glm1$library, learner1$library, caret_learner$library) # removed loess bc it was causing errors
-
+print(libs)
 #plotnames<-paste(libnames,length(libs),"algo_",ncol(Predictors),"vrb_",loop,"times",sep = "")
 plotnames<- "correlation_plot"
 
