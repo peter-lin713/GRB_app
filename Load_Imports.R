@@ -1,45 +1,43 @@
-# require(doParallel)
-# require(mice)
-# require(VIM) # mice graph 1
-# require(ggplot2) # mice graph 2
-# require(lattice) # GAM predicted vs observed plot
-# require(stringr) # string remove
-# require(dplyr) # arrange (sorting for GAM)
-# require(MASS) # fit normal dist in GAM (super balanced sampling)
-# require(randomForest)
-# require(earth)
-# library(glmnet) # LASSO, ElasticNet
-# require(SuperLearner)
-# require(mgcv)
-# require(xgboost)
-# require(gbm)
-# require(caret)
-# require(party)
-# library(arm)
-# library(dgof)
-# library(kSamples)
-#library(biglasso)
-#require(cforest)
-# options(repos = c(CRAN = "https://cloud.r-project.org"))
+#' Load_Imports.R — package bootstrap for the GRB redshift pipeline.
+#'
+#' Sourced once at the top of the pipeline. Points the session at a CRAN
+#' mirror, installs any of the required packages that are missing, then
+#' attaches them all. Idempotent: re-sourcing only installs what is absent.
+#'
+#' Package roles in the pipeline:
+#'   doParallel    parallel backend (legacy; current code uses parallel::mclapply)
+#'   mice          multiple imputation of missing predictors
+#'   VIM           missing-data visualisation (mice diagnostics)
+#'   ggplot2       result / MC diagnostic plots
+#'   lattice       predicted-vs-observed plots
+#'   stringr       string manipulation
+#'   dplyr         data wrangling / sorting
+#'   MASS          rlm() M-estimator outlier cut; normal-fit utilities
+#'   randomForest  SuperLearner base learner
+#'   earth         SuperLearner base learner (MARS)
+#'   glmnet        LASSO feature selection / ElasticNet
+#'   SuperLearner  ensemble meta-learner
+#'   mgcv          GAM base learner (custom SL.mgcv_gam wrapper)
+#'   xgboost       gradient-boosted-tree base learner
+#'   gbm           gradient-boosting base learner
+#'   caret         training utilities
+#'   party         conditional-inference trees/forests
+#'   arm           bayesglm() base learner
+#'   dgof, kSamples  goodness-of-fit / k-sample tests
+#'   latticeExtra  lattice plot extensions
+#'   biglasso      out-of-core LASSO
+#'   Matrix        sparse-matrix support (glmnet dependency)
+#'   e1071         SVM / misc ML utilities
 
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 
-# # Package names
-# packages <- c("doParallel", "mice", "VIM", "ggplot2", "lattice", "stringr", "dplyr", "MASS", "randomForest", "earth", "glmnet", "SuperLearner", "mgcv", "xgboost", "gbm", "caret", "party", "arm", "dgof", "kSamples", "latticeExtra", "biglasso", "Matrix", "e1071")
-
-# # Install packages not yet installed
-# installed_packages <- packages %in% rownames(installed.packages())
-# if (any(installed_packages == FALSE)) {
-#   install.packages(packages[!installed_packages])
-# }
-
-# # Packages loading
-# invisible(lapply(packages, library, character.only = TRUE))
-
+# Packages required across the whole pipeline.
 packages <- c("doParallel", "mice", "VIM", "ggplot2", "lattice", "stringr", "dplyr", "MASS", "randomForest", "earth", "glmnet", "SuperLearner", "mgcv", "xgboost", "gbm", "caret", "party", "arm", "dgof", "kSamples", "latticeExtra", "biglasso", "Matrix", "e1071")
-invisible(lapply(packages, library, character.only = TRUE))
 
-missing <- setdiff(packages, rownames(installed.packages()))
-if (length(missing)) {
-  stop("Missing R packages: ", paste(missing, collapse = ", "),
-       "\nRun the environment setup step first.")
+# Install any packages not yet present, then attach them all.
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
 }
+
+invisible(lapply(packages, library, character.only = TRUE))
