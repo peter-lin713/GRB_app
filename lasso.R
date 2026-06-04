@@ -1,46 +1,63 @@
-######### LASSO FEATURE SELECTION ######
-cat("DEBUG: Entered lasso.R\n")
-merged <- merge(GRBPred, raw_xray_data[, c("GRB", "Redshift_crosscheck")],
-                by = "GRB")
-Y <- log10(raw_xray_data$Redshift_crosscheck + 1)
-
-cat("Number of NA in Y:", sum(is.na(Y)), "\n")
-
-cat("First 10 values of Y:\n")
-print(head(Y, 10))
-
-
+#' lasso.R — LASSO feature-importance ranking.
+#'
+#' Ranks the candidate predictors by how strongly LASSO retains them when
+#' regressing log10(z+1) on the imputed feature set. Because a single
+#' cross-validated LASSO fit is sensitive to the random fold assignment, we
+#' refit `n_repeats` times and average the coefficients at lambda.1se, then
+#' rank features by mean |coefficient|.
+#'
+#' Inputs (globals expected from the calling pipeline):
+#'   GRBPred                 imputed feature dataframe (rows = GRBs)
+#'   raw_xray_data           raw catalog, supplies Redshift_crosscheck
+#'   features_for_mice_preds dataframe whose column names define the candidate
+#'                           predictor set fed to LASSO
+#'   PLOTaddr                output directory prefix for the diagnostic PNG
+#'
+#' Output:
+#'   LassoFeatures.png  barplot of mean |LASSO coefficient| per feature
+#'   lassovar           character vector of predictor names, ordered by
+#'                      descending mean |coefficient| (consumed downstream)
 
 library(glmnet)
 
-LASSO <- function(X,Y)
-{
-  X<-as.matrix(X) # THE TRAINING DATA
-  Y<-as.vector(Y) # THE RESPONSE VECTOR
-  lasso_model<-cv.glmnet(X,Y,alpha=1) # LASSO REGRESSION
+# Response: log10(z+1), the same target the SuperLearner predicts.
+Y <- log10(raw_xray_data$Redshift_crosscheck + 1)
+
+#' Fit a cross-validated LASSO model.
+#' @param X matrix or data.frame. Predictor matrix (rows = observations).
+#' @param Y numeric. Response vector.
+#' @return cv.glmnet object (alpha = 1, i.e. pure LASSO).
+LASSO <- function(X, Y) {
+  X <- as.matrix(X)
+  Y <- as.vector(Y)
+  lasso_model <- cv.glmnet(X, Y, alpha = 1)
   return(lasso_model)
 }
 
-lasso_coef=vector()
-
-for (a in 1:100) {
-  #lasmod=LASSO(Y = log10(raw_xray_data$Redshift_crosscheck + 1), X = features_for_mice_preds)
-  lasmod=LASSO(Y = Y, X = GRBPred[,colnames(features_for_mice_preds)])
-  lasso_coef<-cbind(lasso_coef,lasmod$glmnet.fit$beta[,lasmod$glmnet.fit$lambda==lasmod$lambda.1se])
+# Refit repeatedly and collect the lambda.1se coefficients so the ranking is
+# averaged over many random CV fold splits rather than one lucky/unlucky one.
+n_repeats <- 100
+lasso_coef <- vector()
+for (a in 1:n_repeats) {
+  lasmod <- LASSO(Y = Y, X = GRBPred[, colnames(features_for_mice_preds)])
+  lasso_coef <- cbind(
+    lasso_coef,
+    lasmod$glmnet.fit$beta[, lasmod$glmnet.fit$lambda == lasmod$lambda.1se]
+  )
 }
-lasso_coef_avg = rowMeans(lasso_coef)
+lasso_coef_avg <- rowMeans(lasso_coef)
 
-png(filename = paste(PLOTaddr,'LassoFeatures.png',sep = ''))#,width = 600,height = 1000)
-
-par(mar=c(5,9,1,1))
-barplot(sort(abs(lasso_coef_avg))
-        ,horiz = T,las=1,xlab="Coefficient"
-        ,cex.names = 1.5
-        ,cex.axis = 1.5,cex.lab=1.75
-        ,font.axis=2,font.lab=2
-        )
-axis(1,lwd=3,cex.axis=1.5)
+# Diagnostic: horizontal barplot of mean |coefficient| per feature.
+png(filename = paste(PLOTaddr, "LassoFeatures.png", sep = ""))
+par(mar = c(5, 11, 4, 1))
+barplot(sort(abs(lasso_coef_avg)),
+        horiz = T, las = 1, xlab = "Mean |LASSO coefficient|",
+        main = "LASSO feature importance\n(mean |coef| over CV folds; larger = stronger predictor)",
+        cex.names = 1.5,
+        cex.axis = 1.5, cex.lab = 1.4, cex.main = 0.95,
+        font.axis = 2, font.lab = 2)
+axis(1, lwd = 3, cex.axis = 1.5)
 dev.off()
-print(lasso_coef_avg)
-#lassovar = head(names(lasso_coef_avg[order(abs(lasso_coef_avg), decreasing=TRUE)]), 6)
-lassovar = names(lasso_coef_avg[order(abs(lasso_coef_avg), decreasing=TRUE)])
+
+# Predictor names ranked by descending importance.
+lassovar <- names(lasso_coef_avg[order(abs(lasso_coef_avg), decreasing = TRUE)])
