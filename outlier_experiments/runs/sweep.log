@@ -1,0 +1,4665 @@
+Tue Jun 16 16:35:41 CST 2026: Starting optA_soft_weights (m_est_pct=0.05, method=soft)...
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 307 rows x 18 cols )
+MC errors frame built for 307 rows
+Soft weights: min= 0.434  median= 1  ( 16 GRBs below 5 %-ile threshold)
+Assertion OK: GRBPred has no NA/NaN/Inf ( 307 rows )
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 246 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 8 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 1] Iteration 1 out of 10
+[rep 2] Iteration 1 out of 10
+[rep 3] Iteration 1 out of 10
+[rep 4] Iteration 1 out of 10
+[rep 5] starting
+[rep 6] starting
+[rep 7] starting
+[rep 8] starting
+[rep 5] Iteration 1 out of 10
+[rep 7] Iteration 1 out of 10
+[rep 6] Iteration 1 out of 10
+[rep 8] Iteration 1 out of 10
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:35:57] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:07] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:07] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:07] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:07] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:08] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:09] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:09] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:11] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:15] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:15] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:15] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:15] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:16] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:17] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:17] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:19] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:22] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:22] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:23] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:23] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:23] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:24] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:25] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:29] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:29] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:29] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:30] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:31] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:32] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:32] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:34] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (nulldev == 0) stop("y is constant; gaussian glmnet fails at standardization step") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in .internal.setinfo.xgb.DMatrix(object, name, info) : 
+  [16:36:36] src/data/data.cc:604: Check failed: valid: Weights must be positive values.
+Stack trace:
+  [bt] (0) 1   xgboost.so                          0x000000015571f078 dmlc::LogMessageFatal::~LogMessageFatal() + 124
+  [bt] (1) 2   xgboost.so                          0x0000000155802888 xgboost::MetaInfo::SetInfoFromHost(xgboost::Context const*, xgboost::StringView, xgboost::Json) + 1840
+  [bt] (2) 3   xgboost.so                          0x0000000155801fe8 xgboost::MetaInfo::SetInfo(xgboost::Context const&, xgboost::StringView, xgboost::StringView) + 412
+  [bt] (3) 4   xgboost.so                          0x00000001559ec9ec XGDMatrixSetInfoFromInterface + 236
+  [bt] (4) 5   xgboost.so                          0x000000015570c430 XGDMatrixSetInfo_R + 160
+  [bt] (5) 6   libR.dylib                          0x0000000102d3ec44 R_doDotCall + 1636
+  [bt] (6) 7   libR.dylib                          0x0000000102d77618 bcEval_loop + 23488
+  [bt] (7) 8   libR.dylib                          0x00000
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.glmnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error : Stopping
+In addition: There were 12 warnings (use warnings() to see them)
+Error in if (length(weights) != ntr || any(weights < 0)) stop("invalid weights vector") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.caret.rpart 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Error in if (any(wt < 0)) stop("negative weights not allowed") : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
+In FUN(X[[i]], ...) : Error in algorithm SL.nnet 
+  The Algorithm will be removed from the Super Learner (i.e. given weight 0) 
+
+Warning message:
+In parallel::mclapply(seq_len(loop), run_one_loop, mc.cores = n_cores) :
+  all scheduled cores encountered errors in user code
+Error: Parallel CV failed in 10 of 10 repetition(s). First failure:
+[1] "Error in nnls(sqrt(obsWeights) * Z, sqrt(obsWeights) * Y) : NA in input.\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in nnls(sqrt(obsWeights) * Z, sqrt(obsWeights) * Y): NA in input.>
+Execution halted
+Tue Jun 16 16:41:01 CST 2026: Starting optA_soft_weights (m_est_pct=0.05, method=soft)...
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 307 rows x 18 cols )
+MC errors frame built for 307 rows
+Soft weights: min= 0.434  median= 1  ( 16 GRBs below 5 %-ile threshold)
+Assertion OK: GRBPred has no NA/NaN/Inf ( 307 rows )
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 246 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 8 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 5] starting
+[rep 2] Iteration 1 out of 10
+[rep 1] Iteration 1 out of 10
+[rep 6] starting
+[rep 3] Iteration 1 out of 10
+[rep 7] starting
+[rep 5] Iteration 1 out of 10
+[rep 4] Iteration 1 out of 10
+[rep 8] starting
+[rep 7] Iteration 1 out of 10
+[rep 6] Iteration 1 out of 10
+[rep 8] Iteration 1 out of 10
+[rep 4] Iteration 2 out of 10
+[rep 1] Iteration 2 out of 10
+[rep 8] Iteration 2 out of 10
+[rep 2] Iteration 2 out of 10
+[rep 5] Iteration 2 out of 10
+[rep 7] Iteration 2 out of 10
+[rep 6] Iteration 2 out of 10
+[rep 3] Iteration 2 out of 10
+[rep 1] Iteration 3 out of 10
+[rep 2] Iteration 3 out of 10
+[rep 4] Iteration 3 out of 10
+[rep 7] Iteration 3 out of 10
+[rep 5] Iteration 3 out of 10
+[rep 8] Iteration 3 out of 10
+[rep 6] Iteration 3 out of 10
+[rep 3] Iteration 3 out of 10
+[rep 7] Iteration 4 out of 10
+[rep 4] Iteration 4 out of 10
+[rep 1] Iteration 4 out of 10
+[rep 6] Iteration 4 out of 10
+[rep 5] Iteration 4 out of 10
+[rep 8] Iteration 4 out of 10
+[rep 2] Iteration 4 out of 10
+[rep 3] Iteration 4 out of 10
+[rep 4] Iteration 5 out of 10
+[rep 1] Iteration 5 out of 10
+[rep 5] Iteration 5 out of 10
+[rep 7] Iteration 5 out of 10
+[rep 6] Iteration 5 out of 10
+[rep 8] Iteration 5 out of 10
+[rep 2] Iteration 5 out of 10
+[rep 3] Iteration 5 out of 10
+[rep 4] Iteration 6 out of 10
+[rep 6] Iteration 6 out of 10
+[rep 1] Iteration 6 out of 10
+[rep 5] Iteration 6 out of 10
+[rep 7] Iteration 6 out of 10
+[rep 8] Iteration 6 out of 10
+[rep 2] Iteration 6 out of 10
+[rep 3] Iteration 6 out of 10
+[rep 5] Iteration 7 out of 10
+[rep 4] Iteration 7 out of 10
+[rep 6] Iteration 7 out of 10
+[rep 7] Iteration 7 out of 10
+[rep 8] Iteration 7 out of 10
+[rep 1] Iteration 7 out of 10
+[rep 2] Iteration 7 out of 10
+[rep 3] Iteration 7 out of 10
+[rep 6] Iteration 8 out of 10
+[rep 7] Iteration 8 out of 10
+[rep 2] Iteration 8 out of 10
+[rep 8] Iteration 8 out of 10
+[rep 4] Iteration 8 out of 10
+[rep 1] Iteration 8 out of 10
+[rep 5] Iteration 8 out of 10
+[rep 3] Iteration 8 out of 10
+[rep 7] Iteration 9 out of 10
+[rep 4] Iteration 9 out of 10
+[rep 6] Iteration 9 out of 10
+[rep 2] Iteration 9 out of 10
+[rep 1] Iteration 9 out of 10
+[rep 8] Iteration 9 out of 10
+[rep 5] Iteration 9 out of 10
+[rep 3] Iteration 9 out of 10
+[rep 4] Iteration 10 out of 10
+[rep 7] Iteration 10 out of 10
+[rep 2] Iteration 10 out of 10
+[rep 6] Iteration 10 out of 10
+[rep 1] Iteration 10 out of 10
+[rep 8] Iteration 10 out of 10
+[rep 5] Iteration 10 out of 10
+[rep 3] Iteration 10 out of 10
+[rep 10] starting
+[rep 10] Iteration 1 out of 10
+[rep 9] starting
+[rep 9] Iteration 1 out of 10
+[rep 9] Iteration 2 out of 10
+[rep 10] Iteration 2 out of 10
+[rep 9] Iteration 3 out of 10
+[rep 10] Iteration 3 out of 10
+[rep 9] Iteration 4 out of 10
+[rep 10] Iteration 4 out of 10
+[rep 9] Iteration 5 out of 10
+[rep 10] Iteration 5 out of 10
+[rep 9] Iteration 6 out of 10
+[rep 10] Iteration 6 out of 10
+[rep 9] Iteration 7 out of 10
+[rep 10] Iteration 7 out of 10
+[rep 9] Iteration 8 out of 10
+[rep 10] Iteration 8 out of 10
+[rep 9] Iteration 9 out of 10
+[rep 10] Iteration 9 out of 10
+[rep 9] Iteration 10 out of 10
+[rep 10] Iteration 10 out of 10
+Flattening MC samples across 10 repetitions...
+MC matrix: 246 rows x 1000 samples
+MC coverage: 16.3% of rows have truth inside 95% MC interval
+MC metrics [all   ] log10(z+1): n=246 r=0.475 RMSE=0.172 | z: r=0.037 RMSE=22.163
+MC metrics [inside] log10(z+1): n=40 r=0.896 RMSE=0.046 | z: r=0.873 RMSE=0.313
+Wrote OutputFiles/mc_predictions.csv and OutputFiles/mc_raw.rds
+Wrote MC plots to outlier_experiments/runs/optA_soft_weights/Plot_Output/ 
+null device 
+          1 
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050319A" "050401A"
+  [8] "050416A" "050502A" "050502B" "050505A" "050525A" "050730A" "050801A"
+ [15] "050802A" "050820A" "050824A" "050908A" "050922C" "051016B" "051028A"
+ [22] "051109A" "051111A" "060115A" "060206A" "060223A" "060306A" "060418A"
+ [29] "060510B" "060512A" "060526A" "060604A" "060605A" "060607A" "060614A"
+ [36] "060707A" "060714A" "060729A" "060814A" "060904B" "060906A" "060908A"
+ [43] "060912A" "060926A" "060927A" "061007A" "061021A" "061110A" "061121A"
+ [50] "061126A" "061222A" "070110A" "070125A" "070208A" "070223A" "070411A"
+ [57] "070508A" "070521A" "070529A" "070714B" "070802A" "070810A" "071003A"
+ [64] "071010A" "071010B" "071025A" "071112C" "071117A" "080310A" "080319B"
+ [71] "080319C" "080411A" "080413B" "080430A" "080516A" "080603A" "080603B"
+ [78] "080607A" "080710A" "080721A" "080810A" "080905B" "080916A" "081008A"
+ [85] "081028A" "081029A" "081109A" "081228A" "081230A" "090313A" "090418A"
+ [92] "090516A" "090519A" "090529A" "090618A" "090726A" "090809A" "090812A"
+ [99] "090927A" "091020A" "091029A" "091109A" "091127A" "091208B" "100316D"
+[106] "100425A" "100508A" "100513A" "100621A" "100704A" "100728A" "100814A"
+[113] "100901A" "100906A" "101225A" "110106B" "110422A" "110503A" "110715A"
+[120] "110801A" "110808A" "110818A" "111107A" "111123A" "111228A" "120118B"
+[127] "120119A" "120327A" "120404A" "120422A" "120711A" "120729A" "120802A"
+[134] "120811C" "120815A" "120907A" "120922A" "121024A" "121027A" "121128A"
+[141] "121211A" "130215A" "130408A" "130420A" "130427A" "130505A" "130511A"
+[148] "130514A" "130604A" "130831A" "130925A" "131105A" "131117A" "140206A"
+[155] "140213A" "140419A" "140423A" "140430A" "140506A" "140509A" "140512A"
+[162] "140518A" "140614A" "140629A" "140801A" "141004A" "141121A" "141221A"
+[169] "150120B" "150314A" "150323A" "150910A" "151021A" "151027A" "151029A"
+[176] "151112A" "160117B" "160121A" "160131A" "160203A" "160227A" "160314A"
+[183] "160327A" "160425A" "160804A" "161014A" "161023A" "161108A" "161117A"
+[190] "161129A" "161219B" "170113A" "170405A" "170519A" "170604A" "170607A"
+[197] "170705A" "170714A" "170903A" "171222A" "180115A" "180205A" "180404A"
+[204] "180620B" "180720B" "180728A" "181010A" "181020A" "181110A" "181201A"
+[211] "190106A" "190114A" "190829A" "191011A" "191221B" "200205B" "200829A"
+[218] "201015A" "201020A" "201021C" "201104B" "210222B" "210411C" "210517A"
+[225] "210610A" "210610B" "210731A" "210822A" "211024B" "220117A" "230116D"
+[232] "230325A" "230328B" "230818A" "231210B"
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+3: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+4: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.05467 
+- Fold01: cp=0.05467 
++ Fold02: cp=0.05467 
+- Fold02: cp=0.05467 
++ Fold03: cp=0.05467 
+- Fold03: cp=0.05467 
++ Fold04: cp=0.05467 
+- Fold04: cp=0.05467 
++ Fold05: cp=0.05467 
+- Fold05: cp=0.05467 
++ Fold06: cp=0.05467 
+- Fold06: cp=0.05467 
++ Fold07: cp=0.05467 
+- Fold07: cp=0.05467 
++ Fold08: cp=0.05467 
+- Fold08: cp=0.05467 
++ Fold09: cp=0.05467 
+- Fold09: cp=0.05467 
++ Fold10: cp=0.05467 
+- Fold10: cp=0.05467 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.082 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.05622 
+- Fold01: cp=0.05622 
++ Fold02: cp=0.05622 
+- Fold02: cp=0.05622 
++ Fold03: cp=0.05622 
+- Fold03: cp=0.05622 
++ Fold04: cp=0.05622 
+- Fold04: cp=0.05622 
++ Fold05: cp=0.05622 
+- Fold05: cp=0.05622 
++ Fold06: cp=0.05622 
+- Fold06: cp=0.05622 
++ Fold07: cp=0.05622 
+- Fold07: cp=0.05622 
++ Fold08: cp=0.05622 
+- Fold08: cp=0.05622 
++ Fold09: cp=0.05622 
+- Fold09: cp=0.05622 
++ Fold10: cp=0.05622 
+- Fold10: cp=0.05622 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0611 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.04255 
+- Fold01: cp=0.04255 
++ Fold02: cp=0.04255 
+- Fold02: cp=0.04255 
++ Fold03: cp=0.04255 
+- Fold03: cp=0.04255 
++ Fold04: cp=0.04255 
+- Fold04: cp=0.04255 
++ Fold05: cp=0.04255 
+- Fold05: cp=0.04255 
++ Fold06: cp=0.04255 
+- Fold06: cp=0.04255 
++ Fold07: cp=0.04255 
+- Fold07: cp=0.04255 
++ Fold08: cp=0.04255 
+- Fold08: cp=0.04255 
++ Fold09: cp=0.04255 
+- Fold09: cp=0.04255 
++ Fold10: cp=0.04255 
+- Fold10: cp=0.04255 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0704 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.05017 
+- Fold01: cp=0.05017 
++ Fold02: cp=0.05017 
+- Fold02: cp=0.05017 
++ Fold03: cp=0.05017 
+- Fold03: cp=0.05017 
++ Fold04: cp=0.05017 
+- Fold04: cp=0.05017 
++ Fold05: cp=0.05017 
+- Fold05: cp=0.05017 
++ Fold06: cp=0.05017 
+- Fold06: cp=0.05017 
++ Fold07: cp=0.05017 
+- Fold07: cp=0.05017 
++ Fold08: cp=0.05017 
+- Fold08: cp=0.05017 
++ Fold09: cp=0.05017 
+- Fold09: cp=0.05017 
++ Fold10: cp=0.05017 
+- Fold10: cp=0.05017 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0502 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.04359 
+- Fold01: cp=0.04359 
++ Fold02: cp=0.04359 
+- Fold02: cp=0.04359 
++ Fold03: cp=0.04359 
+- Fold03: cp=0.04359 
++ Fold04: cp=0.04359 
+- Fold04: cp=0.04359 
++ Fold05: cp=0.04359 
+- Fold05: cp=0.04359 
++ Fold06: cp=0.04359 
+- Fold06: cp=0.04359 
++ Fold07: cp=0.04359 
+- Fold07: cp=0.04359 
++ Fold08: cp=0.04359 
+- Fold08: cp=0.04359 
++ Fold09: cp=0.04359 
+- Fold09: cp=0.04359 
++ Fold10: cp=0.04359 
+- Fold10: cp=0.04359 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0705 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.05054 
+- Fold01: cp=0.05054 
++ Fold02: cp=0.05054 
+- Fold02: cp=0.05054 
++ Fold03: cp=0.05054 
+- Fold03: cp=0.05054 
++ Fold04: cp=0.05054 
+- Fold04: cp=0.05054 
++ Fold05: cp=0.05054 
+- Fold05: cp=0.05054 
++ Fold06: cp=0.05054 
+- Fold06: cp=0.05054 
++ Fold07: cp=0.05054 
+- Fold07: cp=0.05054 
++ Fold08: cp=0.05054 
+- Fold08: cp=0.05054 
++ Fold09: cp=0.05054 
+- Fold09: cp=0.05054 
++ Fold10: cp=0.05054 
+- Fold10: cp=0.05054 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0505 on full training set
+Warning messages:
+1: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+2: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+3: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+4: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+5: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050319A" "050401A"
+  [8] "050416A" "050502A" "050502B" "050505A" "050525A" "050730A" "050801A"
+ [15] "050802A" "050820A" "050824A" "050908A" "050922C" "051016B" "051028A"
+ [22] "051109A" "051111A" "060115A" "060206A" "060223A" "060306A" "060418A"
+ [29] "060510B" "060512A" "060526A" "060604A" "060605A" "060607A" "060614A"
+ [36] "060707A" "060714A" "060729A" "060814A" "060904B" "060906A" "060908A"
+ [43] "060912A" "060926A" "060927A" "061007A" "061021A" "061110A" "061121A"
+ [50] "061126A" "061222A" "070110A" "070125A" "070208A" "070223A" "070411A"
+ [57] "070508A" "070521A" "070529A" "070714B" "070802A" "070810A" "071003A"
+ [64] "071010A" "071010B" "071025A" "071112C" "071117A" "080310A" "080319B"
+ [71] "080319C" "080411A" "080430A" "080516A" "080603A" "080603B" "080607A"
+ [78] "080710A" "080721A" "080810A" "080905B" "080916A" "081008A" "081028A"
+ [85] "081029A" "081109A" "081228A" "081230A" "090313A" "090418A" "090516A"
+ [92] "090519A" "090529A" "090618A" "090726A" "090809A" "090812A" "090927A"
+ [99] "091020A" "091029A" "091109A" "091127A" "091208B" "100316D" "100425A"
+[106] "100508A" "100513A" "100621A" "100704A" "100728A" "100814A" "100901A"
+[113] "100906A" "110106B" "110422A" "110503A" "110715A" "110801A" "110808A"
+[120] "110818A" "111107A" "111123A" "111228A" "120118B" "120119A" "120327A"
+[127] "120404A" "120422A" "120711A" "120729A" "120802A" "120811C" "120815A"
+[134] "120907A" "120922A" "121024A" "121027A" "121128A" "121211A" "130215A"
+[141] "130408A" "130420A" "130505A" "130511A" "130514A" "130604A" "130831A"
+[148] "130925A" "131105A" "131117A" "140206A" "140213A" "140419A" "140423A"
+[155] "140430A" "140506A" "140509A" "140512A" "140518A" "140614A" "140629A"
+[162] "140801A" "141004A" "141121A" "141221A" "150120B" "150314A" "150323A"
+[169] "150910A" "151021A" "151027A" "151029A" "160117B" "160121A" "160131A"
+[176] "160203A" "160227A" "160314A" "160327A" "160425A" "160804A" "161014A"
+[183] "161023A" "161108A" "161117A" "161129A" "161219B" "170113A" "170405A"
+[190] "170519A" "170604A" "170607A" "170705A" "170714A" "170903A" "171222A"
+[197] "180115A" "180205A" "180404A" "180620B" "180720B" "180728A" "181010A"
+[204] "181020A" "181110A" "181201A" "190106A" "190114A" "190829A" "191011A"
+[211] "191221B" "200205B" "200829A" "201020A" "201021C" "201104B" "210222B"
+[218] "210411C" "210517A" "210610A" "210610B" "210731A" "210822A" "211024B"
+[225] "220117A" "230116D" "230325A" "230818A" "231210B"
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+Tue Jun 16 17:03:09 CST 2026: Done optA_soft_weights.
+Tue Jun 16 17:03:09 CST 2026: Starting optB_infold_rlm (m_est_pct=0.05, method=infold)...
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 307 rows x 18 cols )
+MC errors frame built for 307 rows
+Loading required package: digest
+In-fold rlm wrapper defined.
+Assertion OK: GRBPred has no NA/NaN/Inf ( 307 rows )
+Wrapped 15 learners with in-fold rlm filter.
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 246 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 8 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 5] starting
+[rep 6] starting
+[rep 1] Iteration 1 out of 10
+[rep 7] starting
+[rep 3] Iteration 1 out of 10
+[rep 8] starting
+[rep 2] Iteration 1 out of 10
+[rep 4] Iteration 1 out of 10
+[rep 6] Iteration 1 out of 10
+[rep 8] Iteration 1 out of 10
+[rep 5] Iteration 1 out of 10
+[rep 7] Iteration 1 out of 10
+[rep 4] Iteration 2 out of 10
+[rep 2] Iteration 2 out of 10
+[rep 1] Iteration 2 out of 10
+[rep 8] Iteration 2 out of 10
+[rep 7] Iteration 2 out of 10
+[rep 5] Iteration 2 out of 10
+[rep 6] Iteration 2 out of 10
+[rep 3] Iteration 2 out of 10
+[rep 1] Iteration 3 out of 10
+[rep 5] Iteration 3 out of 10
+[rep 2] Iteration 3 out of 10
+[rep 7] Iteration 3 out of 10
+[rep 4] Iteration 3 out of 10
+[rep 8] Iteration 3 out of 10
+[rep 6] Iteration 3 out of 10
+[rep 3] Iteration 3 out of 10
+[rep 1] Iteration 4 out of 10
+[rep 5] Iteration 4 out of 10
+[rep 7] Iteration 4 out of 10
+[rep 2] Iteration 4 out of 10
+[rep 4] Iteration 4 out of 10
+[rep 8] Iteration 4 out of 10
+[rep 6] Iteration 4 out of 10
+[rep 3] Iteration 4 out of 10
+[rep 5] Iteration 5 out of 10
+[rep 1] Iteration 5 out of 10
+[rep 7] Iteration 5 out of 10
+[rep 4] Iteration 5 out of 10
+[rep 6] Iteration 5 out of 10
+[rep 8] Iteration 5 out of 10
+[rep 2] Iteration 5 out of 10
+[rep 3] Iteration 5 out of 10
+[rep 5] Iteration 6 out of 10
+[rep 1] Iteration 6 out of 10
+[rep 7] Iteration 6 out of 10
+[rep 6] Iteration 6 out of 10
+[rep 2] Iteration 6 out of 10
+[rep 4] Iteration 6 out of 10
+[rep 8] Iteration 6 out of 10
+[rep 3] Iteration 6 out of 10
+[rep 5] Iteration 7 out of 10
+[rep 1] Iteration 7 out of 10
+[rep 7] Iteration 7 out of 10
+[rep 2] Iteration 7 out of 10
+[rep 6] Iteration 7 out of 10
+[rep 4] Iteration 7 out of 10
+[rep 8] Iteration 7 out of 10
+[rep 3] Iteration 7 out of 10
+[rep 5] Iteration 8 out of 10
+[rep 2] Iteration 8 out of 10
+[rep 1] Iteration 8 out of 10
+[rep 6] Iteration 8 out of 10
+[rep 4] Iteration 8 out of 10
+[rep 7] Iteration 8 out of 10
+[rep 3] Iteration 8 out of 10
+[rep 8] Iteration 8 out of 10
+[rep 5] Iteration 9 out of 10
+[rep 1] Iteration 9 out of 10
+[rep 2] Iteration 9 out of 10
+[rep 7] Iteration 9 out of 10
+[rep 6] Iteration 9 out of 10
+[rep 4] Iteration 9 out of 10
+[rep 3] Iteration 9 out of 10
+[rep 8] Iteration 9 out of 10
+[rep 5] Iteration 10 out of 10
+[rep 1] Iteration 10 out of 10
+[rep 2] Iteration 10 out of 10
+[rep 4] Iteration 10 out of 10
+[rep 7] Iteration 10 out of 10
+[rep 8] Iteration 10 out of 10
+[rep 3] Iteration 10 out of 10
+[rep 6] Iteration 10 out of 10
+[rep 9] starting
+[rep 9] Iteration 1 out of 10
+[rep 10] starting
+[rep 10] Iteration 1 out of 10
+[rep 10] Iteration 2 out of 10
+[rep 9] Iteration 2 out of 10
+[rep 10] Iteration 3 out of 10
+[rep 9] Iteration 3 out of 10
+[rep 9] Iteration 4 out of 10
+[rep 10] Iteration 4 out of 10
+[rep 9] Iteration 5 out of 10
+[rep 10] Iteration 5 out of 10
+[rep 9] Iteration 6 out of 10
+[rep 10] Iteration 6 out of 10
+[rep 9] Iteration 7 out of 10
+[rep 10] Iteration 7 out of 10
+[rep 9] Iteration 8 out of 10
+[rep 10] Iteration 8 out of 10
+[rep 9] Iteration 9 out of 10
+[rep 10] Iteration 9 out of 10
+[rep 9] Iteration 10 out of 10
+[rep 10] Iteration 10 out of 10
+Flattening MC samples across 10 repetitions...
+MC matrix: 246 rows x 1000 samples
+MC coverage: 16.7% of rows have truth inside 95% MC interval
+MC metrics [all   ] log10(z+1): n=246 r=0.474 RMSE=0.172 | z: r=0.455 RMSE=1.235
+MC metrics [inside] log10(z+1): n=41 r=0.928 RMSE=0.042 | z: r=0.909 RMSE=0.300
+Wrote OutputFiles/mc_predictions.csv and OutputFiles/mc_raw.rds
+Wrote MC plots to outlier_experiments/runs/optB_infold_rlm/Plot_Output/ 
+null device 
+          1 
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050319A" "050401A"
+  [8] "050416A" "050502A" "050502B" "050505A" "050525A" "050730A" "050801A"
+ [15] "050802A" "050820A" "050824A" "050908A" "050922C" "051016B" "051028A"
+ [22] "051109A" "051111A" "060115A" "060206A" "060223A" "060306A" "060418A"
+ [29] "060510B" "060512A" "060526A" "060604A" "060605A" "060607A" "060614A"
+ [36] "060707A" "060714A" "060729A" "060814A" "060904B" "060906A" "060908A"
+ [43] "060912A" "060926A" "060927A" "061007A" "061021A" "061110A" "061121A"
+ [50] "061126A" "061222A" "070110A" "070125A" "070208A" "070223A" "070411A"
+ [57] "070508A" "070521A" "070529A" "070714B" "070802A" "070810A" "071003A"
+ [64] "071010A" "071010B" "071025A" "071112C" "071117A" "080310A" "080319B"
+ [71] "080319C" "080411A" "080430A" "080516A" "080603A" "080603B" "080607A"
+ [78] "080710A" "080721A" "080810A" "080905B" "080916A" "081008A" "081028A"
+ [85] "081029A" "081109A" "081228A" "081230A" "090313A" "090418A" "090423A"
+ [92] "090516A" "090519A" "090529A" "090618A" "090726A" "090809A" "090812A"
+ [99] "090927A" "091020A" "091029A" "091109A" "091127A" "091208B" "100316D"
+[106] "100425A" "100508A" "100513A" "100621A" "100704A" "100728A" "100814A"
+[113] "100901A" "100906A" "101225A" "110106B" "110422A" "110503A" "110715A"
+[120] "110801A" "110808A" "110818A" "111107A" "111123A" "111228A" "120118B"
+[127] "120119A" "120327A" "120404A" "120422A" "120711A" "120729A" "120802A"
+[134] "120811C" "120815A" "120907A" "120922A" "121024A" "121027A" "121128A"
+[141] "121211A" "130215A" "130408A" "130420A" "130427A" "130505A" "130511A"
+[148] "130514A" "130604A" "130831A" "130925A" "131105A" "131117A" "140206A"
+[155] "140213A" "140419A" "140423A" "140430A" "140506A" "140509A" "140512A"
+[162] "140518A" "140614A" "140629A" "140801A" "141004A" "141121A" "141221A"
+[169] "150120B" "150314A" "150323A" "150910A" "151021A" "151027A" "151029A"
+[176] "151112A" "160117B" "160121A" "160131A" "160203A" "160227A" "160314A"
+[183] "160327A" "160425A" "160804A" "161014A" "161023A" "161108A" "161117A"
+[190] "161129A" "161219B" "170113A" "170405A" "170519A" "170604A" "170607A"
+[197] "170705A" "170714A" "170903A" "171222A" "180115A" "180205A" "180404A"
+[204] "180620B" "180720B" "180728A" "181010A" "181020A" "181110A" "181201A"
+[211] "190106A" "190114A" "190829A" "191011A" "191221B" "200205B" "200829A"
+[218] "201014A" "201015A" "201020A" "201021C" "201104B" "210222B" "210411C"
+[225] "210517A" "210610A" "210610B" "210731A" "210822A" "211024B" "220117A"
+[232] "230116D" "230325A" "230328B" "230818A" "231210B"
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+3: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+4: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+  [infold] fold size 196 → kept 196 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
++ Fold01: cp=0.05467 
+- Fold01: cp=0.05467 
++ Fold02: cp=0.05467 
+- Fold02: cp=0.05467 
++ Fold03: cp=0.05467 
+- Fold03: cp=0.05467 
++ Fold04: cp=0.05467 
+- Fold04: cp=0.05467 
++ Fold05: cp=0.05467 
+- Fold05: cp=0.05467 
++ Fold06: cp=0.05467 
+- Fold06: cp=0.05467 
++ Fold07: cp=0.05467 
+- Fold07: cp=0.05467 
++ Fold08: cp=0.05467 
+- Fold08: cp=0.05467 
++ Fold09: cp=0.05467 
+- Fold09: cp=0.05467 
++ Fold10: cp=0.05467 
+- Fold10: cp=0.05467 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.082 on full training set
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 196 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: cp=0.04974 
+- Fold01: cp=0.04974 
++ Fold02: cp=0.04974 
+- Fold02: cp=0.04974 
++ Fold03: cp=0.04974 
+- Fold03: cp=0.04974 
++ Fold04: cp=0.04974 
+- Fold04: cp=0.04974 
++ Fold05: cp=0.04974 
+- Fold05: cp=0.04974 
++ Fold06: cp=0.04974 
+- Fold06: cp=0.04974 
++ Fold07: cp=0.04974 
+- Fold07: cp=0.04974 
++ Fold08: cp=0.04974 
+- Fold08: cp=0.04974 
++ Fold09: cp=0.04974 
+- Fold09: cp=0.04974 
++ Fold10: cp=0.04974 
+- Fold10: cp=0.04974 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0497 on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
++ Fold01: cp=0.04255 
+- Fold01: cp=0.04255 
++ Fold02: cp=0.04255 
+- Fold02: cp=0.04255 
++ Fold03: cp=0.04255 
+- Fold03: cp=0.04255 
++ Fold04: cp=0.04255 
+- Fold04: cp=0.04255 
++ Fold05: cp=0.04255 
+- Fold05: cp=0.04255 
++ Fold06: cp=0.04255 
+- Fold06: cp=0.04255 
++ Fold07: cp=0.04255 
+- Fold07: cp=0.04255 
++ Fold08: cp=0.04255 
+- Fold08: cp=0.04255 
++ Fold09: cp=0.04255 
+- Fold09: cp=0.04255 
++ Fold10: cp=0.04255 
+- Fold10: cp=0.04255 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0704 on full training set
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 197 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: cp=0.05091 
+- Fold01: cp=0.05091 
++ Fold02: cp=0.05091 
+- Fold02: cp=0.05091 
++ Fold03: cp=0.05091 
+- Fold03: cp=0.05091 
++ Fold04: cp=0.05091 
+- Fold04: cp=0.05091 
++ Fold05: cp=0.05091 
+- Fold05: cp=0.05091 
++ Fold06: cp=0.05091 
+- Fold06: cp=0.05091 
++ Fold07: cp=0.05091 
+- Fold07: cp=0.05091 
++ Fold08: cp=0.05091 
+- Fold08: cp=0.05091 
++ Fold09: cp=0.05091 
+- Fold09: cp=0.05091 
++ Fold10: cp=0.05091 
+- Fold10: cp=0.05091 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0509 on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
++ Fold01: cp=0.04741 
+- Fold01: cp=0.04741 
++ Fold02: cp=0.04741 
+- Fold02: cp=0.04741 
++ Fold03: cp=0.04741 
+- Fold03: cp=0.04741 
++ Fold04: cp=0.04741 
+- Fold04: cp=0.04741 
++ Fold05: cp=0.04741 
+- Fold05: cp=0.04741 
++ Fold06: cp=0.04741 
+- Fold06: cp=0.04741 
++ Fold07: cp=0.04741 
+- Fold07: cp=0.04741 
++ Fold08: cp=0.04741 
+- Fold08: cp=0.04741 
++ Fold09: cp=0.04741 
+- Fold09: cp=0.04741 
++ Fold10: cp=0.04741 
+- Fold10: cp=0.04741 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0474 on full training set
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 197 → kept 196 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
++ Fold01: cp=0.05054 
+- Fold01: cp=0.05054 
++ Fold02: cp=0.05054 
+- Fold02: cp=0.05054 
++ Fold03: cp=0.05054 
+- Fold03: cp=0.05054 
++ Fold04: cp=0.05054 
+- Fold04: cp=0.05054 
++ Fold05: cp=0.05054 
+- Fold05: cp=0.05054 
++ Fold06: cp=0.05054 
+- Fold06: cp=0.05054 
++ Fold07: cp=0.05054 
+- Fold07: cp=0.05054 
++ Fold08: cp=0.05054 
+- Fold08: cp=0.05054 
++ Fold09: cp=0.05054 
+- Fold09: cp=0.05054 
++ Fold10: cp=0.05054 
+- Fold10: cp=0.05054 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0776 on full training set
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+  [infold] fold size 246 → kept 246 after rlm filter
+Warning messages:
+1: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+2: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+3: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+4: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+5: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050319A" "050401A"
+  [8] "050416A" "050502A" "050502B" "050505A" "050525A" "050730A" "050801A"
+ [15] "050802A" "050820A" "050824A" "050908A" "050922C" "051016B" "051028A"
+ [22] "051109A" "051111A" "060115A" "060206A" "060223A" "060306A" "060418A"
+ [29] "060510B" "060512A" "060526A" "060604A" "060605A" "060607A" "060614A"
+ [36] "060707A" "060714A" "060729A" "060814A" "060904B" "060906A" "060908A"
+ [43] "060912A" "060926A" "060927A" "061007A" "061021A" "061110A" "061121A"
+ [50] "061126A" "061222A" "070110A" "070125A" "070208A" "070223A" "070411A"
+ [57] "070508A" "070521A" "070529A" "070714B" "070802A" "070810A" "071003A"
+ [64] "071010A" "071010B" "071025A" "071112C" "071117A" "080310A" "080319B"
+ [71] "080319C" "080411A" "080430A" "080516A" "080603A" "080603B" "080607A"
+ [78] "080710A" "080721A" "080810A" "080905B" "080916A" "081008A" "081028A"
+ [85] "081029A" "081109A" "081228A" "081230A" "090313A" "090418A" "090516A"
+ [92] "090519A" "090529A" "090618A" "090726A" "090809A" "090812A" "090927A"
+ [99] "091020A" "091029A" "091109A" "091127A" "091208B" "100316D" "100425A"
+[106] "100508A" "100513A" "100621A" "100704A" "100728A" "100814A" "100901A"
+[113] "100906A" "110106B" "110422A" "110503A" "110715A" "110801A" "110808A"
+[120] "110818A" "111107A" "111123A" "111228A" "120118B" "120119A" "120327A"
+[127] "120404A" "120422A" "120711A" "120729A" "120802A" "120811C" "120815A"
+[134] "120907A" "120922A" "121024A" "121027A" "121128A" "121211A" "130215A"
+[141] "130408A" "130420A" "130505A" "130511A" "130514A" "130604A" "130831A"
+[148] "130925A" "131105A" "131117A" "140206A" "140213A" "140419A" "140423A"
+[155] "140430A" "140506A" "140509A" "140512A" "140518A" "140614A" "140629A"
+[162] "140801A" "141004A" "141121A" "141221A" "150120B" "150314A" "150323A"
+[169] "150910A" "151021A" "151027A" "151029A" "160117B" "160121A" "160131A"
+[176] "160203A" "160227A" "160314A" "160327A" "160425A" "160804A" "161014A"
+[183] "161023A" "161108A" "161117A" "161129A" "161219B" "170113A" "170405A"
+[190] "170519A" "170604A" "170607A" "170705A" "170714A" "170903A" "171222A"
+[197] "180115A" "180205A" "180404A" "180620B" "180720B" "180728A" "181010A"
+[204] "181020A" "181110A" "181201A" "190106A" "190114A" "190829A" "191011A"
+[211] "191221B" "200205B" "200829A" "201020A" "201021C" "201104B" "210222B"
+[218] "210411C" "210517A" "210610A" "210610B" "210731A" "210822A" "211024B"
+[225] "220117A" "230116D" "230325A" "230328B" "230818A" "231210B"
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+Tue Jun 16 17:56:44 CST 2026: Done optB_infold_rlm.
+Tue Jun 16 17:56:44 CST 2026: Starting combined_5pct (m_est_pct=0.05, method=both)...
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 307 rows x 18 cols )
+MC errors frame built for 307 rows
+ [1] "050826A" "051109B" "060218A" "060614A" "080413B" "080913A" "100621A"
+ [8] "101225A" "111008A" "130702A" "151112A" "171205A" "201014A" "220101A"
+[15] "220521A" "230328B"
+Loading required package: digest
+In-fold rlm wrapper defined.
+Assertion OK: GRBPred has no NA/NaN/Inf ( 291 rows )
+Wrapped 15 learners with in-fold rlm filter.
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 233 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 8 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 5] starting
+[rep 6] starting
+[rep 2] Iteration 1 out of 10
+[rep 1] Iteration 1 out of 10
+[rep 3] Iteration 1 out of 10
+[rep 7] starting
+[rep 4] Iteration 1 out of 10
+[rep 8] starting
+[rep 5] Iteration 1 out of 10
+[rep 6] Iteration 1 out of 10
+[rep 8] Iteration 1 out of 10
+[rep 7] Iteration 1 out of 10
+[rep 1] Iteration 2 out of 10
+[rep 3] Iteration 2 out of 10
+[rep 6] Iteration 2 out of 10
+[rep 5] Iteration 2 out of 10
+[rep 2] Iteration 2 out of 10
+[rep 8] Iteration 2 out of 10
+[rep 7] Iteration 2 out of 10
+[rep 4] Iteration 2 out of 10
+[rep 6] Iteration 3 out of 10
+[rep 3] Iteration 3 out of 10
+[rep 8] Iteration 3 out of 10
+[rep 1] Iteration 3 out of 10
+[rep 2] Iteration 3 out of 10
+[rep 5] Iteration 3 out of 10
+[rep 7] Iteration 3 out of 10
+[rep 4] Iteration 3 out of 10
+[rep 6] Iteration 4 out of 10
+[rep 3] Iteration 4 out of 10
+[rep 8] Iteration 4 out of 10
+[rep 7] Iteration 4 out of 10
+[rep 2] Iteration 4 out of 10
+[rep 5] Iteration 4 out of 10
+[rep 1] Iteration 4 out of 10
+[rep 4] Iteration 4 out of 10
+[rep 6] Iteration 5 out of 10
+[rep 8] Iteration 5 out of 10
+[rep 2] Iteration 5 out of 10
+[rep 3] Iteration 5 out of 10
+[rep 4] Iteration 5 out of 10
+[rep 5] Iteration 5 out of 10
+[rep 7] Iteration 5 out of 10
+[rep 1] Iteration 5 out of 10
+[rep 6] Iteration 6 out of 10
+[rep 2] Iteration 6 out of 10
+[rep 8] Iteration 6 out of 10
+[rep 7] Iteration 6 out of 10
+[rep 5] Iteration 6 out of 10
+[rep 3] Iteration 6 out of 10
+[rep 4] Iteration 6 out of 10
+[rep 1] Iteration 6 out of 10
+[rep 6] Iteration 7 out of 10
+[rep 2] Iteration 7 out of 10
+[rep 8] Iteration 7 out of 10
+[rep 5] Iteration 7 out of 10
+[rep 3] Iteration 7 out of 10
+[rep 7] Iteration 7 out of 10
+[rep 4] Iteration 7 out of 10
+[rep 1] Iteration 7 out of 10
+[rep 2] Iteration 8 out of 10
+[rep 6] Iteration 8 out of 10
+[rep 5] Iteration 8 out of 10
+[rep 8] Iteration 8 out of 10
+[rep 7] Iteration 8 out of 10
+[rep 3] Iteration 8 out of 10
+[rep 4] Iteration 8 out of 10
+[rep 1] Iteration 8 out of 10
+[rep 6] Iteration 9 out of 10
+[rep 2] Iteration 9 out of 10
+[rep 5] Iteration 9 out of 10
+[rep 7] Iteration 9 out of 10
+[rep 8] Iteration 9 out of 10
+[rep 3] Iteration 9 out of 10
+[rep 4] Iteration 9 out of 10
+[rep 1] Iteration 9 out of 10
+[rep 6] Iteration 10 out of 10
+[rep 2] Iteration 10 out of 10
+[rep 5] Iteration 10 out of 10
+[rep 7] Iteration 10 out of 10
+[rep 3] Iteration 10 out of 10
+[rep 8] Iteration 10 out of 10
+[rep 4] Iteration 10 out of 10
+[rep 1] Iteration 10 out of 10
+[rep 10] starting
+[rep 10] Iteration 1 out of 10
+[rep 9] starting
+[rep 9] Iteration 1 out of 10
+[rep 10] Iteration 2 out of 10
+[rep 9] Iteration 2 out of 10
+[rep 10] Iteration 3 out of 10
+[rep 9] Iteration 3 out of 10
+[rep 10] Iteration 4 out of 10
+[rep 9] Iteration 4 out of 10
+[rep 10] Iteration 5 out of 10
+[rep 9] Iteration 5 out of 10
+[rep 10] Iteration 6 out of 10
+[rep 9] Iteration 6 out of 10
+[rep 10] Iteration 7 out of 10
+[rep 9] Iteration 7 out of 10
+[rep 10] Iteration 8 out of 10
+[rep 9] Iteration 8 out of 10
+[rep 10] Iteration 9 out of 10
+[rep 9] Iteration 9 out of 10
+[rep 10] Iteration 10 out of 10
+[rep 9] Iteration 10 out of 10
+Flattening MC samples across 10 repetitions...
+MC matrix: 233 rows x 1000 samples
+MC coverage: 26.2% of rows have truth inside 95% MC interval
+MC metrics [all   ] log10(z+1): n=233 r=0.600 RMSE=0.145 | z: r=0.616 RMSE=1.037
+MC metrics [inside] log10(z+1): n=61 r=0.917 RMSE=0.049 | z: r=0.934 RMSE=0.345
+Wrote OutputFiles/mc_predictions.csv and OutputFiles/mc_raw.rds
+Wrote MC plots to outlier_experiments/runs/combined_5pct/Plot_Output/ 
+null device 
+          1 
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050401A" "050416A"
+  [8] "050502A" "050502B" "050505A" "050525A" "050801A" "050802A" "050820A"
+ [15] "050824A" "050904A" "050922C" "051016B" "051028A" "051109A" "051111A"
+ [22] "060115A" "060124A" "060206A" "060223A" "060418A" "060502A" "060510B"
+ [29] "060512A" "060604A" "060605A" "060607A" "060707A" "060708A" "060714A"
+ [36] "060729A" "060814A" "060906A" "060908A" "060912A" "060926A" "060927A"
+ [43] "061007A" "061021A" "061110A" "061121A" "061126A" "061222A" "070110A"
+ [50] "070125A" "070208A" "070223A" "070306A" "070411A" "070508A" "070521A"
+ [57] "070612A" "070714B" "070721B" "071003A" "071010B" "071020A" "071025A"
+ [64] "071112C" "071117A" "080310A" "080319B" "080319C" "080330A" "080411A"
+ [71] "080430A" "080516A" "080603B" "080607A" "080710A" "080721A" "080810A"
+ [78] "080905B" "080916A" "080928A" "081007A" "081008A" "081028A" "081221A"
+ [85] "081228A" "081230A" "090102A" "090205A" "090423A" "090424A" "090516A"
+ [92] "090529A" "090530A" "090618A" "090809A" "090812A" "090927A" "091020A"
+ [99] "091024A" "091029A" "091109A" "091127A" "100219A" "100316D" "100418A"
+[106] "100425A" "100508A" "100513A" "100728A" "100816A" "100901A" "100906A"
+[113] "101219B" "110106B" "110205A" "110213A" "110503A" "110715A" "110726A"
+[120] "110731A" "110801A" "110808A" "111107A" "111123A" "120119A" "120327A"
+[127] "120404A" "120711A" "120729A" "120811C" "120815A" "120907A" "120922A"
+[134] "121024A" "121027A" "121128A" "121211A" "121217A" "130215A" "130408A"
+[141] "130420A" "130505A" "130511A" "130514A" "130604A" "130831A" "131030A"
+[148] "131105A" "131117A" "140206A" "140213A" "140419A" "140423A" "140430A"
+[155] "140506A" "140509A" "140518A" "140614A" "140629A" "140801A" "140907A"
+[162] "141004A" "141121A" "141220A" "141221A" "150120B" "150314A" "150323A"
+[169] "150403A" "151021A" "151027A" "151031A" "151215A" "160117B" "160121A"
+[176] "160227A" "160314A" "160327A" "160425A" "161014A" "161108A" "161117A"
+[183] "161129A" "161219B" "170113A" "170519A" "170531B" "170607A" "170705A"
+[190] "170714A" "170903A" "171222A" "180115A" "180325A" "180329B" "180404A"
+[197] "180620B" "180624A" "180720B" "180728A" "181010A" "181110A" "181201A"
+[204] "190106A" "190829A" "200205B" "200613A" "200829A" "201020A" "201021C"
+[211] "201221A" "210204A" "210210A" "210222B" "210411C" "210619B" "210722A"
+[218] "210731A" "210822A" "220611A" "230116D" "230325A" "230818A" "231210B"
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+3: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+4: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+  [infold] fold size 186 → kept 186 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
++ Fold01: cp=0.05043 
+- Fold01: cp=0.05043 
++ Fold02: cp=0.05043 
+- Fold02: cp=0.05043 
++ Fold03: cp=0.05043 
+- Fold03: cp=0.05043 
++ Fold04: cp=0.05043 
+- Fold04: cp=0.05043 
++ Fold05: cp=0.05043 
+- Fold05: cp=0.05043 
++ Fold06: cp=0.05043 
+- Fold06: cp=0.05043 
++ Fold07: cp=0.05043 
+- Fold07: cp=0.05043 
++ Fold08: cp=0.05043 
+- Fold08: cp=0.05043 
++ Fold09: cp=0.05043 
+- Fold09: cp=0.05043 
++ Fold10: cp=0.05043 
+- Fold10: cp=0.05043 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0651 on full training set
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
++ Fold01: cp=0.05025 
+- Fold01: cp=0.05025 
++ Fold02: cp=0.05025 
+- Fold02: cp=0.05025 
++ Fold03: cp=0.05025 
+- Fold03: cp=0.05025 
++ Fold04: cp=0.05025 
+- Fold04: cp=0.05025 
++ Fold05: cp=0.05025 
+- Fold05: cp=0.05025 
++ Fold06: cp=0.05025 
+- Fold06: cp=0.05025 
++ Fold07: cp=0.05025 
+- Fold07: cp=0.05025 
++ Fold08: cp=0.05025 
+- Fold08: cp=0.05025 
++ Fold09: cp=0.05025 
+- Fold09: cp=0.05025 
++ Fold10: cp=0.05025 
+- Fold10: cp=0.05025 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.121 on full training set
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 185 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
++ Fold01: cp=0.04153 
+- Fold01: cp=0.04153 
++ Fold02: cp=0.04153 
+- Fold02: cp=0.04153 
++ Fold03: cp=0.04153 
+- Fold03: cp=0.04153 
++ Fold04: cp=0.04153 
+- Fold04: cp=0.04153 
++ Fold05: cp=0.04153 
+- Fold05: cp=0.04153 
++ Fold06: cp=0.04153 
+- Fold06: cp=0.04153 
++ Fold07: cp=0.04153 
+- Fold07: cp=0.04153 
++ Fold08: cp=0.04153 
+- Fold08: cp=0.04153 
++ Fold09: cp=0.04153 
+- Fold09: cp=0.04153 
++ Fold10: cp=0.04153 
+- Fold10: cp=0.04153 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0415 on full training set
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 186 → kept 186 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
++ Fold01: cp=0.06617 
+- Fold01: cp=0.06617 
++ Fold02: cp=0.06617 
+- Fold02: cp=0.06617 
++ Fold03: cp=0.06617 
+- Fold03: cp=0.06617 
++ Fold04: cp=0.06617 
+- Fold04: cp=0.06617 
++ Fold05: cp=0.06617 
+- Fold05: cp=0.06617 
++ Fold06: cp=0.06617 
+- Fold06: cp=0.06617 
++ Fold07: cp=0.06617 
+- Fold07: cp=0.06617 
++ Fold08: cp=0.06617 
+- Fold08: cp=0.06617 
++ Fold09: cp=0.06617 
+- Fold09: cp=0.06617 
++ Fold10: cp=0.06617 
+- Fold10: cp=0.06617 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0662 on full training set
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
++ Fold01: cp=0.04803 
+- Fold01: cp=0.04803 
++ Fold02: cp=0.04803 
+- Fold02: cp=0.04803 
++ Fold03: cp=0.04803 
+- Fold03: cp=0.04803 
++ Fold04: cp=0.04803 
+- Fold04: cp=0.04803 
++ Fold05: cp=0.04803 
+- Fold05: cp=0.04803 
++ Fold06: cp=0.04803 
+- Fold06: cp=0.04803 
++ Fold07: cp=0.04803 
+- Fold07: cp=0.04803 
++ Fold08: cp=0.04803 
+- Fold08: cp=0.04803 
++ Fold09: cp=0.04803 
+- Fold09: cp=0.04803 
++ Fold10: cp=0.04803 
+- Fold10: cp=0.04803 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0743 on full training set
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 187 → kept 187 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
++ Fold01: cp=0.04333 
+- Fold01: cp=0.04333 
++ Fold02: cp=0.04333 
+- Fold02: cp=0.04333 
++ Fold03: cp=0.04333 
+- Fold03: cp=0.04333 
++ Fold04: cp=0.04333 
+- Fold04: cp=0.04333 
++ Fold05: cp=0.04333 
+- Fold05: cp=0.04333 
++ Fold06: cp=0.04333 
+- Fold06: cp=0.04333 
++ Fold07: cp=0.04333 
+- Fold07: cp=0.04333 
++ Fold08: cp=0.04333 
+- Fold08: cp=0.04333 
++ Fold09: cp=0.04333 
+- Fold09: cp=0.04333 
++ Fold10: cp=0.04333 
+- Fold10: cp=0.04333 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0433 on full training set
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+  [infold] fold size 233 → kept 233 after rlm filter
+Warning messages:
+1: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+2: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+3: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+4: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+5: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+6: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050401A" "050416A"
+  [8] "050502A" "050502B" "050505A" "050525A" "050801A" "050802A" "050820A"
+ [15] "050824A" "050904A" "050922C" "051016B" "051028A" "051109A" "051111A"
+ [22] "060115A" "060124A" "060206A" "060223A" "060418A" "060502A" "060510B"
+ [29] "060512A" "060604A" "060605A" "060607A" "060707A" "060708A" "060714A"
+ [36] "060729A" "060814A" "060906A" "060908A" "060912A" "060926A" "060927A"
+ [43] "061007A" "061021A" "061110A" "061121A" "061126A" "061222A" "070110A"
+ [50] "070125A" "070208A" "070223A" "070306A" "070411A" "070508A" "070521A"
+ [57] "070612A" "070721B" "071003A" "071010B" "071020A" "071025A" "071112C"
+ [64] "071117A" "080310A" "080319B" "080319C" "080330A" "080411A" "080430A"
+ [71] "080516A" "080603B" "080607A" "080710A" "080721A" "080810A" "080905B"
+ [78] "080916A" "080928A" "081007A" "081008A" "081028A" "081221A" "081228A"
+ [85] "081230A" "090102A" "090205A" "090423A" "090424A" "090516A" "090529A"
+ [92] "090530A" "090618A" "090809A" "090812A" "090927A" "091020A" "091024A"
+ [99] "091029A" "091109A" "091127A" "100219A" "100316D" "100418A" "100425A"
+[106] "100508A" "100513A" "100728A" "100816A" "100901A" "100906A" "101219B"
+[113] "110106B" "110205A" "110213A" "110503A" "110715A" "110726A" "110731A"
+[120] "110801A" "110808A" "111107A" "111123A" "120119A" "120327A" "120404A"
+[127] "120711A" "120729A" "120811C" "120815A" "120907A" "120922A" "121024A"
+[134] "121027A" "121128A" "121211A" "121217A" "130215A" "130408A" "130420A"
+[141] "130505A" "130511A" "130514A" "130604A" "130831A" "131030A" "131105A"
+[148] "131117A" "140206A" "140213A" "140419A" "140423A" "140430A" "140506A"
+[155] "140509A" "140518A" "140614A" "140629A" "140801A" "140907A" "141004A"
+[162] "141121A" "141220A" "141221A" "150120B" "150314A" "150323A" "150403A"
+[169] "151021A" "151027A" "151031A" "151215A" "160117B" "160121A" "160227A"
+[176] "160314A" "160327A" "160425A" "161014A" "161108A" "161117A" "161129A"
+[183] "161219B" "170113A" "170519A" "170531B" "170607A" "170705A" "170714A"
+[190] "170903A" "171222A" "180115A" "180325A" "180329B" "180404A" "180620B"
+[197] "180624A" "180720B" "180728A" "181010A" "181110A" "181201A" "190106A"
+[204] "190829A" "200613A" "200829A" "201020A" "201021C" "201221A" "210204A"
+[211] "210210A" "210222B" "210619B" "210722A" "210731A" "210822A" "220611A"
+[218] "230116D" "230325A" "230818A" "231210B"
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+Tue Jun 16 18:18:24 CST 2026: Done combined_5pct.
+Tue Jun 16 18:18:24 CST 2026: Starting combined_2pct (m_est_pct=0.02, method=both)...
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 307 rows x 18 cols )
+MC errors frame built for 307 rows
+[1] "050826A" "051109B" "080413B" "080913A" "101225A" "130702A" "201014A"
+Loading required package: digest
+In-fold rlm wrapper defined.
+Assertion OK: GRBPred has no NA/NaN/Inf ( 300 rows )
+Wrapped 15 learners with in-fold rlm filter.
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 240 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 8 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 5] starting
+[rep 1] Iteration 1 out of 10
+[rep 6] starting
+[rep 2] Iteration 1 out of 10
+[rep 3] Iteration 1 out of 10
+[rep 4] Iteration 1 out of 10
+[rep 7] starting
+[rep 5] Iteration 1 out of 10
+[rep 8] starting
+[rep 6] Iteration 1 out of 10
+[rep 7] Iteration 1 out of 10
+[rep 8] Iteration 1 out of 10
+[rep 7] Iteration 2 out of 10
+[rep 2] Iteration 2 out of 10
+[rep 6] Iteration 2 out of 10
+[rep 5] Iteration 2 out of 10
+[rep 1] Iteration 2 out of 10
+[rep 8] Iteration 2 out of 10
+[rep 4] Iteration 2 out of 10
+[rep 3] Iteration 2 out of 10
+[rep 6] Iteration 3 out of 10
+[rep 5] Iteration 3 out of 10
+[rep 4] Iteration 3 out of 10
+[rep 1] Iteration 3 out of 10
+[rep 8] Iteration 3 out of 10
+[rep 2] Iteration 3 out of 10
+[rep 3] Iteration 3 out of 10
+[rep 7] Iteration 3 out of 10
+[rep 6] Iteration 4 out of 10
+[rep 1] Iteration 4 out of 10
+[rep 4] Iteration 4 out of 10
+[rep 5] Iteration 4 out of 10
+[rep 3] Iteration 4 out of 10
+[rep 8] Iteration 4 out of 10
+[rep 2] Iteration 4 out of 10
+[rep 7] Iteration 4 out of 10
+[rep 5] Iteration 5 out of 10
+[rep 1] Iteration 5 out of 10
+[rep 6] Iteration 5 out of 10
+[rep 4] Iteration 5 out of 10
+[rep 3] Iteration 5 out of 10
+[rep 2] Iteration 5 out of 10
+[rep 8] Iteration 5 out of 10
+[rep 7] Iteration 5 out of 10
+[rep 1] Iteration 6 out of 10
+[rep 5] Iteration 6 out of 10
+[rep 6] Iteration 6 out of 10
+[rep 4] Iteration 6 out of 10
+[rep 3] Iteration 6 out of 10
+[rep 2] Iteration 6 out of 10
+[rep 8] Iteration 6 out of 10
+[rep 7] Iteration 6 out of 10
+[rep 6] Iteration 7 out of 10
+[rep 5] Iteration 7 out of 10
+[rep 1] Iteration 7 out of 10
+[rep 4] Iteration 7 out of 10
+[rep 8] Iteration 7 out of 10
+[rep 2] Iteration 7 out of 10
+[rep 3] Iteration 7 out of 10
+[rep 7] Iteration 7 out of 10
+[rep 6] Iteration 8 out of 10
+[rep 1] Iteration 8 out of 10
+[rep 4] Iteration 8 out of 10
+[rep 5] Iteration 8 out of 10
+[rep 8] Iteration 8 out of 10
+[rep 2] Iteration 8 out of 10
+[rep 3] Iteration 8 out of 10
+[rep 7] Iteration 8 out of 10
+[rep 6] Iteration 9 out of 10
+[rep 1] Iteration 9 out of 10
+[rep 4] Iteration 9 out of 10
+[rep 5] Iteration 9 out of 10
+[rep 8] Iteration 9 out of 10
+[rep 2] Iteration 9 out of 10
+[rep 3] Iteration 9 out of 10
+[rep 7] Iteration 9 out of 10
+[rep 6] Iteration 10 out of 10
+[rep 1] Iteration 10 out of 10
+[rep 8] Iteration 10 out of 10
+[rep 5] Iteration 10 out of 10
+[rep 4] Iteration 10 out of 10
+[rep 2] Iteration 10 out of 10
+[rep 3] Iteration 10 out of 10
+[rep 7] Iteration 10 out of 10
+[rep 9] starting
+[rep 9] Iteration 1 out of 10
+[rep 10] starting
+[rep 10] Iteration 1 out of 10
+[rep 9] Iteration 2 out of 10
+[rep 10] Iteration 2 out of 10
+[rep 9] Iteration 3 out of 10
+[rep 10] Iteration 3 out of 10
+[rep 9] Iteration 4 out of 10
+[rep 10] Iteration 4 out of 10
+[rep 9] Iteration 5 out of 10
+[rep 10] Iteration 5 out of 10
+[rep 9] Iteration 6 out of 10
+[rep 10] Iteration 6 out of 10
+[rep 9] Iteration 7 out of 10
+[rep 10] Iteration 7 out of 10
+[rep 9] Iteration 8 out of 10
+[rep 10] Iteration 8 out of 10
+[rep 9] Iteration 9 out of 10
+[rep 10] Iteration 9 out of 10
+[rep 9] Iteration 10 out of 10
+[rep 10] Iteration 10 out of 10
+Flattening MC samples across 10 repetitions...
+MC matrix: 240 rows x 1000 samples
+MC coverage: 19.2% of rows have truth inside 95% MC interval
+MC metrics [all   ] log10(z+1): n=240 r=0.544 RMSE=0.153 | z: r=0.330 RMSE=1.384
+MC metrics [inside] log10(z+1): n=46 r=0.927 RMSE=0.038 | z: r=0.251 RMSE=1.889
+Wrote OutputFiles/mc_predictions.csv and OutputFiles/mc_raw.rds
+Wrote MC plots to outlier_experiments/runs/combined_2pct/Plot_Output/ 
+null device 
+          1 
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050401A" "050416A"
+  [8] "050502A" "050502B" "050505A" "050525A" "050730A" "050801A" "050802A"
+ [15] "050820A" "050824A" "050904A" "050922C" "051016B" "051028A" "051109A"
+ [22] "051111A" "060115A" "060124A" "060206A" "060306A" "060418A" "060502A"
+ [29] "060510B" "060526A" "060604A" "060605A" "060607A" "060614A" "060707A"
+ [36] "060708A" "060714A" "060814A" "060904B" "060906A" "060908A" "060912A"
+ [43] "060926A" "060927A" "061007A" "061021A" "061110A" "061121A" "061126A"
+ [50] "061222A" "070110A" "070125A" "070208A" "070223A" "070306A" "070411A"
+ [57] "070521A" "070529A" "070612A" "070714B" "070802A" "071003A" "071010A"
+ [64] "071010B" "071020A" "071025A" "071117A" "080310A" "080319B" "080319C"
+ [71] "080330A" "080411A" "080516A" "080603A" "080603B" "080607A" "080710A"
+ [78] "080721A" "080810A" "080905B" "080916A" "080928A" "081007A" "081028A"
+ [85] "081109A" "081203A" "081221A" "081228A" "081230A" "090313A" "090418A"
+ [92] "090423A" "090516A" "090519A" "090529A" "090618A" "090726A" "090809A"
+ [99] "090927A" "091018A" "091020A" "091024A" "091029A" "091127A" "100219A"
+[106] "100316B" "100316D" "100418A" "100425A" "100513A" "100704A" "100728A"
+[113] "100814A" "100816A" "100901A" "100906A" "101219B" "110205A" "110213A"
+[120] "110422A" "110503A" "110715A" "110801A" "110808A" "110818A" "111123A"
+[127] "111209A" "111228A" "120118B" "120119A" "120327A" "120422A" "120711A"
+[134] "120729A" "120802A" "120811C" "120815A" "120907A" "120922A" "121024A"
+[141] "121027A" "121128A" "121211A" "121217A" "130215A" "130408A" "130418A"
+[148] "130420A" "130505A" "130511A" "130604A" "130831A" "130925A" "131030A"
+[155] "131105A" "131117A" "140206A" "140213A" "140419A" "140430A" "140506A"
+[162] "140509A" "140512A" "140518A" "140614A" "140629A" "140801A" "140907A"
+[169] "141004A" "141121A" "141220A" "141221A" "150120B" "150323A" "150403A"
+[176] "150910A" "151021A" "151027A" "151029A" "151215A" "160117B" "160121A"
+[183] "160131A" "160227A" "160327A" "160425A" "160804A" "161014A" "161023A"
+[190] "161108A" "161129A" "161219B" "170202A" "170405A" "170519A" "170531B"
+[197] "170604A" "170607A" "170714A" "170903A" "180115A" "180205A" "180325A"
+[204] "180329B" "180404A" "180620B" "180624A" "180720B" "181020A" "181110A"
+[211] "190106A" "190114A" "190719C" "190829A" "191011A" "191221B" "200613A"
+[218] "200829A" "201020A" "201021C" "201104B" "201221A" "210210A" "210222B"
+[225] "210411C" "210517A" "210610A" "210822A" "211024B" "230116D" "230325A"
+[232] "230818A" "231210B"
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+3: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+4: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: cp=0.05901 
+- Fold01: cp=0.05901 
++ Fold02: cp=0.05901 
+- Fold02: cp=0.05901 
++ Fold03: cp=0.05901 
+- Fold03: cp=0.05901 
++ Fold04: cp=0.05901 
+- Fold04: cp=0.05901 
++ Fold05: cp=0.05901 
+- Fold05: cp=0.05901 
++ Fold06: cp=0.05901 
+- Fold06: cp=0.05901 
++ Fold07: cp=0.05901 
+- Fold07: cp=0.05901 
++ Fold08: cp=0.05901 
+- Fold08: cp=0.05901 
++ Fold09: cp=0.05901 
+- Fold09: cp=0.05901 
++ Fold10: cp=0.05901 
+- Fold10: cp=0.05901 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.135 on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: cp=0.04204 
+- Fold01: cp=0.04204 
++ Fold02: cp=0.04204 
+- Fold02: cp=0.04204 
++ Fold03: cp=0.04204 
+- Fold03: cp=0.04204 
++ Fold04: cp=0.04204 
+- Fold04: cp=0.04204 
++ Fold05: cp=0.04204 
+- Fold05: cp=0.04204 
++ Fold06: cp=0.04204 
+- Fold06: cp=0.04204 
++ Fold07: cp=0.04204 
+- Fold07: cp=0.04204 
++ Fold08: cp=0.04204 
+- Fold08: cp=0.04204 
++ Fold09: cp=0.04204 
+- Fold09: cp=0.04204 
++ Fold10: cp=0.04204 
+- Fold10: cp=0.04204 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0798 on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: cp=0.04229 
+- Fold01: cp=0.04229 
++ Fold02: cp=0.04229 
+- Fold02: cp=0.04229 
++ Fold03: cp=0.04229 
+- Fold03: cp=0.04229 
++ Fold04: cp=0.04229 
+- Fold04: cp=0.04229 
++ Fold05: cp=0.04229 
+- Fold05: cp=0.04229 
++ Fold06: cp=0.04229 
+- Fold06: cp=0.04229 
++ Fold07: cp=0.04229 
+- Fold07: cp=0.04229 
++ Fold08: cp=0.04229 
+- Fold08: cp=0.04229 
++ Fold09: cp=0.04229 
+- Fold09: cp=0.04229 
++ Fold10: cp=0.04229 
+- Fold10: cp=0.04229 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0674 on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: cp=0.05218 
+- Fold01: cp=0.05218 
++ Fold02: cp=0.05218 
+- Fold02: cp=0.05218 
++ Fold03: cp=0.05218 
+- Fold03: cp=0.05218 
++ Fold04: cp=0.05218 
+- Fold04: cp=0.05218 
++ Fold05: cp=0.05218 
+- Fold05: cp=0.05218 
++ Fold06: cp=0.05218 
+- Fold06: cp=0.05218 
++ Fold07: cp=0.05218 
+- Fold07: cp=0.05218 
++ Fold08: cp=0.05218 
+- Fold08: cp=0.05218 
++ Fold09: cp=0.05218 
+- Fold09: cp=0.05218 
++ Fold10: cp=0.05218 
+- Fold10: cp=0.05218 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0522 on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
++ Fold01: cp=0.03773 
+- Fold01: cp=0.03773 
++ Fold02: cp=0.03773 
+- Fold02: cp=0.03773 
++ Fold03: cp=0.03773 
+- Fold03: cp=0.03773 
++ Fold04: cp=0.03773 
+- Fold04: cp=0.03773 
++ Fold05: cp=0.03773 
+- Fold05: cp=0.03773 
++ Fold06: cp=0.03773 
+- Fold06: cp=0.03773 
++ Fold07: cp=0.03773 
+- Fold07: cp=0.03773 
++ Fold08: cp=0.03773 
+- Fold08: cp=0.03773 
++ Fold09: cp=0.03773 
+- Fold09: cp=0.03773 
++ Fold10: cp=0.03773 
+- Fold10: cp=0.03773 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0669 on full training set
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 192 → kept 192 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
++ Fold01: cp=0.0379 
+- Fold01: cp=0.0379 
++ Fold02: cp=0.0379 
+- Fold02: cp=0.0379 
++ Fold03: cp=0.0379 
+- Fold03: cp=0.0379 
++ Fold04: cp=0.0379 
+- Fold04: cp=0.0379 
++ Fold05: cp=0.0379 
+- Fold05: cp=0.0379 
++ Fold06: cp=0.0379 
+- Fold06: cp=0.0379 
++ Fold07: cp=0.0379 
+- Fold07: cp=0.0379 
++ Fold08: cp=0.0379 
+- Fold08: cp=0.0379 
++ Fold09: cp=0.0379 
+- Fold09: cp=0.0379 
++ Fold10: cp=0.0379 
+- Fold10: cp=0.0379 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0379 on full training set
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+  [infold] fold size 240 → kept 240 after rlm filter
+Warning messages:
+1: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+2: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+3: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+4: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+5: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+6: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+  [1] "000926A" "011211A" "030329A" "050315A" "050318A" "050401A" "050416A"
+  [8] "050502A" "050502B" "050505A" "050525A" "050730A" "050801A" "050802A"
+ [15] "050820A" "050824A" "050904A" "050922C" "051016B" "051028A" "051109A"
+ [22] "051111A" "060115A" "060124A" "060206A" "060306A" "060418A" "060502A"
+ [29] "060510B" "060526A" "060604A" "060605A" "060607A" "060614A" "060707A"
+ [36] "060708A" "060714A" "060814A" "060906A" "060908A" "060912A" "060926A"
+ [43] "060927A" "061007A" "061021A" "061110A" "061121A" "061126A" "061222A"
+ [50] "070110A" "070125A" "070208A" "070223A" "070306A" "070411A" "070521A"
+ [57] "070529A" "070612A" "070714B" "070802A" "071003A" "071010A" "071010B"
+ [64] "071020A" "071025A" "071117A" "080310A" "080319B" "080319C" "080330A"
+ [71] "080411A" "080516A" "080603A" "080603B" "080607A" "080710A" "080721A"
+ [78] "080810A" "080905B" "080916A" "080928A" "081007A" "081028A" "081109A"
+ [85] "081203A" "081221A" "081228A" "081230A" "090313A" "090418A" "090423A"
+ [92] "090516A" "090519A" "090529A" "090618A" "090726A" "090809A" "090927A"
+ [99] "091018A" "091020A" "091024A" "091029A" "091127A" "100316B" "100316D"
+[106] "100418A" "100425A" "100513A" "100704A" "100728A" "100814A" "100816A"
+[113] "100901A" "100906A" "101219B" "110205A" "110213A" "110422A" "110503A"
+[120] "110715A" "110801A" "110808A" "110818A" "111123A" "111209A" "111228A"
+[127] "120118B" "120119A" "120327A" "120422A" "120711A" "120729A" "120802A"
+[134] "120811C" "120815A" "120907A" "120922A" "121024A" "121027A" "121128A"
+[141] "121211A" "121217A" "130215A" "130408A" "130418A" "130420A" "130505A"
+[148] "130511A" "130604A" "130831A" "130925A" "131030A" "131105A" "131117A"
+[155] "140206A" "140213A" "140419A" "140430A" "140506A" "140509A" "140512A"
+[162] "140518A" "140614A" "140629A" "140801A" "140907A" "141004A" "141121A"
+[169] "141220A" "141221A" "150120B" "150323A" "150403A" "150910A" "151021A"
+[176] "151027A" "151029A" "151215A" "160117B" "160121A" "160131A" "160227A"
+[183] "160327A" "160425A" "160804A" "161014A" "161023A" "161108A" "161129A"
+[190] "161219B" "170202A" "170405A" "170519A" "170531B" "170604A" "170607A"
+[197] "170714A" "170903A" "180115A" "180205A" "180325A" "180329B" "180404A"
+[204] "180620B" "180624A" "180720B" "181110A" "190106A" "190114A" "190719C"
+[211] "190829A" "191011A" "191221B" "200613A" "200829A" "201020A" "201021C"
+[218] "201104B" "201221A" "210210A" "210222B" "210411C" "210517A" "210610A"
+[225] "210822A" "211024B" "230116D" "230325A" "230818A" "231210B"
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+Tue Jun 16 18:37:48 CST 2026: Done combined_2pct.
+Tue Jun 16 18:37:48 CST 2026: All outlier experiments complete.
