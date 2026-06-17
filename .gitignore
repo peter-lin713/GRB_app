@@ -1,3 +1,9 @@
 *.Rdata
 *.zip
 *.rar
+.DS_Store
+.claude/
+superlearner_model
+mc_raw.rds
+superlearner_emcee_run.log
+Formula_Generation/O2_formula_list

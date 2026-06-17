@@ -44,12 +44,12 @@ pred_vs_obs_plot <- function(df, title, xlab, ylab, subtitle = NULL,
                   width = 0, alpha = 0.5) +
     geom_point(aes(color = inside, shape = inside), size = 1.8) +
     scale_color_manual(values = c(`TRUE` = "#2c7fb8", `FALSE` = "#d7301f"),
-                       labels = c(`TRUE` = "Inside 95% MC cone",
-                                  `FALSE` = "Outside 95% MC cone"),
+                       labels = c(`TRUE` = "Inside 1σ MC cone",
+                                  `FALSE` = "Outside 1σ MC cone"),
                        name = NULL) +
     scale_shape_manual(values = c(`TRUE` = 16, `FALSE` = 4),
-                       labels = c(`TRUE` = "Inside 95% MC cone",
-                                  `FALSE` = "Outside 95% MC cone"),
+                       labels = c(`TRUE` = "Inside 1σ MC cone",
+                                  `FALSE` = "Outside 1σ MC cone"),
                        name = NULL) +
     coord_equal(xlim = lims, ylim = lims) +
     labs(title = title, subtitle = subtitle, x = xlab, y = ylab) +
@@ -92,7 +92,7 @@ make_mc_plots <- function(mc_summary, y_true, z_true, out_dir) {
     y_hi   = mc_summary$log10z_upper,
     inside = inside
   )
-  sub1 <- sprintf("%s   |   %.1f%% inside cone",
+  sub1 <- sprintf("%s   |   %.1f%% inside 1σ MC cone",
                   metrics_subtitle(df1$x, df1$y),
                   100 * mean(inside))
   p1 <- pred_vs_obs_plot(
@@ -100,7 +100,7 @@ make_mc_plots <- function(mc_summary, y_true, z_true, out_dir) {
     title = "Predicted vs observed log10(z+1) — all points",
     subtitle = sub1,
     xlab = "Observed log10(z+1)",
-    ylab = "Predicted log10(z+1)  (MC mean, 95% interval)"
+    ylab = "Predicted log10(z+1)  (MC mean, 1σ interval)"
   )
   ggsave(file.path(out_dir, "mc_pred_vs_obs_log10_all.png"),
          p1, width = 6.5, height = 6.5, dpi = 300)
@@ -110,10 +110,10 @@ make_mc_plots <- function(mc_summary, y_true, z_true, out_dir) {
   sub2 <- metrics_subtitle(df2$x, df2$y)
   p2 <- pred_vs_obs_plot(
     df2,
-    title = "Predicted vs observed log10(z+1) — inside 95% MC cone",
+    title = "Predicted vs observed log10(z+1) — inside 1σ MC cone",
     subtitle = sub2,
     xlab = "Observed log10(z+1)",
-    ylab = "Predicted log10(z+1)  (MC mean, 95% interval)",
+    ylab = "Predicted log10(z+1)  (MC mean, 1σ interval)",
     show_outliers = FALSE
   )
   ggsave(file.path(out_dir, "mc_pred_vs_obs_log10_inside.png"),
@@ -130,10 +130,10 @@ make_mc_plots <- function(mc_summary, y_true, z_true, out_dir) {
   sub3 <- metrics_subtitle(df3$x, df3$y)
   p3 <- pred_vs_obs_plot(
     df3,
-    title = "Predicted vs observed z (linear) — inside 95% MC cone",
+    title = "Predicted vs observed z (linear) — inside 1σ MC cone",
     subtitle = sub3,
     xlab = "Observed z",
-    ylab = "Predicted z  (MC mean, 95% interval)",
+    ylab = "Predicted z  (MC mean, 1σ interval)",
     show_outliers = FALSE
   )
   ggsave(file.path(out_dir, "mc_pred_vs_obs_z_inside.png"),

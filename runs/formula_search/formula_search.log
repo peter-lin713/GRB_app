@@ -1,0 +1,313 @@
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 4.1-10
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-6
+
+Super Learner
+Version: 2.0-29
+Package created on 2024-02-06
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-3. For overview type 'help("mgcv-package")'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+
+arm (Version 1.14-4, built: 2024-4-1)
+
+Working directory is /Users/peterlin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+Warning message:
+Number of logged events: 1 
+[1] 20
+[1] 190
+[1] 1140
+[1] 4845
+[1] 15504
+[1] 38760
+[1] 77520
+[1] 125970
+[1] 167960
+[1] 184756
+[1] 167960
+[1] 125970
+[1] 77520
+[1] 38760
+[1] 15504
+[1] 4845
+[1] 1140
+[1] 190
+[1] 20
+[1] 1
+[1] 10
+[1] 45
+[1] 120
+[1] 210
+[1] 252
+[1] 210
+[1] 120
+[1] 45
+[1] 10
+[1] 1
+[1] 10
+[1] 45
+[1] 120
+[1] 210
+[1] 252
+[1] 210
+[1] 120
+[1] 45
+[1] 10
+[1] 1
+[1]  9 21
+[1] 10 21
+character(0)
+character(0)
+[1] "Number of formulas= 1023 | Dimension of training set= 172"
+[2] "Number of formulas= 1023 | Dimension of training set= 21" 
+Warning message:
+executing %dopar% sequentially: no parallel backend registered 
+5318.112 18.388 5337.516 0 0[1] "Running reading results code"
+[1] "Reading results for formula"
+ [1] "Response ~ (log10Fa + log10Ta + PhotonIndex + log10PeakFlux)^2 + log10NH + Alpha + Beta + log10T90 + Gamma + log10Fluence"
+ [2] "Response ~ (log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Alpha + Beta + log10T90 + Gamma + log10Fluence"
+ [3] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Alpha + Beta + Gamma + log10Fluence"
+ [4] "Response ~ (log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + log10T90 + Gamma + log10Fluence"
+ [5] "Response ~ (log10Fluence + log10Fa + log10Ta + PhotonIndex + log10PeakFlux)^2 + log10NH + Alpha + Beta + log10T90 + Gamma"
+ [6] "Response ~ (Alpha + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Beta + log10T90 + Gamma + log10Fluence"
+ [7] "Response ~ (log10T90 + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
+ [8] "Response ~ (log10T90 + Alpha + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Beta + Gamma + log10Fluence"
+ [9] "Response ~ (log10T90 + log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + Gamma + log10Fluence"
+[10] "Response ~ (log10Fluence + log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + log10T90 + Gamma"
+[11] "Response ~ (log10T90 + Alpha + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Beta + Gamma + log10Fluence"
+           Response ~ (log10Fa + log10Ta + PhotonIndex + log10PeakFlux)^2 + log10NH + Alpha + Beta + log10T90 + Gamma + log10Fluence
+GRB180404A                                                                                                                 0.3191837
+GRB180620B                                                                                                                 0.4278116
+GRB180624A                                                                                                                 0.5165230
+GRB180720B                                                                                                                 0.3866539
+GRB180728A                                                                                                                 0.1387716
+GRB181010A                                                                                                                 0.4635147
+           Response ~ (log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Alpha + Beta + log10T90 + Gamma + log10Fluence
+GRB180404A                                                                                                                0.31832761
+GRB180620B                                                                                                                0.42037691
+GRB180624A                                                                                                                0.51414742
+GRB180720B                                                                                                                0.27935926
+GRB180728A                                                                                                               -0.02968419
+GRB181010A                                                                                                                0.42091606
+           Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Alpha + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                0.32686564
+GRB180620B                                                                                                                0.40207348
+GRB180624A                                                                                                                0.52181604
+GRB180720B                                                                                                                0.24913752
+GRB180728A                                                                                                                0.08146132
+GRB181010A                                                                                                                0.46768021
+           Response ~ (log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + log10T90 + Gamma + log10Fluence
+GRB180404A                                                                                                                 0.3164747
+GRB180620B                                                                                                                 0.4189215
+GRB180624A                                                                                                                 0.5164841
+GRB180720B                                                                                                                 0.4008570
+GRB180728A                                                                                                                 0.0788765
+GRB181010A                                                                                                                 0.4462631
+           Response ~ (log10Fluence + log10Fa + log10Ta + PhotonIndex + log10PeakFlux)^2 + log10NH + Alpha + Beta + log10T90 + Gamma
+GRB180404A                                                                                                                 0.3276051
+GRB180620B                                                                                                                 0.4216599
+GRB180624A                                                                                                                 0.5445948
+GRB180720B                                                                                                                 0.3235830
+GRB180728A                                                                                                                 0.1359087
+GRB181010A                                                                                                                 0.4692073
+           Response ~ (Alpha + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Beta + log10T90 + Gamma + log10Fluence
+GRB180404A                                                                                                                0.31630072
+GRB180620B                                                                                                                0.44745272
+GRB180624A                                                                                                                0.51364011
+GRB180720B                                                                                                                0.29127260
+GRB180728A                                                                                                               -0.03459446
+GRB181010A                                                                                                                0.43936168
+           Response ~ (log10T90 + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                 0.2952750
+GRB180620B                                                                                                                 0.3942367
+GRB180624A                                                                                                                 0.5516767
+GRB180720B                                                                                                                 0.2747645
+GRB180728A                                                                                                                 0.1039051
+GRB181010A                                                                                                                 0.4547997
+           Response ~ (log10T90 + Alpha + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                0.32311673
+GRB180620B                                                                                                                0.38875825
+GRB180624A                                                                                                                0.50302719
+GRB180720B                                                                                                                0.25255293
+GRB180728A                                                                                                                0.03390658
+GRB181010A                                                                                                                0.49449942
+           Response ~ (log10T90 + log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                0.29127768
+GRB180620B                                                                                                                0.41423925
+GRB180624A                                                                                                                0.56433012
+GRB180720B                                                                                                                0.33776429
+GRB180728A                                                                                                                0.03316251
+GRB181010A                                                                                                                0.52233274
+           Response ~ (log10Fluence + log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 + Alpha + Beta + log10T90 + Gamma
+GRB180404A                                                                                                                0.31897515
+GRB180620B                                                                                                                0.41239575
+GRB180624A                                                                                                                0.55249791
+GRB180720B                                                                                                                0.34127143
+GRB180728A                                                                                                                0.09327916
+GRB181010A                                                                                                                0.45996487
+           Response ~ (log10T90 + Alpha + log10Fa + log10Ta + log10NH + PhotonIndex)^2 + log10PeakFlux + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                0.27844853
+GRB180620B                                                                                                                0.39975092
+GRB180624A                                                                                                                0.53297920
+GRB180720B                                                                                                                0.28980306
+GRB180728A                                                                                                                0.05115996
+GRB181010A                                                                                                                0.46895136
+[1] "Response ~ (log10T90 + Alpha + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Beta + Gamma + log10Fluence"
+[1] "Response ~ (log10T90 + Alpha + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Beta + Gamma + log10Fluence"
+[1] "Response ~ (log10T90 + Alpha + log10Fa + log10Ta + PhotonIndex)^2 + log10PeakFlux + log10NH + Beta + Gamma + log10Fluence"
+pdf 
+  2 

@@ -1,0 +1,48 @@
+Optical data loaded:  171 GRBs
+X-ray data loaded:    251 GRBs
+Overlapping GRBs:     88  (exact suffix matches + naming-convention fixes)
+Merged overlap shape: (88, 18)
+
+Loading cached MCMC chains from /Users/peterlin/Desktop/test/GRB_app/Data/emcee_chains.npz
+logFa: m=0.4137±0.1139  b=-5.5399±1.3963  σ_int=0.7890  N=88  [cached]
+logTa: m=0.3250±0.0814  b=2.5344±0.3340  σ_int=0.6005  N=88  [cached]
+Alpha: m=0.5338±0.0936  b=0.7105±0.1209  σ_int=0.3223  N=88  [cached]
+Beta: m=0.1647±0.1050  b=0.7651±0.0868  σ_int=0.2225  N=88  [cached]
+
+Calibration plot saved to /Users/peterlin/Desktop/test/GRB_app/Plot_Output/emcee_calibration/emcee_optical_vs_xray.png
+logFa: median 1σ err = 0.7980  (σ_int=0.7890)
+logTa: median 1σ err = 0.6074  (σ_int=0.6005)
+Alpha: median 1σ err = 0.3280  (σ_int=0.3223)
+Beta: median 1σ err = 0.2257  (σ_int=0.2225)
+
+Relative err cut: removed 83 optical-only GRBs (251 remain)  → /Users/peterlin/Desktop/test/GRB_app/Data/superlearner_training_emcee_errcut_relative.csv
+  log10FaErr > 1/ln(10) = 0.4343 dex: 83
+  log10TaErr > 1/ln(10) = 0.4343 dex: 83
+  AlphaErr / |Alpha| > 1: 0
+  BetaErr  / |Beta|  > 1: 0
+Plot saved to /Users/peterlin/Desktop/test/GRB_app/Plot_Output/emcee_calibration/emcee_projected_errcut_relative.png
+
+Final dataset shape: (334, 19)
+Non-null counts:
+Redshift_crosscheck    334
+log10T90               251
+log10Fa                334
+log10Ta                334
+Alpha                  334
+Beta                   334
+Gamma                  251
+log10Fluence           251
+PhotonIndex            251
+log10NH                251
+log10PeakFlux          246
+T90Err                 250
+log10FaErr             334
+log10TaErr             334
+AlphaErr               334
+BetaErr                334
+FluenceErr             250
+PhotonIndexErr         250
+PeakFluxErr            247
+dtype: int64
+
+Saved to /Users/peterlin/Desktop/test/GRB_app/Data/superlearner_training_emcee.csv
