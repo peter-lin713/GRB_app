@@ -62,8 +62,12 @@ rez=120
 # if(!dir.exists(addr)){dir.create(addr)}
 
 
+# Reconstruct T90 from log10T90 if not present (e.g. emcee combined dataset)
+if (!"T90" %in% colnames(raw_xray_data) && "log10T90" %in% colnames(raw_xray_data))
+  raw_xray_data$T90 <- 10^raw_xray_data$log10T90
+
 # Pick out Long GRBs
-raw_xray_data = raw_xray_data[raw_xray_data$T90 > 2,]
+raw_xray_data = raw_xray_data[!is.na(raw_xray_data$T90) & raw_xray_data$T90 > 2,]
 
 raw_xray_data$log10T90 = log10(raw_xray_data$T90)
 

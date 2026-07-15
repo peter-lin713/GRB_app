@@ -1,0 +1,41 @@
+/Users/peterlin/Library/Python/3.9/lib/python/site-packages/pandas/core/arraylike.py:399: RuntimeWarning: divide by zero encountered in log10
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+Optical data loaded: 171 GRBs
+X-ray data loaded:  251 GRBs
+Anchor GRBs:        88
+Usable anchors for weighting: 86
+Dimension weights:
+  log10T90: 0.049
+  PhotonIndex: 5.925
+  Alpha: 0.004
+  Beta: 0.006
+  log10Fa: 0.010
+  log10Ta: 0.005
+Optical-only GRBs:  83
+Gamma imputed for 57 / 83 optical-only GRBs
+
+Before error cut: 334 GRBs
+After error cut:  312 GRBs (dropped 22)
+
+Saved to Data/superlearner_training_ot.csv
+
+Missing values per column:
+Redshift_crosscheck     0
+log10T90                0
+log10Fa                 0
+log10Ta                 0
+Alpha                   5
+Beta                    2
+Gamma                  20
+log10Fluence           19
+PhotonIndex            21
+log10NH                43
+log10PeakFlux          25
+T90Err                 70
+log10FaErr              0
+log10TaErr              0
+AlphaErr                0
+BetaErr                 0
+FluenceErr             70
+PhotonIndexErr         19
+PeakFluxErr            23

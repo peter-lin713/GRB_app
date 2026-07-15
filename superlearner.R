@@ -108,6 +108,19 @@ if (run_locally) {
   if (!"log10T90" %in% names(raw_xray_data) && "T90" %in% names(raw_xray_data)) {
     raw_xray_data$log10T90 <- log10(raw_xray_data$T90)
   }
+  #' Some newer catalogs ship dex-scale errors directly (log10FluenceErr etc.)
+  #' instead of the linear errors (FluenceErr etc.) that to_dex_err() below
+  #' expects. Reconstruct the linear error so to_dex_err() round-trips back to
+  #' the same dex value; a no-op when the linear column is already present.
+  if (!"T90Err" %in% names(raw_xray_data) && "log10T90Err" %in% names(raw_xray_data)) {
+    raw_xray_data$T90Err <- raw_xray_data$log10T90Err * 10^raw_xray_data$log10T90 * log(10)
+  }
+  if (!"FluenceErr" %in% names(raw_xray_data) && "log10FluenceErr" %in% names(raw_xray_data)) {
+    raw_xray_data$FluenceErr <- raw_xray_data$log10FluenceErr * 10^raw_xray_data$log10Fluence * log(10)
+  }
+  if (!"PeakFluxErr" %in% names(raw_xray_data) && "log10PeakFluxErr" %in% names(raw_xray_data)) {
+    raw_xray_data$PeakFluxErr <- raw_xray_data$log10PeakFluxErr * 10^raw_xray_data$log10PeakFlux * log(10)
+  }
 
   stopifnot(!anyDuplicated(raw_xray_data$GRB))
   rownames(raw_xray_data) <- raw_xray_data$GRB
