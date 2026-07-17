@@ -209,7 +209,10 @@ print(plotnames)
 uplim<-max(results$Zphot,results$Zspec)
 lowlim<-min(results$Zphot,results$Zspec)
 
-Yuplim<-max(results$linpred_max)
+Yuplim<-max(results$linpred_max, lowlim + 1)
+# Unit-spaced axis breaks, falling back to pretty() when the prediction range is
+# degenerate/huge (e.g. smoke-test learners) so seq() cannot error.
+axis_breaks <- function(lo, hi) if ((hi - lo) <= 50) seq(round(lo), round(hi), 1) else pretty(c(lo, hi))
 
 {
   png(filename = paste(PLOTaddr,"z_pred_v_obs_linear",plotnames,".png",sep = ""),width = 1000*sz,height = 1000*sz,res=rez)
@@ -241,8 +244,8 @@ labs(color = '',
      )) +
     scale_color_manual(values=c('black','black'))+
     theme_bw()+
-    scale_x_continuous(limits = c(lowlim,uplim),breaks = seq(round(lowlim),round(uplim),1))+
-    scale_y_continuous(limits = c(lowlim,max(results$linpred_max)),breaks = seq(round(lowlim),round(max(results$linpred_max)),1))+
+    scale_x_continuous(limits = c(lowlim,uplim),breaks = axis_breaks(lowlim, uplim))+
+    scale_y_continuous(limits = c(lowlim,Yuplim),breaks = axis_breaks(lowlim, Yuplim))+
     theme(plot.background = element_rect(color = 'white',size=0,fill=NA)
           ,panel.grid = element_line(colour = 'white')
           ,panel.border = element_rect(colour = 'black',fill=NA,size=0.5)
@@ -291,7 +294,10 @@ print(plotnames)
 uplim<-max(results$Zphot,results$Zspec)
 lowlim<-min(results$Zphot,results$Zspec)
 
-Yuplim<-max(results$linpred_max)
+Yuplim<-max(results$linpred_max, lowlim + 1)
+# Unit-spaced axis breaks, falling back to pretty() when the prediction range is
+# degenerate/huge (e.g. smoke-test learners) so seq() cannot error.
+axis_breaks <- function(lo, hi) if ((hi - lo) <= 50) seq(round(lo), round(hi), 1) else pretty(c(lo, hi))
 
 {
   png(filename = paste(PLOTaddr,"For_proposal_z_pred_v_obs_linear",plotnames,".png",sep = ""),width = 1000*sz,height = 1000*sz,res=rez)
@@ -312,8 +318,8 @@ Yuplim<-max(results$linpred_max)
 
     scale_color_manual(values=c('black','black'))+
     theme_bw()+
-    scale_x_continuous(limits = c(lowlim,uplim),breaks = seq(round(lowlim),round(uplim),1))+
-    scale_y_continuous(limits = c(lowlim,max(results$linpred_max)),breaks = seq(round(lowlim),round(max(results$linpred_max)),1))+
+    scale_x_continuous(limits = c(lowlim,uplim),breaks = axis_breaks(lowlim, uplim))+
+    scale_y_continuous(limits = c(lowlim,Yuplim),breaks = axis_breaks(lowlim, Yuplim))+
     theme(plot.background = element_rect(color = 'white',size=0,fill=NA)
           ,panel.grid = element_line(colour = 'white')
           ,panel.border = element_rect(colour = 'black',fill=NA,size=0.5)

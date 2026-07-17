@@ -11,12 +11,17 @@
 #'                              conventions (X -> GRB, linear T90 -> log10T90);
 #'                              key every row by its GRB id.
 #'   2. Recover & clean      -- restore real prompt features for optical-projected
-#'                              GRBs from Data/optical_data.csv; drop short GRBs
-#'                              (log10T90 cut); null physically-impossible values.
+#'                              GRBs from Data/optical_data.csv; for pre-fused
+#'                              frames (superlearner_training_emcee_v2*.csv, which
+#'                              arrive complete) flag optical rows by X-ray-catalog
+#'                              membership instead; drop short GRBs (log10T90 cut);
+#'                              null physically-impossible values.
 #'   3. Impute               -- predictors: missForest co-imputed with the unlabeled
 #'                              generalization pool, repeated over imputation seeds x
 #'                              emcee projection draws (predictions are averaged over
-#'                              all frames); errors: MICE (midastouch, m = 20).
+#'                              all frames; pre-fused frames use the 8 v2-chain draws
+#'                              in Data/proj_draws_v2.csv); errors: MICE (midastouch,
+#'                              m = 20).
 #'   4. Feature engineering  -- order predictors by LASSO importance; squares of the
 #'                              top-7; is_optical indicator + scaled per-domain
 #'                              feature copies (Daume-style, c = 0.25).
@@ -164,6 +169,43 @@ if (file.exists("Data/optical_data.csv")) {
   }
 }
 
+#' Pre-fused frames (e.g. Data/superlearner_training_emcee_v2*.csv) arrive with
+#' the optical rows already projected to X-ray units and complete, so the
+#' missingness test above finds nothing. Identify optical rows by X-ray-catalog
+#' membership instead (the convention validated in
+#' outlier_experiments/cv_experiments/campaign2/cv_maxstack_v2.R) and keep their
+#' native optical plateau features so the emcee projection draws can re-project
+#' them per posterior draw at the imputation stage. `prefused_frame` also
+#' switches the draw source to the v2 emcee chains below.
+prefused_frame <- FALSE
+if (is.null(optical_native) &&
+    all(pred_vars %in% names(raw_xray_data)) &&
+    !any(rowSums(is.na(raw_xray_data[, pred_vars])) >= 6) &&
+    file.exists("Data/Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv") &&
+    file.exists("Data/OnlyLGRBs_data_171_optical_corrected.csv")) {
+  norm_grb <- function(s) {
+    s <- trimws(gsub("GRB", "", as.character(s)))
+    ifelse(grepl("[A-Za-z]$", s), s, paste0(s, "A"))
+  }
+  xr_ids <- norm_grb(read.csv("Data/Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv",
+                              stringsAsFactors = FALSE)[[1]])
+  ids      <- norm_grb(raw_xray_data$GRB)
+  opt_rows <- which(!(ids %in% xr_ids))
+  if (length(opt_rows) > 0) {
+    prefused_frame <- TRUE
+    raw_xray_data$is_optical[opt_rows] <- 1
+    opt_cat <- read.csv("Data/OnlyLGRBs_data_171_optical_corrected.csv", stringsAsFactors = FALSE)
+    names(opt_cat)[1] <- "GRB"; opt_cat$GRB <- norm_grb(opt_cat$GRB)
+    m  <- match(ids[opt_rows], opt_cat$GRB)
+    ok <- !is.na(m)
+    optical_native <- data.frame(logFa = opt_cat$log10Faopt[m[ok]], logTa = opt_cat$log10Taopt[m[ok]],
+                                 Alpha = opt_cat$Alpha_opt[m[ok]], Beta = opt_cat$Beta_opt[m[ok]],
+                                 row.names = rownames(raw_xray_data)[opt_rows[ok]])
+    cat("Pre-fused frame:", length(opt_rows), "optical GRBs flagged by catalog membership;",
+        sum(ok), "matched to the optical catalog for projection draws\n")
+  }
+}
+
 
 # ---- Fast-run switches (env-controlled) -------------------------------------
 #' smoke_test : logical -- run the whole pipeline on a small random subsample and
@@ -306,14 +348,30 @@ if (do_mice) {
     gen_pool$PhotonIndex[gen_pool$PhotonIndex < 0]   <- NA
     gen_pool$Gamma[gen_pool$Gamma > 3]               <- NA
   }
-  proj_draws <- if (file.exists("Data/emcee_projection_draws.csv"))
-    read.csv("Data/emcee_projection_draws.csv", stringsAsFactors = FALSE) else NULL
+  #' Projection-draw source. Pre-fused frames use the v2 emcee-chain draws
+  #' (Data/proj_draws_v2.csv: 8 parameter-only draws from emcee_chains_v2.npz,
+  #' the validated max-stack config — cv CV r 0.643 pre / 0.683 post outlier
+  #' removal) with a single imputation seed, since those frames arrive complete
+  #' and the seed sweep would only jitter a handful of leftover cells. Old-style
+  #' frames keep the original 4-draw file and 3-seed sweep so their validated
+  #' behavior is unchanged. Intrinsic-scatter draws are never used (adding
+  #' scatter noise measurably degrades r).
+  if (prefused_frame && file.exists("Data/proj_draws_v2.csv")) {
+    proj_draws <- read.csv("Data/proj_draws_v2.csv", stringsAsFactors = FALSE)
+    n_draws    <- 8L
+    IMP_SEEDS  <- 12
+    cat("Using v2 emcee projection draws (8 draws, 1 imputation seed)\n")
+  } else {
+    proj_draws <- if (file.exists("Data/emcee_projection_draws.csv"))
+      read.csv("Data/emcee_projection_draws.csv", stringsAsFactors = FALSE) else NULL
+    n_draws    <- 4L
+    IMP_SEEDS  <- c(12, 77, 301)
+  }
   draw_map   <- c(logFa = "log10Fa", logTa = "log10Ta", Alpha = "Alpha", Beta = "Beta")
   opt_here   <- intersect(rownames(features_for_mice_preds),
                           if (is.null(optical_native)) character(0) else rownames(optical_native))
 
-  IMP_SEEDS  <- c(12, 77, 301)
-  PROJ_DRAWS <- if (!is.null(proj_draws) && length(opt_here) > 0) 1:4 else 0
+  PROJ_DRAWS <- if (!is.null(proj_draws) && length(opt_here) > 0) seq_len(n_draws) else 0
   if (smoke_test) { IMP_SEEDS <- IMP_SEEDS[1]; PROJ_DRAWS <- PROJ_DRAWS[1] }
 
   feature_frames <- list()
