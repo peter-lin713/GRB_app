@@ -1,1 +1,1 @@
-libs = c('SL.mean')
+libs <- c("SL.glmnet", "SL.xgboost_safe", "SL.caret.rpart", "SL.step", "SL.step.forward")

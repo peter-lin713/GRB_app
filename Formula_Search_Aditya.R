@@ -84,14 +84,15 @@ features_for_mice_preds = subset(raw_xray_data,select = c(log10T90,
                                                           log10NH,
                                                           log10PeakFlux))
 
-features_for_mice_errs = subset(raw_xray_data,select = c(T90Err,
-                                                         log10FaErr,
-                                                         log10TaErr,
-                                                         AlphaErr,
-                                                         BetaErr,
-                                                         FluenceErr,
-                                                         PhotonIndexErr,
-                                                         PeakFluxErr))
+# Fluence/PeakFlux errors may be stored linear (FluenceErr/PeakFluxErr) or
+# already dex (log10FluenceErr/log10PeakFluxErr) depending on the source
+# catalog -- detect which is present instead of hardcoding the linear names.
+fluence_err_col  <- if ("FluenceErr"  %in% colnames(raw_xray_data)) "FluenceErr"  else "log10FluenceErr"
+peakflux_err_col <- if ("PeakFluxErr" %in% colnames(raw_xray_data)) "PeakFluxErr" else "log10PeakFluxErr"
+
+features_for_mice_errs = raw_xray_data[, c("T90Err", "log10FaErr", "log10TaErr",
+                                            "AlphaErr", "BetaErr", fluence_err_col,
+                                            "PhotonIndexErr", peakflux_err_col)]
 
 # replacing inf in log10PeakFlux feature with NAs
 features_for_mice_preds$log10PeakFlux[is.infinite(features_for_mice_preds$log10PeakFlux)] <- NA
@@ -139,8 +140,12 @@ Fluence <- 10^GRBPred$log10Fluence
 PeakFlux <- 10^GRBPred$log10PeakFlux
 
 GRBPred$log10T90Err <- GRBPred$T90Err/(T90 * log(10))
-GRBPred$log10FluenceErr <- GRBPred$FluenceErr/(Fluence * log(10))
-GRBPred$log10PeakFluxErr <- GRBPred$PeakFluxErr/(PeakFlux * log(10))
+if (!"log10FluenceErr" %in% colnames(GRBPred)) {
+  GRBPred$log10FluenceErr <- GRBPred$FluenceErr/(Fluence * log(10))
+}
+if (!"log10PeakFluxErr" %in% colnames(GRBPred)) {
+  GRBPred$log10PeakFluxErr <- GRBPred$PeakFluxErr/(PeakFlux * log(10))
+}
 
 source('lasso.R')
 

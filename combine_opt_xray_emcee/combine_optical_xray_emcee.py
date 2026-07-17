@@ -46,7 +46,7 @@ MIN_ERR    = 1e-6
 opt = pd.read_csv(OPT_FILE, index_col=0)
 opt.index.name = 'GRB'
 opt = opt.reset_index()
-opt_sel = opt[['GRB', 'z', 'logFa', 'logFaErr', 'logT_a', 'logTaErr',
+opt_sel = opt[['GRB', 'z', 'T90', 'logFa', 'logFaErr', 'logT_a', 'logTaErr',
                'Alpha', 'AlphaErr', 'Beta', 'betaErr']].copy()
 opt_sel = opt_sel.rename(columns={
     'logFa':   'logFa_opt',  'logFaErr': 'logFaErr_opt',
@@ -286,7 +286,7 @@ print(f'\nCalibration plot saved to {out_path}')
 # median as the point estimate and half the 16th-84th percentile range as the 1-sigma
 # uncertainty. This avoids the Gaussian approximation of the analytical error formula.
 
-opt_tr = opt_sel[['GRB', 'z']].copy()
+opt_tr = opt_sel[['GRB', 'z', 'T90']].copy()
 
 rng = np.random.default_rng(42)
 
@@ -351,9 +351,18 @@ final['Redshift_crosscheck'] = (
     .combine_first(pd.to_numeric(z_o, errors='coerce'))
 )
 
-t90 = next((c for c in combined.columns if c == 'T90'), None)
-final['T90']      = combined[t90] if t90 else np.nan
-final['log10T90'] = np.log10(pd.to_numeric(final['T90'], errors='coerce'))
+t90_xray = combined.get('T90_from_xray', combined.get('T90'))
+t90_opt  = combined.get('T90_from_opt')
+if t90_xray is not None and t90_opt is not None:
+    final['T90'] = pd.to_numeric(t90_xray, errors='coerce').combine_first(
+                   pd.to_numeric(t90_opt,  errors='coerce'))
+elif t90_xray is not None:
+    final['T90'] = pd.to_numeric(t90_xray, errors='coerce')
+elif t90_opt is not None:
+    final['T90'] = pd.to_numeric(t90_opt,  errors='coerce')
+else:
+    final['T90'] = np.nan
+final['log10T90'] = np.log10(final['T90'])
 
 final['log10Fa']    = resolve(combined, 'logFa_x',    'logFa_x_opt')
 final['log10FaErr'] = resolve(combined, 'logFaErr_x', 'logFaErr_x_opt')

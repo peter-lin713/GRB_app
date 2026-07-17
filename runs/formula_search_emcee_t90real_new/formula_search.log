@@ -1,0 +1,253 @@
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+Registered S3 method overwritten by 'car':
+  method           from
+  na.action.merMod lme4
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 5.0
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-7
+
+Super Learner
+Version: 2.0-40
+Package created on 2025-12-14
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-4. For overview type '?mgcv'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.3.1
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+The following object is masked from ‘package:mice’:
+
+    toenail
+
+
+arm (Version 1.15-3, built: 2026-4-15)
+
+Working directory is /Users/petelin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘ncvreg’
+
+The following object is masked from ‘package:nlme’:
+
+    intervals
+
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] 20
+[1] 190
+[1] 1140
+[1] 4845
+[1] 15504
+[1] 38760
+[1] 77520
+[1] 125970
+[1] 167960
+[1] 184756
+[1] 167960
+[1] 125970
+[1] 77520
+[1] 38760
+[1] 15504
+[1] 4845
+[1] 1140
+[1] 190
+[1] 20
+[1] 1
+[1] 10
+[1] 45
+[1] 120
+[1] 210
+[1] 252
+[1] 210
+[1] 120
+[1] 45
+[1] 10
+[1] 1
+[1] 10
+[1] 45
+[1] 120
+[1] 210
+[1] 252
+[1] 210
+[1] 120
+[1] 45
+[1] 10
+[1] 1
+[1]  9 21
+[1] 10 21
+character(0)
+character(0)
+[1] "Number of formulas= 1023 | Dimension of training set= 172"
+[2] "Number of formulas= 1023 | Dimension of training set= 21" 
+Warning message:
+executing %dopar% sequentially: no parallel backend registered 
+3945.451 28.249 4169.091 0 0[1] "Running reading results code"
+[1] "Reading results for formula"
+[1] "Response ~ (log10Fa + log10Ta + PhotonIndex + log10NH + log10PeakFlux)^2 + Alpha + log10T90 + Beta + Gamma + log10Fluence"
+[2] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
+           Response ~ (log10Fa + log10Ta + PhotonIndex + log10NH + log10PeakFlux)^2 + Alpha + log10T90 + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                 0.3164747
+GRB180620B                                                                                                                 0.4189215
+GRB180624A                                                                                                                 0.5164841
+GRB180720B                                                                                                                 0.4008570
+GRB180728A                                                                                                                 0.0788765
+GRB181010A                                                                                                                 0.4462631
+           Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence
+GRB180404A                                                                                                                 0.2952750
+GRB180620B                                                                                                                 0.3942367
+GRB180624A                                                                                                                 0.5516767
+GRB180720B                                                                                                                 0.2747645
+GRB180728A                                                                                                                 0.1039051
+GRB181010A                                                                                                                 0.4547997
+[1] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
+[1] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
+[1] "Response ~ (log10Fa + log10Ta + PhotonIndex + log10NH + log10PeakFlux)^2 + Alpha + log10T90 + Beta + Gamma + log10Fluence"
+pdf 
+  2 
