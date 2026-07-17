@@ -87,7 +87,9 @@ if (run_locally) {
   m_est_pct        <- if (length(args) >= 9) as.numeric(args[9]) else 0.05
   use_formula_learners <- if (length(args) >= 10) as.logical(tolower(args[10]) == "true") else FALSE
   # outlier_method: "hard" (default, percentile cut), "soft" (obsWeights, no cut),
-  #                 "infold" (in-fold rlm wrapper, no pre-cut), "both" (hard cut + infold wrapper)
+  #                 "infold" (in-fold rlm wrapper, no pre-cut), "both" (hard cut + infold wrapper),
+  #                 "impweight" (obsWeights from each row's own imputation/measurement
+  #                 uncertainty on PhotonIndex/Fluence/PeakFlux, no cut)
   outlier_method   <- if (length(args) >= 11) tolower(args[11]) else "hard"
   raw_xray_data    <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
 
@@ -344,6 +346,32 @@ if (do_m_estimator && outlier_method %in% c("hard", "both")) {
       " (", sum(sl_obs_weights < quantile(sl_obs_weights, m_est_pct)), "GRBs below",
       m_est_pct * 100, "%-ile threshold)\n")
 }
+#' outlier_method == "impweight" -- DISABLED FOR NOW, re-enable later:
+#' } else if (do_m_estimator && outlier_method == "impweight") {
+#'   # DISABLED FOR NOW -- re-enable (uncomment) to try this later.
+#'   # Down-weight (not hard-cut) GRBs by their own combined relative measurement/
+#'   # imputation uncertainty on the three features that differ hugely in scale
+#'   # between real X-ray measurements and OT-imputed values (PhotonIndex,
+#'   # Fluence, PeakFlux -- see the OT-fusion diagnostic: OT-imputed rows carry
+#'   # 3-16x bigger errors than X-ray-native rows on every feature). X-ray-native
+#'   # rows have small fixed measurement errors -> weight near 1; optical-only
+#'   # rows with large OT barycentric uncertainty get smoothly down-weighted in
+#'   # proportion to how uncertain their own imputation actually is, instead of
+#'   # the M-estimator's all-or-nothing hard cut (which Check 4 of that
+#'   # diagnostic showed isn't targeting these rows anyway).
+#'   # log10FluenceErr/log10PeakFluxErr are already dex-scale by this point in the
+#'   # pipeline (converted during the MICE-prep step above) -- no further
+#'   # conversion needed; GRBPred no longer has the original linear-scale
+#'   # FluenceErr/PeakFluxErr columns at all.
+#'   dex_err_fluence  <- GRBPred$log10FluenceErr
+#'   dex_err_peakflux <- GRBPred$log10PeakFluxErr
+#'   rel_err_pindex   <- GRBPred$PhotonIndexErr / pmax(abs(GRBPred$PhotonIndex), 0.1)
+#'   noise_score      <- dex_err_fluence + dex_err_peakflux + rel_err_pindex
+#'   sl_obs_weights   <- setNames(1 / (1 + noise_score), rownames(GRBPred))
+#'   cat("Imputation-uncertainty weights: min=", round(min(sl_obs_weights), 3),
+#'       " median=", round(median(sl_obs_weights), 3),
+#'       " max=", round(max(sl_obs_weights), 3), "\n")
+#' }
 # "infold" and "both": define per-fold rlm detector + memoised cache + learner wrappers.
 # Wrapped versions are registered in the global env so SuperLearner can resolve them.
 if (outlier_method %in% c("infold", "both")) {
@@ -509,8 +537,13 @@ generic_libs <- c(
 #' Active learner library: generic learners + caret RF, optionally including the
 #' formula-based GAM/GLM/bayesglm learners from Best_formula_*.txt (those were
 #' tuned on the original paper dataset; disable for runs on the emcee dataset).
-formula_part <- if (use_formula_learners) custom_learner_names else character(0)
-libs <- c(formula_part, caret_learner$names, generic_libs)
+#' Skipped when custom_models = TRUE: `libs` was already set above from
+#' selected_models.txt, and this used to silently clobber it (dead-code bug --
+#' custom_models never actually restricted the library before this fix).
+if (!custom_models) {
+  formula_part <- if (use_formula_learners) custom_learner_names else character(0)
+  libs <- c(formula_part, caret_learner$names, generic_libs)
+}
 
 # For infold/both: wrap every learner with the rlm row-filter decorator and
 # register wrapped versions in the global env under "<name>.olf" (outlier-filtered).

@@ -73,7 +73,13 @@ RATIO_THRESH = 0.5
 ERR_CAP_MULT = 3.0
 
 TARGET_COLS = ['Gamma', 'PhotonIndex', 'log10NH', 'log10Fluence', 'log10PeakFlux']
-MATCH_COLS  = ['logFa_x', 'logTa_x', 'Alpha_x', 'Beta_x', 'z']
+#' 'z' (Redshift_crosscheck) was previously in this matching space -- dropped:
+#' it's the training target, so matching optical-only GRBs to X-ray donors by
+#' redshift similarity leaks the true label into the imputed features (and
+#' can't be reproduced at inference time on a GRB whose redshift is actually
+#' unknown, which is the entire point of the model). Matching now uses only
+#' the four calibrated Dainotti parameters.
+MATCH_COLS  = ['logFa_x', 'logTa_x', 'Alpha_x', 'Beta_x']
 
 # ── Load optical (corrected) ──────────────────────────────────────────────────
 opt = pd.read_csv(OPT_FILE, index_col=0)

@@ -1,0 +1,714 @@
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: colorspace
+Loading required package: grid
+Registered S3 method overwritten by 'car':
+  method           from
+  na.action.merMod lme4
+VIM is ready to use.
+
+Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+
+Attaching package: ‘VIM’
+
+The following object is masked from ‘package:datasets’:
+
+    sleep
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 5.0
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-7
+
+Super Learner
+Version: 2.0-40
+Package created on 2025-12-14
+
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-4. For overview type '?mgcv'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loaded gbm 2.3.1
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: ‘strucchange’
+
+The following object is masked from ‘package:stringr’:
+
+    boundary
+
+
+Attaching package: ‘party’
+
+The following object is masked from ‘package:dplyr’:
+
+    where
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:modeltools’:
+
+    refit
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+The following object is masked from ‘package:mice’:
+
+    toenail
+
+
+arm (Version 1.15-3, built: 2026-4-15)
+
+Working directory is /Users/petelin/Desktop/test/GRB_app
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:mvtnorm’:
+
+    standardize
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+
+Attaching package: ‘dgof’
+
+The following object is masked from ‘package:stats’:
+
+    ks.test
+
+Loading required package: SuppDists
+
+Attaching package: ‘latticeExtra’
+
+The following object is masked from ‘package:ggplot2’:
+
+    layer
+
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘ncvreg’
+
+The following object is masked from ‘package:nlme’:
+
+    intervals
+
+
+Attaching package: ‘e1071’
+
+The following object is masked from ‘package:ggplot2’:
+
+    element
+
+[1] "not running locally"
+Column names found:
+ [1] "GRB"                 "Redshift_crosscheck" "log10T90"           
+ [4] "log10Fa"             "log10Ta"             "Alpha"              
+ [7] "Beta"                "Gamma"               "log10Fluence"       
+[10] "PhotonIndex"         "log10NH"             "log10PeakFlux"      
+[13] "T90Err"              "log10FaErr"          "log10TaErr"         
+[16] "AlphaErr"            "BetaErr"             "FluenceErr"         
+[19] "PhotonIndexErr"      "PeakFluxErr"        
+Assertion OK: no NA in GRBPred after imputation ( 285 rows x 18 cols )
+MC errors frame built for 285 rows
+ [1] "050826A" "070809A" "080710A" "051109B" "070714B" "080916A" "111008A"
+ [8] "150821A" "171205A" "220101A" "230328B" "130702A" "170714A" "201014A"
+[15] "050904A"
+Assertion OK: GRBPred has no NA/NaN/Inf ( 270 rows )
+grb_errors synced for 270 rows (post upsampling/outlier removal)
+The number of NAs in GRBPred is: 0 
+GAM vars missing from GRBPred:  
+CV repetitions (loop): 10 
+Assertion OK: SuperLearner inputs valid; 216 rows, 20 predictors
+Parallelizing 10 CV repetition(s) across 10 core(s)
+[rep 1] starting
+[rep 2] starting
+[rep 3] starting
+[rep 4] starting
+[rep 1] Iteration 1 out of 10
+[rep 5] starting
+[rep 2] Iteration 1 out of 10
+[rep 6] starting
+[rep 3] Iteration 1 out of 10
+[rep 7] starting
+[rep 4] Iteration 1 out of 10
+[rep 5] Iteration 1 out of 10
+[rep 8] starting
+[rep 6] Iteration 1 out of 10
+[rep 9] starting
+[rep 7] Iteration 1 out of 10
+[rep 10] starting
+[rep 8] Iteration 1 out of 10
+[rep 9] Iteration 1 out of 10
+[rep 10] Iteration 1 out of 10
+[rep 5] Iteration 2 out of 10
+[rep 1] Iteration 2 out of 10
+[rep 3] Iteration 2 out of 10
+[rep 4] Iteration 2 out of 10
+[rep 2] Iteration 2 out of 10
+[rep 6] Iteration 2 out of 10
+[rep 10] Iteration 2 out of 10
+[rep 9] Iteration 2 out of 10
+[rep 7] Iteration 2 out of 10
+[rep 8] Iteration 2 out of 10
+[rep 5] Iteration 3 out of 10
+[rep 1] Iteration 3 out of 10
+[rep 3] Iteration 3 out of 10
+[rep 4] Iteration 3 out of 10
+[rep 9] Iteration 3 out of 10
+[rep 10] Iteration 3 out of 10
+[rep 6] Iteration 3 out of 10
+[rep 8] Iteration 3 out of 10
+[rep 7] Iteration 3 out of 10
+[rep 2] Iteration 3 out of 10
+[rep 5] Iteration 4 out of 10
+[rep 9] Iteration 4 out of 10
+[rep 4] Iteration 4 out of 10
+[rep 10] Iteration 4 out of 10
+[rep 7] Iteration 4 out of 10
+[rep 3] Iteration 4 out of 10
+[rep 6] Iteration 4 out of 10
+[rep 8] Iteration 4 out of 10
+[rep 2] Iteration 4 out of 10
+[rep 1] Iteration 4 out of 10
+[rep 9] Iteration 5 out of 10
+[rep 4] Iteration 5 out of 10
+[rep 5] Iteration 5 out of 10
+[rep 10] Iteration 5 out of 10
+[rep 3] Iteration 5 out of 10
+[rep 6] Iteration 5 out of 10
+[rep 2] Iteration 5 out of 10
+[rep 1] Iteration 5 out of 10
+[rep 7] Iteration 5 out of 10
+[rep 8] Iteration 5 out of 10
+[rep 9] Iteration 6 out of 10
+[rep 4] Iteration 6 out of 10
+[rep 6] Iteration 6 out of 10
+[rep 5] Iteration 6 out of 10
+[rep 3] Iteration 6 out of 10
+[rep 10] Iteration 6 out of 10
+[rep 2] Iteration 6 out of 10
+[rep 1] Iteration 6 out of 10
+[rep 8] Iteration 6 out of 10
+[rep 7] Iteration 6 out of 10
+[rep 6] Iteration 7 out of 10
+[rep 9] Iteration 7 out of 10
+[rep 5] Iteration 7 out of 10
+[rep 3] Iteration 7 out of 10
+[rep 10] Iteration 7 out of 10
+[rep 2] Iteration 7 out of 10
+[rep 1] Iteration 7 out of 10
+[rep 8] Iteration 7 out of 10
+[rep 7] Iteration 7 out of 10
+[rep 4] Iteration 7 out of 10
+[rep 9] Iteration 8 out of 10
+[rep 5] Iteration 8 out of 10
+[rep 10] Iteration 8 out of 10
+[rep 1] Iteration 8 out of 10
+[rep 2] Iteration 8 out of 10
+[rep 3] Iteration 8 out of 10
+[rep 6] Iteration 8 out of 10
+[rep 8] Iteration 8 out of 10
+[rep 7] Iteration 8 out of 10
+[rep 4] Iteration 8 out of 10
+[rep 9] Iteration 9 out of 10
+[rep 5] Iteration 9 out of 10
+[rep 3] Iteration 9 out of 10
+[rep 6] Iteration 9 out of 10
+[rep 8] Iteration 9 out of 10
+[rep 2] Iteration 9 out of 10
+[rep 10] Iteration 9 out of 10
+[rep 7] Iteration 9 out of 10
+[rep 1] Iteration 9 out of 10
+[rep 4] Iteration 9 out of 10
+[rep 9] Iteration 10 out of 10
+[rep 5] Iteration 10 out of 10
+[rep 8] Iteration 10 out of 10
+[rep 6] Iteration 10 out of 10
+[rep 3] Iteration 10 out of 10
+[rep 1] Iteration 10 out of 10
+[rep 7] Iteration 10 out of 10
+[rep 10] Iteration 10 out of 10
+[rep 2] Iteration 10 out of 10
+[rep 4] Iteration 10 out of 10
+Flattening MC samples across 10 repetitions...
+MC matrix: 216 rows x 1000 samples
+MC coverage: 25.0% of rows have truth inside 95% MC interval
+MC metrics [all   ] log10(z+1): n=216 r=0.607 RMSE=0.142 | z: r=0.583 RMSE=1.053
+MC metrics [inside] log10(z+1): n=54 r=0.870 RMSE=0.059 | z: r=0.894 RMSE=0.393
+Wrote OutputFiles/mc_predictions.csv and OutputFiles/mc_raw.rds
+Wrote MC plots to runs/ot_v3_new_formula_5pct//Plot_Output/ 
+null device 
+          1 
+  [1] "050315A" "050318A" "050802A" "050803A" "050824A" "060115A" "060124A"
+  [8] "060206A" "060210A" "060306A" "060418A" "060526A" "060604A" "060605A"
+ [15] "060708A" "060714A" "060729A" "060906A" "060908A" "060927A" "061021A"
+ [22] "061121A" "070110A" "070208A" "070223A" "070306A" "070508A" "070529A"
+ [29] "070802A" "071003A" "071020A" "071117A" "080516A" "080607A" "080810A"
+ [36] "080928A" "081007A" "081029A" "081221A" "081230A" "090102A" "090205A"
+ [43] "090423A" "090424A" "090519A" "090530A" "090618A" "090809A" "090812A"
+ [50] "090927A" "091018A" "091020A" "091029A" "091127A" "050820A" "050922C"
+ [57] "051016B" "051109A" "060223A" "060510B" "060912A" "061222A" "070721B"
+ [64] "070810A" "080319B" "080905B" "081028A" "081203A" "090418A" "090516A"
+ [71] "091109A" "091208B" "100316B" "100425A" "100513A" "100704A" "100728A"
+ [78] "100814A" "100816A" "100901A" "100906A" "110213A" "110422A" "110503A"
+ [85] "110715A" "110808A" "110818A" "111123A" "111209A" "120327A" "120404A"
+ [92] "120802A" "120811C" "120907A" "120922A" "121024A" "121027A" "121128A"
+ [99] "130408A" "130418A" "130420A" "130511A" "130514A" "131030A" "131105A"
+[106] "131117A" "140213A" "140423A" "140430A" "140506A" "140509A" "140512A"
+[113] "140518A" "140629A" "141004A" "141220A" "150120B" "150314A" "151021A"
+[120] "151027A" "160121A" "160203A" "160227A" "160804A" "161108A" "161117A"
+[127] "161219B" "170519A" "170531B" "170705A" "170903A" "171222A" "180205A"
+[134] "180329B" "180620B" "180624A" "180720B" "180728A" "190114A" "190829A"
+[141] "191011A" "191221B" "200205B" "200829A" "201104B" "210210A" "210411C"
+[148] "210517A" "210610B" "210619B" "210722A" "210822A" "211024B" "220117A"
+[155] "230325A" "230506C" "230818A" "231210B" "100219A" "100508A" "110205A"
+[162] "110801A" "111107A" "011211A" "120119A" "120711A" "121217A" "140907A"
+[169] "141221A" "150910A" "160131A" "160314A" "161014A" "170607A" "181201A"
+[176] "200613A" "201015A" "201020A" "201021C" "020124A" "021004A" "210204A"
+[183] "030226A" "030329A" "050502B" "050502A" "050525A" "050603A" "050801A"
+[190] "051028A" "051111A" "060607A" "060904B" "061007A" "070125A" "070411A"
+[197] "070612A" "071010A" "071010B" "071025A" "071112C" "080319C" "080603A"
+[204] "080603B" "081228A" "090726A" "091024A" "000926A"
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_with_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+3: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+4: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.0549 
+- Fold01: cp=0.0549 
++ Fold02: cp=0.0549 
+- Fold02: cp=0.0549 
++ Fold03: cp=0.0549 
+- Fold03: cp=0.0549 
++ Fold04: cp=0.0549 
+- Fold04: cp=0.0549 
++ Fold05: cp=0.0549 
+- Fold05: cp=0.0549 
++ Fold06: cp=0.0549 
+- Fold06: cp=0.0549 
++ Fold07: cp=0.0549 
+- Fold07: cp=0.0549 
++ Fold08: cp=0.0549 
+- Fold08: cp=0.0549 
++ Fold09: cp=0.0549 
+- Fold09: cp=0.0549 
++ Fold10: cp=0.0549 
+- Fold10: cp=0.0549 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0549 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.05334 
+- Fold01: cp=0.05334 
++ Fold02: cp=0.05334 
+- Fold02: cp=0.05334 
++ Fold03: cp=0.05334 
+- Fold03: cp=0.05334 
++ Fold04: cp=0.05334 
+- Fold04: cp=0.05334 
++ Fold05: cp=0.05334 
+- Fold05: cp=0.05334 
++ Fold06: cp=0.05334 
+- Fold06: cp=0.05334 
++ Fold07: cp=0.05334 
+- Fold07: cp=0.05334 
++ Fold08: cp=0.05334 
+- Fold08: cp=0.05334 
++ Fold09: cp=0.05334 
+- Fold09: cp=0.05334 
++ Fold10: cp=0.05334 
+- Fold10: cp=0.05334 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0533 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.06479 
+- Fold01: cp=0.06479 
++ Fold02: cp=0.06479 
+- Fold02: cp=0.06479 
++ Fold03: cp=0.06479 
+- Fold03: cp=0.06479 
++ Fold04: cp=0.06479 
+- Fold04: cp=0.06479 
++ Fold05: cp=0.06479 
+- Fold05: cp=0.06479 
++ Fold06: cp=0.06479 
+- Fold06: cp=0.06479 
++ Fold07: cp=0.06479 
+- Fold07: cp=0.06479 
++ Fold08: cp=0.06479 
+- Fold08: cp=0.06479 
++ Fold09: cp=0.06479 
+- Fold09: cp=0.06479 
++ Fold10: cp=0.06479 
+- Fold10: cp=0.06479 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0648 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.07049 
+- Fold01: cp=0.07049 
++ Fold02: cp=0.07049 
+- Fold02: cp=0.07049 
++ Fold03: cp=0.07049 
+- Fold03: cp=0.07049 
++ Fold04: cp=0.07049 
+- Fold04: cp=0.07049 
++ Fold05: cp=0.07049 
+- Fold05: cp=0.07049 
++ Fold06: cp=0.07049 
+- Fold06: cp=0.07049 
++ Fold07: cp=0.07049 
+- Fold07: cp=0.07049 
++ Fold08: cp=0.07049 
+- Fold08: cp=0.07049 
++ Fold09: cp=0.07049 
+- Fold09: cp=0.07049 
++ Fold10: cp=0.07049 
+- Fold10: cp=0.07049 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.0705 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.03332 
+- Fold01: cp=0.03332 
++ Fold02: cp=0.03332 
+- Fold02: cp=0.03332 
++ Fold03: cp=0.03332 
+- Fold03: cp=0.03332 
++ Fold04: cp=0.03332 
+- Fold04: cp=0.03332 
++ Fold05: cp=0.03332 
+- Fold05: cp=0.03332 
++ Fold06: cp=0.03332 
+- Fold06: cp=0.03332 
++ Fold07: cp=0.03332 
+- Fold07: cp=0.03332 
++ Fold08: cp=0.03332 
+- Fold08: cp=0.03332 
++ Fold09: cp=0.03332 
+- Fold09: cp=0.03332 
++ Fold10: cp=0.03332 
+- Fold10: cp=0.03332 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.124 on full training set
++ Fold01: mtry=6 
+- Fold01: mtry=6 
++ Fold02: mtry=6 
+- Fold02: mtry=6 
++ Fold03: mtry=6 
+- Fold03: mtry=6 
++ Fold04: mtry=6 
+- Fold04: mtry=6 
++ Fold05: mtry=6 
+- Fold05: mtry=6 
++ Fold06: mtry=6 
+- Fold06: mtry=6 
++ Fold07: mtry=6 
+- Fold07: mtry=6 
++ Fold08: mtry=6 
+- Fold08: mtry=6 
++ Fold09: mtry=6 
+- Fold09: mtry=6 
++ Fold10: mtry=6 
+- Fold10: mtry=6 
+Aggregating results
+Fitting final model on full training set
++ Fold01: cp=0.03579 
+- Fold01: cp=0.03579 
++ Fold02: cp=0.03579 
+- Fold02: cp=0.03579 
++ Fold03: cp=0.03579 
+- Fold03: cp=0.03579 
++ Fold04: cp=0.03579 
+- Fold04: cp=0.03579 
++ Fold05: cp=0.03579 
+- Fold05: cp=0.03579 
++ Fold06: cp=0.03579 
+- Fold06: cp=0.03579 
++ Fold07: cp=0.03579 
+- Fold07: cp=0.03579 
++ Fold08: cp=0.03579 
+- Fold08: cp=0.03579 
++ Fold09: cp=0.03579 
+- Fold09: cp=0.03579 
++ Fold10: cp=0.03579 
+- Fold10: cp=0.03579 
+Aggregating results
+Selecting tuning parameters
+Fitting cp = 0.108 on full training set
+Warning messages:
+1: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+2: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+3: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+4: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+5: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+6: In nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo,  :
+  There were missing values in resampled performance measures.
+  [1] "050315A" "050318A" "050802A" "050803A" "050824A" "060115A" "060124A"
+  [8] "060206A" "060210A" "060306A" "060418A" "060526A" "060604A" "060605A"
+ [15] "060708A" "060714A" "060729A" "060906A" "060908A" "060927A" "061121A"
+ [22] "070110A" "070223A" "070306A" "070508A" "070529A" "070802A" "071003A"
+ [29] "071020A" "071117A" "080516A" "080607A" "080810A" "080928A" "081007A"
+ [36] "081029A" "081221A" "081230A" "090102A" "090205A" "090424A" "090519A"
+ [43] "090530A" "090618A" "090809A" "090812A" "090927A" "091018A" "091020A"
+ [50] "091029A" "091127A" "050820A" "050922C" "051016B" "051109A" "060223A"
+ [57] "060510B" "060912A" "061222A" "070721B" "070810A" "080319B" "080905B"
+ [64] "081028A" "081203A" "090418A" "090516A" "091109A" "091208B" "100316B"
+ [71] "100425A" "100513A" "100704A" "100728A" "100814A" "100816A" "100901A"
+ [78] "100906A" "110213A" "110422A" "110503A" "110715A" "110808A" "110818A"
+ [85] "111123A" "120327A" "120404A" "120802A" "120811C" "120907A" "120922A"
+ [92] "121024A" "121027A" "121128A" "130408A" "130418A" "130420A" "130511A"
+ [99] "130514A" "131030A" "131105A" "131117A" "140213A" "140423A" "140430A"
+[106] "140506A" "140509A" "140512A" "140518A" "140629A" "141220A" "150120B"
+[113] "150314A" "151021A" "151027A" "160121A" "160203A" "160227A" "160804A"
+[120] "161108A" "161117A" "161219B" "170519A" "170531B" "170705A" "170903A"
+[127] "171222A" "180205A" "180329B" "180620B" "180624A" "180720B" "180728A"
+[134] "190114A" "190829A" "191011A" "191221B" "200205B" "200829A" "201104B"
+[141] "210210A" "210411C" "210517A" "210610B" "210619B" "210722A" "210822A"
+[148] "211024B" "220117A" "230325A" "230818A" "231210B" "100219A" "110205A"
+[155] "110801A" "111107A" "011211A" "120119A" "120711A" "121217A" "140907A"
+[162] "141221A" "150910A" "160131A" "160314A" "161014A" "170607A" "181201A"
+[169] "200613A" "201015A" "201020A" "201021C" "020124A" "021004A" "210204A"
+[176] "030226A" "030329A" "050502B" "050502A" "050525A" "050603A" "050801A"
+[183] "051028A" "051111A" "060607A" "060904B" "061007A" "070125A" "070411A"
+[190] "070612A" "071010A" "071010B" "071025A" "071112C" "080319C" "080603A"
+[197] "080603B" "081228A" "090726A" "091024A" "000926A"
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Ignoring unknown labels:
+• colour : ""
+Ignoring unknown labels:
+• colour : ""
+[1] "_without_catOutl_correlation_plot"
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Warning messages:
+1: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
+2: In fortify(data, ...) : Arguments in `...` must be used.
+✖ Problematic argument:
+• col = "black"
+ℹ Did you misspell an argument name?
