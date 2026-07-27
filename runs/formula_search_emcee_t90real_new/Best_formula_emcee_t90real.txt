@@ -1,3 +1,0 @@
-[1] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
-[1] "Response ~ (log10T90 + log10Fa + log10Ta + PhotonIndex + log10NH)^2 + log10PeakFlux + Alpha + Beta + Gamma + log10Fluence"
-[1] "Response ~ (log10Fa + log10Ta + PhotonIndex + log10NH + log10PeakFlux)^2 + Alpha + log10T90 + Beta + Gamma + log10Fluence"

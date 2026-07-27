@@ -45,7 +45,7 @@ OPT_FILE    = os.path.join(DATA_DIR, 'OnlyLGRBs_data_171_optical_processed_error
 XRAY_FILE   = os.path.join(DATA_DIR, 'Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv')
 OUT_FILE    = os.path.join(DATA_DIR, 'superlearner_training_emcee_v2.csv')
 PLOT_DIR    = os.path.join(OUT_DIR, 'Plot_Output', 'emcee_calibration_v2')
-CHAINS_FILE = os.path.join(DATA_DIR, 'emcee_chains_v2.npz')   # cached chains; delete to rerun MCMC
+CHAINS_FILE = os.path.join(DATA_DIR, 'emcee_chains_v2.npz')   # diagnostic record of the most recent fit; always overwritten, never read back
 
 N_WALKERS  = 32
 N_STEPS    = 3000
@@ -181,59 +181,80 @@ def apply_calib_cuts(sub, xc, xe, yc, ye, param):
 mcmc_results = {}
 print()
 
-if os.path.exists(CHAINS_FILE):
-    print(f'Loading cached MCMC chains from {CHAINS_FILE}')
-    cache = np.load(CHAINS_FILE, allow_pickle=False)
-    for param in params_map:
-        flat = cache[param]
-        m_med, b_med, ls_med = np.median(flat, axis=0)
-        m_std, b_std, _      = np.std(flat, axis=0)
-        sigma_int             = np.exp(ls_med)
-        sub = merged[[params_map[param][0], params_map[param][2]]].apply(
-            pd.to_numeric, errors='coerce').dropna()
-        mcmc_results[param] = dict(
-            m=m_med, b=b_med, sigma_int=sigma_int,
-            m_err=m_std, b_err=b_std, flat=flat, n=len(sub)
-        )
-        print(f'{param}: m={m_med:.4f}±{m_std:.4f}  b={b_med:.4f}±{b_std:.4f}  '
-              f'σ_int={sigma_int:.4f}  N={len(sub)}  [cached]')
-else:
-    chains_to_save = {}
-    for param, (xc, xe, yc, ye) in params_map.items():
-        sub = merged[[xc, xe, yc, ye]].apply(pd.to_numeric, errors='coerce').dropna()
-        sub = apply_calib_cuts(sub, xc, xe, yc, ye, param)
-        x_vals = sub[xc].values
-        y_vals = sub[yc].values
-        sx     = np.maximum(sub[xe].values, MIN_ERR)
-        sy     = np.maximum(sub[ye].values, MIN_ERR)
+# The MCMC calibration always refits from scratch -- no stale-cache shortcut.
+# CHAINS_FILE is still written after fitting, purely as a diagnostic record of
+# the most recent run; it is never read back to skip re-fitting.
+#
+# Reproducibility + stability: a single unseeded chain gave a different
+# posterior every run, which silently propagated into OT's donor-matching
+# (OT reads this same CHAINS_FILE for its own optical->X-ray projection, so
+# its results were only as reproducible as whichever chain last got written
+# here). Fix: run N_CHAINS independent chains per parameter, each with its
+# own fixed seed, and pool all of them into one larger posterior sample --
+# standard MCMC practice for checking/improving convergence, with the seeds
+# making the whole thing exactly reproducible run to run.
+N_CHAINS = 4
+chains_to_save = {}
+for p_idx, (param, (xc, xe, yc, ye)) in enumerate(params_map.items()):
+    sub = merged[[xc, xe, yc, ye]].apply(pd.to_numeric, errors='coerce').dropna()
+    sub = apply_calib_cuts(sub, xc, xe, yc, ye, param)
+    x_vals = sub[xc].values
+    y_vals = sub[yc].values
+    sx     = np.maximum(sub[xe].values, MIN_ERR)
+    sy     = np.maximum(sub[ye].values, MIN_ERR)
 
-        # OLS starting point
-        cov = np.cov(x_vals, y_vals)
-        m0  = cov[0, 1] / np.var(x_vals)
-        b0  = np.mean(y_vals) - m0 * np.mean(x_vals)
-        p0  = np.array([m0, b0, np.log(0.1)])
-        pos = p0 + 1e-3 * np.random.default_rng(42).standard_normal((N_WALKERS, 3))
+    # OLS starting point (deterministic, same for every chain)
+    cov = np.cov(x_vals, y_vals)
+    m0  = cov[0, 1] / np.var(x_vals)
+    b0  = np.mean(y_vals) - m0 * np.mean(x_vals)
+    p0  = np.array([m0, b0, np.log(0.1)])
+
+    pooled_flat = []
+    for chain_idx in range(N_CHAINS):
+        seed = 1000 * (p_idx + 1) + chain_idx  # unique, deterministic per param+chain
+        np.random.seed(seed)  # seeds emcee's internal move-proposal randomness too
+        pos = p0 + 1e-3 * np.random.default_rng(seed).standard_normal((N_WALKERS, 3))
 
         sampler = emcee.EnsembleSampler(
             N_WALKERS, 3, log_posterior, args=(x_vals, y_vals, sx, sy)
         )
-        sampler.run_mcmc(pos, N_STEPS, progress=True)
+        sampler.run_mcmc(pos, N_STEPS, progress=False)
+        pooled_flat.append(sampler.get_chain(discard=N_BURN, thin=N_THIN, flat=True))
 
-        flat = sampler.get_chain(discard=N_BURN, thin=N_THIN, flat=True)
-        m_med,  b_med,  ls_med  = np.median(flat, axis=0)
-        m_std,  b_std,  ls_std  = np.std(flat, axis=0)
-        sigma_int = np.exp(ls_med)
+    flat = np.vstack(pooled_flat)
+    m_med,  b_med,  ls_med  = np.median(flat, axis=0)
+    m_std,  b_std,  ls_std  = np.std(flat, axis=0)
+    sigma_int = np.exp(ls_med)
 
-        mcmc_results[param] = dict(
-            m=m_med, b=b_med, sigma_int=sigma_int,
-            m_err=m_std, b_err=b_std, flat=flat, n=len(x_vals)
-        )
-        chains_to_save[param] = flat
-        print(f'{param}: m={m_med:.4f}±{m_std:.4f}  b={b_med:.4f}±{b_std:.4f}  '
-              f'σ_int={sigma_int:.4f}  N={len(x_vals)}')
+    mcmc_results[param] = dict(
+        m=m_med, b=b_med, sigma_int=sigma_int,
+        m_err=m_std, b_err=b_std, flat=flat, n=len(x_vals)
+    )
+    chains_to_save[param] = flat
+    print(f'{param}: m={m_med:.4f}±{m_std:.4f}  b={b_med:.4f}±{b_std:.4f}  '
+          f'σ_int={sigma_int:.4f}  N={len(x_vals)}  ({N_CHAINS} pooled chains, '
+          f'{len(flat)} total samples)')
 
-    np.savez(CHAINS_FILE, **chains_to_save)
-    print(f'\nMCMC chains cached to {CHAINS_FILE}')
+np.savez(CHAINS_FILE, **chains_to_save)
+print(f'\nMCMC chains (now reproducible: {N_CHAINS} seeded chains pooled per parameter) saved to {CHAINS_FILE}')
+
+# Export a handful of posterior draws (slope, intercept) per parameter for
+# superlearner_spencer.R's optical-to-x-ray projection step (Stage 2 of the
+# real-value-recovery mechanism). Columns: param, draw, m, b. draw is 0-indexed
+# to match R's `dr$draw == d - 1` lookup for d in 1:N_PROJ_DRAWS.
+N_PROJ_DRAWS = 4
+draws_rng = np.random.default_rng(123)
+draws_rows = []
+for param, res in mcmc_results.items():
+    flat = res['flat']
+    pick = draws_rng.choice(len(flat), size=N_PROJ_DRAWS, replace=False)
+    for d, i in enumerate(pick):
+        draws_rows.append({'param': param, 'draw': d,
+                            'm': flat[i, 0], 'b': flat[i, 1]})
+draws_df = pd.DataFrame(draws_rows)
+draws_out_path = os.path.join(DATA_DIR, 'emcee_projection_draws.csv')
+draws_df.to_csv(draws_out_path, index=False)
+print(f'Projection draws exported to {draws_out_path} ({len(draws_df)} rows)')
 
 # Calibration diagnostic plots: optical vs x-ray for overlapping GRBs
 

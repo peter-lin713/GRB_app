@@ -309,6 +309,27 @@ Responses_and_Err  <- subset(GRBPred, select = !colnames(GRBPred) %in% colnames(
 GRBPred            <- SqrTermGen(Variables)
 GRBPred            <- cbind(GRBPred, Responses_and_Err)
 
+#' Optional Daume-style domain-adaptation columns (borrowed from the parallel
+#' "spencer_edits" campaign's approach, applied here to the linear predictors
+#' only): if the input carries an is_optical flag (1 = optical-projected row,
+#' 0 = X-ray-native), attach it plus a scaled per-domain copy of each linear
+#' LASSO predictor (value * is_optical * daume_c). Zero for X-ray-native rows;
+#' a shrunk domain-specific copy for optical rows, alongside the shared
+#' column -- lets penalized/linear learners fit a separate (regularized)
+#' domain deviation instead of forcing one global slope on both domains.
+#' A no-op (columns simply aren't added) for any dataset without is_optical.
+if ("is_optical" %in% colnames(raw_xray_data)) {
+  daume_c        <- 0.25
+  is_optical_vec <- raw_xray_data[rownames(GRBPred), "is_optical"]
+  GRBPred$is_optical <- is_optical_vec
+  opt_design <- as.data.frame(lapply(GRBPred[, lassovar, drop = FALSE],
+                                      function(col) col * is_optical_vec * daume_c))
+  colnames(opt_design) <- paste0(lassovar, "_opt")
+  GRBPred <- cbind(GRBPred, opt_design)
+  cat("Added is_optical + ", ncol(opt_design),
+      " Daume-scaled domain columns (c=", daume_c, ")\n", sep = "")
+}
+
 #' Restore the response columns: Redshift_crosscheck (linear z) and its log10z =
 #' log10(z + 1) transform, the SuperLearner target.
 GRBPred$Redshift_crosscheck <- raw_xray_data$Redshift_crosscheck
