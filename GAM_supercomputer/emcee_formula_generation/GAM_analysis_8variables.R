@@ -654,272 +654,134 @@ write.csv(formula_list,paste0("SmoothedO1_formula_list"))
 # source("Find_Best_GAM.R")
 
 
-###### TRAIN TEST SPLIT #####
+###### PAPER-STYLE 100 RANDOM TRAIN/TEST SPLITS WITH PER-SPLIT CHECKPOINTS #####
+# Follows Dainotti et al. 2025 Sec. 4.2.3: 100 randomized 80:20 train/test
+# splits. Per split, every formula gets one 10fCV pass on the training set;
+# the subset passing (r >= 99.9% quantile) AND (RMSE <= 2% quantile) is then
+# scored on the held-out test set, and the best formula by test r / RMSE /
+# MAD is recorded. Aggregating the winners across splits (formula_win_
+# frequency.csv) replaces the paper's "appeared the maximum number of times"
+# count. Results are checkpointed after EVERY split into checkpoints/, so a
+# killed run keeps all completed splits, and a restarted run resumes where
+# it left off instead of redoing finished splits.
 
+Response  = TrainData$log10z
+Predictor = subset(TrainData, select = lassovar)
+SqrData   = SqrTermGen(Predictor)
+SqrData$Response <- TrainData$log10z
 
-Response = TrainData$log10z
-Predictor = subset(TrainData,select = lassovar)
-
-O2Predictor = quadTermGen(Predictor)
-SQRPredictor = SqrTermGen(Predictor)
-
-
-SqrTrainData = SqrTermGen(Predictor)
-
-SqrTrainData$Response <- TrainData$log10z
-
-GamTrainData <- subset(SqrTrainData, select = !colnames(SqrTrainData) %in% c("log10z"))
-
-GamTestData <- head(GamTrainData,n = (0.05*nrow(GamTrainData)))
-dim(GamTestData)
-
-GamValidationData <- tail(GamTrainData,n = 0.05*nrow(GamTrainData) )
-dim(GamValidationData)
-
-GamTrainData <- GamTrainData[!(rownames(GamTrainData)%in%c(rownames(GamTestData),rownames(GamValidationData))),]
-
-intersect(rownames(GamTestData),rownames(GamTrainData))
-intersect(rownames(GamTestData),rownames(GamValidationData))
-
-######### SETTING UP GAM FUNCTION ######
-
-
-bestGAM <- as.formula("Response ~ (logPeak + Beta)^2 + (PhotonIndex + logNH)^2 + (PhotonIndex + Beta)^2 + (logNH + logFa)^2 + (logT_a + Alpha)^2")
-
-###### SNIPPET TO READ IN THE FORMULA FILE #####
-O1_formula_list = read.csv("O1_formula_list",header = T,row.names = 1)
-#O1_formula_list = read.csv(paste0("O1_formula_list_",ncol(Predictor),"features.csv"),row.names = 1)
-
-#O1_gam_formulas = apply(as.matrix(O1_formula_list), 1, as.formula)
-
-O2_formula_list = read.csv("O2_formula_list",header = T,row.names = 1)
-#O2_gam_formulas = apply(as.matrix(O2_formula_list), 1, as.formula)
-
-SO1_formula_list = read.csv("SmoothedO1_formula_list",header = T,row.names = 1)
-#SO1_gam_formulas = apply(as.matrix(SO1_formula_list), 1, as.formula)
-###############################################
-
-# ########## TESTING SUPERLEARNER #############
-# system.time({gam_sl = SuperLearner(Y = Response,
-#                        X = SQRPredictor,
-#                        family = gaussian(),
-#                        SL.library = c(learners2$names),
-#                        control = list(saveFitLibrary=T),
-#                        verbose = F
-#                        ,obsWeights = c(1:nrow(Predictors))
-# )
-# })
-
-################ TESTING MGCV::GAM ###########
-
-all_formula_list <- rbind(O1_formula_list
-                          #,SO1_formula_list
-                          ,O2_formula_list
-)
-
-#O1andSO1=dim(O1_formula_list)[1] + dim(SO1_formula_list)[1]
-
-#best_O1_SO1 = as.formula("Response ~ (logPeak + logFluence + PhotonIndex + Alpha)^2 + logFa + logT_a + Beta + logT90 + logNH")
-
-#best_O2_run1 = as.formula("Response ~ (logNHSqr + BetaSqr + logPeak + logNH + logT90 + Beta)^2 + logFa + logT_a + Alpha + PhotonIndex + logFluence + logFaSqr + logT_aSqr + AlphaSqr + PhotonIndexSqr + logT90Sqr + logFluenceSqr + logPeakSqr")
-
-#best_O2_run2 = as.formula("Response ~ (logPeakSqr + logFluenceSqr + logT90Sqr + BetaSqr + logFaSqr + logPeak + logT90)^2 + logFa + logT_a + Alpha + Beta + PhotonIndex + logNH + logFluence + logT_aSqr + AlphaSqr + PhotonIndexSqr + logNHSqr")
-
-# WE ARE KEEPING FORMULAS TILL 262450 BECAUSE AFTER THIS ERRORS OCCUR DUE TO TOO MANY VARIABLES
-#all_formula_list <- all_formula_list[1:max_formula,]
-all_formula_list = na.omit(all_formula_list)
-#all_formula <- c(bestGAM,O1_gam_formulas,SO1_gam_formulas,O2_gam_formulas[18:10000])
-
+O2_formula_list  = read.csv("O2_formula_list", header = T, row.names = 1)
+all_formula_list = na.omit(O2_formula_list)
 all_formula <- apply(as.matrix(all_formula_list), 1, as.formula)
-
-
-
-# formula_analysis_addr = paste0("Formula_Generation/GAM_",Sys.Date(),"/")
-# if(!dir.exists(formula_analysis_addr)){dir.create(formula_analysis_addr)}
-
-
-GamValidationData = rbind(GamValidationData,GamTestData)
-#write.csv(GamTestData,file = "MGCV/Gam_test_set.csv",row.names = rownames(GamTestData))
-write.csv(GamValidationData,file = paste0("Gam_validation_set.csv"),row.names = rownames(GamValidationData))
-write.csv(GamTrainData,file = paste0("Gam_train_set.csv"),row.names = rownames(GamTrainData))
-
-GamTrainData_unscaled = GamTrainData
-GamValidationData_unscaled = GamValidationData
-
-#### STORE THE SD AND MEAN OF THE GAM TRAIN DATA
-# THEN SCALE THE VALIDATION SET WITH THAT SD AND MEAN
-GamTrainData_sd = apply(GamTrainData,2,sd)
-GamTrainData_mean = apply(GamTrainData,2,mean)
-
-
-#print(max_formula)
-#print(max_parallel)
-#print(num_cores)
-
-# print(paste(
-#   "Number of formulas=",length(all_formula)
-#   ,"| Dimension of training set=",dim(GamTrainData)
-# )
-#   #,"Scaling the data = ",Scaling)
-# )
-
+n_formula   <- length(all_formula)
+cat("Formulas:", n_formula, "| GRBs:", nrow(SqrData), "\n")
 
 MyLaptop = F
-
-if(MyLaptop){
-  
-  slaves <- detectCores()-2
-  { #sink("/dev/null");
-    cl_onenode <- makeCluster(slaves);
-    #sink();
-  } # number of MPI tasks to use
+if (MyLaptop) {
+  slaves <- detectCores() - 2
+  cl_onenode <- makeCluster(slaves)
   registerDoParallel(cl_onenode)
-  
-}else{  
-  
-  slaves <- 72 - 1#detectCores() - 1
-  { 
-    sink("/dev/null"); 
-    cl_onenode <- makeCluster(slaves, type="MPI"); 
-    sink(); 
-  } # number of MPI tasks to use
+} else {
+  slaves <- 72 - 1
+  sink("/dev/null"); cl_onenode <- makeCluster(slaves, type = "MPI"); sink()
   registerDoParallel(cl_onenode)
 }
 
+N_SPLITS <- 100
+CKPT_DIR <- "checkpoints"
+if (!dir.exists(CKPT_DIR)) dir.create(CKPT_DIR)
+summary_file <- file.path(CKPT_DIR, "best_formulas_per_split.csv")
 
+# Resume support: skip splits that already have a checkpoint on disk.
+done_ids <- as.integer(gsub("[^0-9]", "",
+              list.files(CKPT_DIR, pattern = "^split_\\d+\\.rds$")))
 
-#sink("MGCV/progress.txt",append=T)
-tick <- proc.time()
-manual_cv <- foreach(j = 1:length(all_formula)
-                     #,.export = c(all_formula)
-                     ,.packages=c("SuperLearner","mgcv", "caret" ,"xgboost", "randomForest", "gbm", "lattice", "Matrix", "glmnet", "biglasso","e1071",'earth','party')
-) %dopar% {
-  
-  InnerLoop = 50
-  
-  test_preds <- data.frame(Predicted= numeric(nrow(GamTrainData)),Observed= numeric(nrow(GamTrainData)))
-  test_preds_loop= matrix(nrow = nrow(GamTrainData),ncol = InnerLoop)
-  
-  set.seed(j)
-  
-  gam_formula = all_formula[[j]]
-  
-  for (k in 1:InnerLoop) {
-    
-    folds <- createFolds(y = GamTrainData$Response, k = 10)
-    
-    ###### THE 10FCV SECTION ##########
-    for (i in 1:length(folds)) {
-      train_set <- GamTrainData[-c(folds[[i]]),]
-      test_set <- GamTrainData[c(folds[[i]]),]
-      
-      #print(rownames(head(train_set)))
-      #print(rownames(test_set))
-      
-      #gam_model <- MASS::rlm(gam_formula,train_set,method = 'M')
-      gam_model <- mgcv::gam(formula = gam_formula
-                             ,data = train_set
-                             ,family = gaussian())
-      
-      
-      ###### TEST SET PREDICTION ###########
-      #predict(gam_model,test_set)
-      test_preds$Predicted[c(folds[[i]])] <- predict(gam_model,test_set)
-      test_preds$Observed[c(folds[[i]])] <- test_set$Response
-    }
-    
-    test_preds_loop[,k] = test_preds$Predicted
-    
+for (s in 1:N_SPLITS) {
+  if (s %in% done_ids) { cat("split", s, "already done, skipping\n"); next }
+  tick <- proc.time()
+
+  set.seed(s)
+  test_idx <- sample(nrow(SqrData), size = round(0.2 * nrow(SqrData)))
+  TrainSet <- SqrData[-test_idx, ]
+  TestSet  <- SqrData[test_idx, ]
+
+  scores <- foreach(j = 1:n_formula, .combine = rbind,
+                    .multicombine = TRUE, .maxcombine = 1000,
+                    .packages = c("mgcv", "caret")) %dopar% {
+    set.seed(s * 1e6 + j)
+    fm   <- all_formula[[j]]
+    pred <- rep(NA_real_, nrow(TrainSet))
+    ok <- tryCatch({
+      folds <- createFolds(y = TrainSet$Response, k = 10)
+      for (i in seq_along(folds)) {
+        g <- mgcv::gam(fm, data = TrainSet[-folds[[i]], ], family = gaussian())
+        pred[folds[[i]]] <- predict(g, TrainSet[folds[[i]], ])
+      }
+      TRUE
+    }, error = function(e) FALSE)
+    if (!ok || anyNA(pred)) c(NA_real_, NA_real_)
+    else c(cor(pred, TrainSet$Response),
+           sqrt(mean((pred - TrainSet$Response)^2)))
   }
-  
-  test_preds$Predicted = rowMeans(test_preds_loop)
-  
-  # THE ACTUAL RETURN STATEMENT
-  gam_model <- mgcv::gam(formula = gam_formula
-                         ,data = GamTrainData
-                         ,family = gaussian())
-  #gam_model <- MASS::rlm(gam_formula,train_set,method = 'M')
-  return(list(test_preds$Predicted,predict(gam_model,GamValidationData)))
+  colnames(scores) <- c("r", "rmse")
+
+  # Candidate subset: same cutoffs as the paper (r above 99.9% quantile,
+  # RMSE below 2% quantile). Fall back to top-10 by r if the AND is empty.
+  r_cut    <- quantile(scores[, "r"],    0.999, na.rm = TRUE)
+  rmse_cut <- quantile(scores[, "rmse"], 0.02,  na.rm = TRUE)
+  cand <- which(scores[, "r"] >= r_cut & scores[, "rmse"] <= rmse_cut)
+  if (length(cand) == 0) cand <- order(-scores[, "r"])[1:10]
+
+  test_eval <- t(sapply(cand, function(j) {
+    tryCatch({
+      g <- mgcv::gam(all_formula[[j]], data = TrainSet, family = gaussian())
+      p <- predict(g, TestSet)
+      c(r    = cor(p, TestSet$Response),
+        rmse = sqrt(mean((p - TestSet$Response)^2)),
+        mad  = median(abs(p - TestSet$Response)))
+    }, error = function(e) c(r = NA_real_, rmse = NA_real_, mad = NA_real_))
+  }))
+
+  best_r    <- cand[which.max(test_eval[, "r"])]
+  best_rmse <- cand[which.min(test_eval[, "rmse"])]
+  best_mad  <- cand[which.min(test_eval[, "mad"])]
+
+  saveRDS(list(split = s, test_idx = test_idx, scores = scores,
+               candidates = cand, test_eval = test_eval,
+               best = c(r = best_r, rmse = best_rmse, mad = best_mad)),
+          file.path(CKPT_DIR, sprintf("split_%03d.rds", s)))
+
+  row <- data.frame(
+    split          = s,
+    best_r_idx     = best_r,
+    best_r_val     = round(max(test_eval[, "r"],    na.rm = TRUE), 4),
+    best_rmse_idx  = best_rmse,
+    best_rmse_val  = round(min(test_eval[, "rmse"], na.rm = TRUE), 4),
+    best_mad_idx   = best_mad,
+    best_mad_val   = round(min(test_eval[, "mad"],  na.rm = TRUE), 4),
+    n_candidates   = length(cand),
+    minutes        = round((proc.time() - tick)[3] / 60, 1),
+    best_r_formula = as.character(all_formula_list[best_r, 1]))
+  write.table(row, summary_file, sep = ",", row.names = FALSE,
+              col.names = !file.exists(summary_file),
+              append = file.exists(summary_file))
+
+  cat(sprintf("split %d/%d done in %.1f min | best test r=%.3f\n",
+              s, N_SPLITS, (proc.time() - tick)[3] / 60,
+              max(test_eval[, "r"], na.rm = TRUE)))
 }
 
-tock <- proc.time() - tick
+# Final tally over every completed split (works on partial runs too --
+# rerun just this block to summarize whatever checkpoints exist).
+files <- list.files(CKPT_DIR, pattern = "^split_\\d+\\.rds$", full.names = TRUE)
+wins  <- unlist(lapply(files, function(f) readRDS(f)$best))
+tab   <- sort(table(wins), decreasing = TRUE)
+freq  <- data.frame(formula_idx = as.integer(names(tab)),
+                    wins        = as.integer(tab),
+                    formula     = as.character(all_formula_list[as.integer(names(tab)), 1]))
+write.csv(freq, "formula_win_frequency.csv", row.names = FALSE)
+cat("Splits completed:", length(files),
+    "| top formulas written to formula_win_frequency.csv\n")
+print(head(freq, 10))
 
-# NEED TO TEST THIS TIMING
-cat(tock)
-
-#sink();
-# CREATE DIRECTORIES IF THEY DONT EXIST
-saveRDS(manual_cv,file = paste0("SuperLearner_complete_data.rds"))
-saveRDS(all_formula,file=paste0("Formulas_used.rds"))
-
-
-############# SELECT WINNING FORMULA + M-ESTIMATOR OUTLIER CUT #############
-# Following Dainotti et al. 2025 (Sec. 4.2.3-4.3): the formula search above ran
-# on the FULL, uncut sample. Now we pick the single best-performing formula
-# (same selection logic as "Formula_for_outlier" in Formula_Search_Aditya_v2.R:
-# CV correlation/RMSE quantile cutoffs, then best validation-set correlation
-# among survivors) and use THAT formula -- not a generic regression -- to fit
-# the M-estimator on the full sample. Only then do we drop the bottom 5% by
-# weight. This must run after the full formula search, since the winning
-# formula is not known in advance.
-
-CV_Prediction_matrix         <- matrix(nrow = length(manual_cv[[1]][[1]]), ncol = length(all_formula))
-Validation_Prediction_matrix <- matrix(nrow = length(manual_cv[[1]][[2]]), ncol = length(all_formula))
-
-CV_correlation          <- vector(length = length(all_formula))
-CV_RMSE                 <- vector(length = length(all_formula))
-Validation_correlations <- vector(length = length(all_formula))
-
-for (j in seq_along(all_formula)) {
-  CV_Prediction_matrix[, j] <- manual_cv[[j]][[1]]
-  CV_correlation[j] <- cor(CV_Prediction_matrix[, j], GamTrainData$Response)
-  CV_RMSE[j]        <- sqrt(mean((CV_Prediction_matrix[, j] - GamTrainData$Response)^2))
-
-  Validation_Prediction_matrix[, j] <- manual_cv[[j]][[2]]
-  Validation_correlations[j] <- cor(Validation_Prediction_matrix[, j], GamValidationData$Response)
-}
-
-correlation_cutoff <- 0.999   # same cutoffs used elsewhere in this pipeline
-RMSE_cutoff        <- 0.02    # (see runs/formula_search_*_paper_cutoffs)
-
-CV_correlation_cutoff <- quantile(CV_correlation, correlation_cutoff)
-CV_RMSE_cutoff        <- quantile(CV_RMSE, RMSE_cutoff)
-
-Correlation_formula <- which(CV_RMSE < CV_RMSE_cutoff & CV_correlation > CV_correlation_cutoff)
-if (length(Correlation_formula) == 0) {
-  # Cutoffs too strict to pass anything (can happen with a small/capped
-  # formula list) -- fall back to the single best-CV-correlation formula.
-  Correlation_formula <- which.max(CV_correlation)
-}
-
-best_idx <- Correlation_formula[which.max(Validation_correlations[Correlation_formula])]
-Formula_for_outlier <- all_formula[[best_idx]]
-
-cat("Winning formula selected for outlier removal:\n")
-print(Formula_for_outlier)
-writeLines(deparse(Formula_for_outlier), "Formula_for_outlier.txt")
-
-# ---- M-estimator outlier cut using the winning formula, on the FULL sample ----
-# GamTrainData (90%) + GamValidationData (already rbind'd with GamTestData,
-# 10%) together reconstruct the full sample the formula search started from.
-FullData <- rbind(GamTrainData, GamValidationData)
-
-require(MASS)
-M_est <- MASS::rlm(Formula_for_outlier, data = FullData, method = "M", maxit = 50)
-weights <- M_est$w
-weight_threshold <- quantile(weights, 0.05)
-
-kept_rows    <- rownames(FullData)[weights > weight_threshold]
-removed_rows <- rownames(FullData)[weights <= weight_threshold]
-
-cat("M-estimator outlier cut:", length(removed_rows), "of", nrow(FullData),
-    "GRBs removed (weight <=", round(weight_threshold, 4), ")\n")
-
-writeLines(removed_rows, "removed_outliers.txt")
-
-final_cut <- raw_xray_data[rownames(raw_xray_data) %in% kept_rows, ]
-write.csv(final_cut, "final_outliers_removed.csv")
-
-cat("Final outlier-removed data saved:", nrow(final_cut), "GRBs -> final_outliers_removed.csv\n")
-
-
+stopCluster(cl_onenode)

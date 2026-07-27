@@ -1,0 +1,1 @@
+Rscript GAM_analysis_8variables.R > run.log 2>&1  8.97s user 1.15s system 6% cpu 2:40.23 total
