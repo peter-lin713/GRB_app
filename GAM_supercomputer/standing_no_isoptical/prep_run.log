@@ -1,0 +1,38 @@
+Loading required package: mice
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: MASS
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:MASS’:
+
+    select
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+[standing_no_isoptical] N=285 | flagged=4 (hard=1, err>value Alpha/Beta/Fa/Ta=3) | drop list: 0 manual + 4 automatic = 4 unique
+  -> 090516A, 100621A, 131117A, 230328B 
+Wrote: ./candidate_outliers_standing_no_isoptical.csv and ./confirmed_outliers_to_drop.txt 
+Removed 4 GRB(s) confirmed physically infeasible -- see removed_outliers_final.csv
+Response ~ (log10FaSqr + log10T90 + log10Fa + log10PeakFlux)^2 + 
+    log10NH + PhotonIndex + log10Ta + Alpha + log10NHSqr + log10PeakFluxSqr + 
+    PhotonIndexSqr + log10TaSqr + log10T90Sqr + AlphaSqr
+M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.5838 )
+Final outlier-removed data saved: 266 GRBs -> final_outliers_removed.csv

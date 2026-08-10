@@ -237,7 +237,7 @@ labs(color = '',
                       " | Sigma = ",signif(Sigma,3),
                       " | RMS = ", signif(sqrt(mean((results$Dz)^2)),2), # RMS VALUE
                       " | Bias = ", signif(Bias,2), # BIAS VALUE
-                     " | NMAD = ", signif((1.48*mad(results$Dz)),3) # NMAD VALUES FOR normalized residuals
+                     " | NMAD = ", signif((1.48*median(abs(results$Dz))),3) # NMAD, consistent with the log-scale NMAD above (mad() already applies its own 1.4826 factor, which double-scaled this)
      )) +
     scale_color_manual(values=c('black','black'))+
     theme_bw()+

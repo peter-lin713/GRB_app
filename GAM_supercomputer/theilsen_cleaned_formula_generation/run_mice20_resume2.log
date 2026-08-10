@@ -1,0 +1,293 @@
+Loading required package: doParallel
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+Loading required package: mice
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: ggplot2
+Loading required package: lattice
+Loading required package: stringr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: MASS
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+Loading required package: randomForest
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: earth
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 5.0
+Loading required package: SuperLearner
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-7
+
+Super Learner
+Version: 2.0-40
+Package created on 2025-12-14
+
+Loading required package: mgcv
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-4. For overview type '?mgcv'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loading required package: xgboost
+Loading required package: gbm
+Loaded gbm 2.3.1
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: caret
+Loading required package: biglasso
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘ncvreg’
+
+The following object is masked from ‘package:nlme’:
+
+    intervals
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+The following object is masked from ‘package:mice’:
+
+    toenail
+
+
+arm (Version 1.15-3, built: 2026-4-15)
+
+Working directory is /Users/petelin/Desktop/test/GRB_app/GAM_supercomputer/theilsen_cleaned_formula_generation
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+[theilsen] N=285 | flagged=4 (hard=1, err>value Alpha/Beta/Fa/Ta=3) | drop list: 4 manual + 4 automatic = 4 unique
+  -> 090516A, 100621A, 131117A, 230328B 
+Wrote: ./candidate_outliers_theilsen.csv and ./confirmed_outliers_to_drop.txt 
+Removed 4 GRB(s) confirmed physically infeasible -- see removed_outliers_final.csv
+     log10T90       log10Fa       log10Ta         Alpha          Beta 
+ 4.102106e-03 -1.113693e-02 -2.881469e-02  3.209444e-03  2.540974e-03 
+        Gamma  log10Fluence   PhotonIndex       log10NH log10PeakFlux 
+-4.396192e-05  0.000000e+00 -4.921649e-02  7.122645e-02 -6.307953e-02 
+[1] 14
+[1] 91
+[1] 364
+[1] 1001
+[1] 2002
+[1] 3003
+[1] 3432
+[1] 3003
+[1] 2002
+[1] 1001
+[1] 364
+[1] 91
+[1] 14
+[1] 1
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+[1] 35
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+Formulas: 16383 | GRBs: 281 
+split 1 already done, skipping
+split 2 already done, skipping
+split 3 already done, skipping
+split 4 already done, skipping
+split 5 already done, skipping
+split 6 already done, skipping
+split 7 already done, skipping
+split 8 already done, skipping
+split 9 already done, skipping
+split 10 already done, skipping
+split 11 already done, skipping
+split 12 already done, skipping
+split 13 already done, skipping
+split 14 already done, skipping
+split 15 already done, skipping
+split 16 already done, skipping
+split 17 already done, skipping
+split 18 already done, skipping
+split 19 already done, skipping
+split 20 already done, skipping
+split 21 already done, skipping
+split 22 already done, skipping
+split 23 already done, skipping
+split 24 already done, skipping
+split 25 already done, skipping
+split 26 already done, skipping
+split 27 already done, skipping
+split 28 already done, skipping
+split 29 already done, skipping
+split 30 already done, skipping
+split 31 already done, skipping
+split 32 already done, skipping
+split 33 already done, skipping
+split 34 already done, skipping
+split 35 already done, skipping
+split 36 already done, skipping
+split 37 already done, skipping
+split 38 already done, skipping
+split 39 already done, skipping
+split 40 already done, skipping
+split 41 already done, skipping
+split 42 already done, skipping
+split 43 already done, skipping
+split 44 already done, skipping
+split 45 already done, skipping
+split 46 already done, skipping
+split 47 already done, skipping
+split 48 already done, skipping
+split 49 already done, skipping
+split 50 already done, skipping
+split 51 already done, skipping
+split 52 already done, skipping
+split 53 already done, skipping
+split 54 already done, skipping
+split 55 already done, skipping
+split 56 already done, skipping
+split 57 already done, skipping
+split 58 already done, skipping
+split 59 already done, skipping
+split 60 already done, skipping
+split 61 already done, skipping
+split 62 already done, skipping
+split 63 already done, skipping
+split 64 already done, skipping
+split 65 already done, skipping
+split 66 already done, skipping
+split 67 already done, skipping
+split 68 already done, skipping
+split 69 already done, skipping
+split 70 already done, skipping
+split 71 already done, skipping
+split 72 already done, skipping
+split 73 already done, skipping
+split 74 already done, skipping
+split 75 already done, skipping
+split 76 already done, skipping
+split 77 already done, skipping
+split 78 already done, skipping
+split 79 already done, skipping
+split 80 already done, skipping
+split 81 already done, skipping
+split 82 already done, skipping
+split 83 already done, skipping
+split 84 already done, skipping
+split 85/100 done in 2.8 min | best test r=0.506
+split 86/100 done in 2.8 min | best test r=0.501
+split 87/100 done in 2.8 min | best test r=0.597
+split 88/100 done in 2.8 min | best test r=0.379
+split 89/100 done in 3.0 min | best test r=0.443
+split 90/100 done in 2.9 min | best test r=0.546
+split 91/100 done in 2.8 min | best test r=0.626
+split 92/100 done in 2.8 min | best test r=0.694
+split 93/100 done in 2.8 min | best test r=0.540
+split 94/100 done in 2.8 min | best test r=0.448
+split 95/100 done in 2.9 min | best test r=0.435
+split 96/100 done in 2.9 min | best test r=0.480
+split 97/100 done in 2.9 min | best test r=0.424
+split 98/100 done in 3.1 min | best test r=0.597
+split 99/100 done in 3.1 min | best test r=0.508
+split 100/100 done in 2.9 min | best test r=0.618
+Splits completed: 100 | top formulas written to formula_win_frequency.csv
+   formula_idx wins
+1          211   14
+2          497   14
+3          817    7
+4         2858    6
+5          195    4
+6         1415    4
+7         1487    4
+8         1531    4
+9         1589    4
+10        1598    4
+                                                                                                                                                                  formula
+1  Response ~  (log10FaSqr+log10Fa+log10PeakFlux)^2+log10NH+PhotonIndex+log10Ta+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+2  Response ~  (log10FaSqr+log10Fa+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+3  Response ~  (log10FaSqr+log10Fa+log10Ta+log10PeakFlux)^2+log10NH+PhotonIndex+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+4  Response ~  (AlphaSqr+PhotonIndexSqr+log10NHSqr+log10Fa+PhotonIndex)^2+log10NH+log10PeakFlux+log10Ta+log10T90+Alpha+log10PeakFluxSqr+log10TaSqr+log10FaSqr+log10T90Sqr
+5  Response ~  (log10Fa+log10Ta+log10PeakFlux)^2+log10NH+PhotonIndex+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10FaSqr+log10T90Sqr+AlphaSqr
+6  Response ~  (AlphaSqr+log10T90Sqr+log10NHSqr+Alpha)^2+log10NH+log10PeakFlux+PhotonIndex+log10Ta+log10Fa+log10T90+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10FaSqr
+7  Response ~  (log10FaSqr+log10Fa+PhotonIndex+log10PeakFlux+log10NH)^2+log10Ta+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+8  Response ~  (log10TaSqr+log10Fa+log10Ta+log10PeakFlux+log10NH)^2+PhotonIndex+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10FaSqr+log10T90Sqr+AlphaSqr
+9  Response ~  (log10FaSqr+log10NHSqr+log10Fa+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+log10T90+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+10 Response ~  (log10FaSqr+PhotonIndexSqr+log10Fa+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+log10TaSqr+log10T90Sqr+AlphaSqr
+Most-frequent winning formula ( 14 / 100 splits):
+Response ~ (log10FaSqr + log10Fa + log10PeakFlux)^2 + log10NH + 
+    PhotonIndex + log10Ta + log10T90 + Alpha + log10NHSqr + log10PeakFluxSqr + 
+    PhotonIndexSqr + log10TaSqr + log10T90Sqr + AlphaSqr
+<environment: 0x15d60f220>
+M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6566 )
+Final outlier-removed data saved: 266 GRBs -> final_outliers_removed.csv

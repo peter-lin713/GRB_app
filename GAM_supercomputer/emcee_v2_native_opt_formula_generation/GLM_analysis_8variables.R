@@ -272,7 +272,7 @@ if(do_mice){
   for (nc in native_cols) pred_mat_preds[nc, c(plateau_cols, native_cols)] <- 0
 
   mice_model_preds <- mice(data = features_for_mice_preds,
-                           m = 20,
+                           m = 20, maxit = 20,  # maxit matches Narendra et al. 2025 Sect. 4.1
                            method = 'midastouch',
                            predictorMatrix = pred_mat_preds,
                            printFlag = F)
@@ -285,7 +285,7 @@ if(do_mice){
   for (nc in err_native_cols) pred_mat_errs[nc, c(err_plateau_cols, err_native_cols)] <- 0
 
   mice_model_errs <- mice(data = features_for_mice_errs,
-                          m = 20,
+                          m = 20, maxit = 20,  # maxit matches Narendra et al. 2025 Sect. 4.1
                           method = 'midastouch',
                           predictorMatrix = pred_mat_errs,
                           printFlag = F)

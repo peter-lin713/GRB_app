@@ -1,0 +1,178 @@
+Loading required package: doParallel
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+Loading required package: mice
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: ggplot2
+Loading required package: lattice
+Loading required package: stringr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: MASS
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+Loading required package: randomForest
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: earth
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 5.0
+Loading required package: SuperLearner
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-7
+
+Super Learner
+Version: 2.0-40
+Package created on 2025-12-14
+
+Loading required package: mgcv
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-4. For overview type '?mgcv'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loading required package: xgboost
+Loading required package: gbm
+Loaded gbm 2.3.1
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: caret
+Loading required package: biglasso
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘ncvreg’
+
+The following object is masked from ‘package:nlme’:
+
+    intervals
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+The following object is masked from ‘package:mice’:
+
+    toenail
+
+
+arm (Version 1.15-3, built: 2026-4-15)
+
+Working directory is /Users/petelin/Desktop/test/GRB_app/GAM_supercomputer/hardzero_domain_v2_formula_generation
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+[hardzero_domain_v2] N=285 | flagged=4 (hard=1, err>value Alpha/Beta/Fa/Ta=NA) | drop list: 0 manual + 4 automatic = 4 unique
+  -> 090516A, 100621A, 131117A, 230328B 
+Wrote: ./candidate_outliers_hardzero_domain_v2.csv and ./confirmed_outliers_to_drop.txt 
+Removed 4 GRB(s) confirmed physically infeasible -- see removed_outliers_final.csv
+     log10T90       log10Fa       log10Ta         Alpha          Beta 
+  0.012115814  -0.008408618  -0.023312034   0.006119583   0.033830436 
+  log10Fa_opt   log10Ta_opt     Alpha_opt      Beta_opt         Gamma 
+ -0.003276449  -0.022140518   0.015321608   0.060866444  -0.032986784 
+ log10Fluence   PhotonIndex       log10NH log10PeakFlux 
+ -0.001785067  -0.072561098   0.082489717  -0.077123800 
+[1] 14
+[1] 91
+[1] 364
+[1] 1001
+[1] 2002
+[1] 3003
+[1] 3432
+[1] 3003
+[1] 2002
+[1] 1001
+[1] 364
+[1] 91
+[1] 14
+[1] 1
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+[1] 35
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+Formulas: 16383 | GRBs: 281 
+split 1/2 done in 2.6 min | best test r=0.553
+split 2/2 done in 2.6 min | best test r=0.717
+Splits completed: 2 | top formulas written to formula_win_frequency.csv
+  formula_idx wins
+1         887    2
+2        6341    2
+                                                                                                                                                           formula
+1 Response ~  (GammaSqr+Beta_optSqr+Beta+log10PeakFlux)^2+log10NH+PhotonIndex+Beta_opt+Gamma+log10Ta+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+BetaSqr+log10TaSqr
+2 Response ~  (GammaSqr+Beta_optSqr+log10PeakFluxSqr+log10NHSqr+log10Ta+Beta)^2+log10NH+log10PeakFlux+PhotonIndex+Beta_opt+Gamma+PhotonIndexSqr+BetaSqr+log10TaSqr
+M-estimator formula rank 1 (idx 887 ) FAILED -- 'x' is singular: singular fits are not implemented in 'rlm' -- trying next-ranked formula
+M-estimator formula rank 2 (idx 6341 ) FAILED -- 'x' is singular: singular fits are not implemented in 'rlm' -- trying next-ranked formula
+Error: no ranked formula fit rlm() without error
+Execution halted

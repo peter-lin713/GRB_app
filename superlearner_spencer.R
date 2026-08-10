@@ -377,7 +377,8 @@ if (do_mice) {
   cat("Built", length(feature_frames), "imputation frames (seeds x projection draws)\n")
   features_for_mice_preds <- feature_frames[[1]]
 
-  mice_model_errs        <- mice(data = features_for_mice_errs, m = 20, method = "midastouch", printFlag = FALSE)
+  # maxit=20 matches Narendra et al. 2025 Sect. 4.1 ("we perform this iteration 20 times")
+  mice_model_errs        <- mice(data = features_for_mice_errs, m = 20, maxit = 20, method = "midastouch", printFlag = FALSE)
   features_for_mice_errs <- complete(mice_model_errs, 20)
 
   GRBPred <- cbind(features_for_mice_preds, features_for_mice_errs)

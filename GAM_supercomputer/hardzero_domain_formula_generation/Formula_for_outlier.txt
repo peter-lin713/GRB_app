@@ -1,0 +1,4 @@
+Response ~ (PhotonIndexSqr + log10PeakFluxSqr)^2 + log10PeakFlux + 
+    PhotonIndex + log10NH + Beta_opt + log10Ta + log10Ta_opt + 
+    Gamma + log10NHSqr + Beta_optSqr + log10TaSqr + log10Ta_optSqr + 
+    GammaSqr

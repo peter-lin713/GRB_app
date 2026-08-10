@@ -254,13 +254,13 @@ if(do_mice){
   
   # features_for_mice_all <- cbind(features_for_mice_preds, features_for_mice_errs)
   mice_model_preds <- mice(data = features_for_mice_preds,
-                           m = 20,
+                           m = 20, maxit = 20,  # maxit matches Narendra et al. 2025 Sect. 4.1
                            method = 'midastouch',
                            printFlag = F)
   features_for_mice_preds <- complete(mice_model_preds,20)
   
   mice_model_errs <- mice(data = features_for_mice_errs,
-                          m = 20,
+                          m = 20, maxit = 20,  # maxit matches Narendra et al. 2025 Sect. 4.1
                           method = 'midastouch',
                           printFlag = F)
   features_for_mice_errs <- complete(mice_model_errs,20)
