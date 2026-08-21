@@ -8,11 +8,11 @@ COLOR_HEAD = '#2a2a28'
 
 # [Role, Scheme, N, r(z), Sigma, RMS, Bias, NMAD, Note]
 rows = [
-    ['MAIN RESULT', 'Theil-Sen single-var\n(reused standing formula)', '206', '0.707', '0.895', '0.91', '0.15', '1.22',
+    ['MAIN RESULT', 'Theil-Sen single-var\n(reused standing formula)', '206', '0.707', '0.895', '0.91', '0.15', '0.818',
      'Rounds to the paper\'s existing 0.71; better\nbias/sigma/RMSE than OT and the standing\nemcee baseline. No Daume effect (dead code).'],
     ['ABLATION', 'No-plateau (6-var):\nAlpha/Beta/Fa/Ta dropped entirely', '204', '0.644', '0.977', '0.99', '0.20', '0.947',
-     'Shows the model still predicts without the\nplateau-fit parameters, at a real but modest\ncost in r (~0.06 below baseline).'],
-    ['BEST BASIC FIT\n(no opt cols)', 'Multivariate emcee\n(reused standing formula)', '202', '0.714', '0.901', '0.92', '0.19', '0.792',
+     'Shows the model still predicts without the\nplateau-fit parameters, at a real but modest\ncost in both r and NMAD vs. baseline.'],
+    ['BEST BASIC FIT\n(no opt cols)', 'Multivariate emcee\n(reused standing formula)', '202', '0.714', '0.901', '0.92', '0.19', '0.795',
      'Best result of any scheme with no domain-\nadaptation columns at all -- ties/edges the\npaper\'s own baseline.'],
 ]
 

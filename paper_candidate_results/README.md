@@ -15,15 +15,25 @@ alone, fed by Theil-Sen-calibrated inputs. Frame it that way in the writeup.
 
 ## 1. Main result — Theil-Sen single-variable calibration
 
-**r(z) = 0.707, N=206**, Sigma=0.895, RMS=0.91, Bias=0.15, NMAD=1.22.
+**r(z) = 0.707, N=206**, Sigma=0.895, RMS=0.91, Bias=0.15, NMAD=0.818.
 `plots/1_MAIN_theilsen_singlevar_r0.707.png`
 
 Rounds to the same 0.71 already in the paper, and has better bias/sigma/RMSE than
 both the OT-fusion scheme and the standing single-variable emcee baseline (though
-NMAD is not the best of the schemes tested — multivariate emcee's is lower). Reuses
-the standing formula (`formulas/standing_formula_reused_by_theilsen_and_multivariate_emcee.txt`)
-rather than a freshly-searched one — own-formula search on this same dataset scored
-lower (0.681).
+NMAD is not the best of the schemes tested — multivariate emcee's, 0.795, is
+marginally lower). Reuses the standing formula (`formulas/standing_formula_
+reused_by_theilsen_and_multivariate_emcee.txt`) rather than a freshly-searched
+one — own-formula search on this same dataset scored lower (0.681).
+
+**NMAD correction (this pass):** this result's plot previously showed NMAD=1.22.
+That number came from a stale double-scaling bug in `Result_plot_maker.R`
+(`1.48*mad(Dz)` — R's `mad()` already applies its own 1.4826 factor, so the
+extra `*1.48` double-counted it), fixed in this repo's history (`git log -p --
+Result_plot_maker.R` shows the exact diff) but never re-propagated to this
+specific cached result. The other two candidates below were already regenerated
+post-fix (their displayed NMAD already matched recomputation). Corrected value:
+0.818, using the current, correct formula (`1.48*median(abs(Dz))`) — confirmed
+by regenerating the plot directly from the CV results CSV.
 
 Suggested framing: not "we improved the number" (0.707 is not higher than the
 paper's existing 0.712/0.70), but "we replaced the optical→X-ray calibration
@@ -43,8 +53,11 @@ PhotonIndex, log10NH, log10PeakFlux). Own fresh formula
 **Be precise about what this shows**: the correlation *does* drop measurably
 (~0.06-0.07 below baseline, not negligible) — the honest claim is "the model still
 predicts reasonably without the plateau parameters, at a real but modest cost,"
-not "the correlation doesn't go down." NMAD actually improves over baseline despite
-the drop in r.
+not "the correlation doesn't go down." NMAD also gets modestly worse here
+(0.947 vs the corrected baseline's 0.818) — an earlier version of this note
+claimed NMAD improved, which was an artifact of comparing against the baseline's
+since-corrected 1.22 figure (see note in §1); with the correct baseline, this
+ablation costs a bit on both r and NMAD, consistently.
 
 ## 3. Best basic fit with no domain-adaptation columns at all
 

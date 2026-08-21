@@ -26,9 +26,17 @@ underlying run (`runs/theilsen_cleaned_linearz_5pct_mice20`) had been deleted
 during an earlier cleanup pass (mistaken for a redundant duplicate of
 `theilsen_cleaned_linearz_5pct`) — recovered from `backup-pre-cleanup-2026-08-10`
 and restored to the working tree, confirmed as an exact match (r=0.7071, N=206,
-Sigma=0.895, RMS=0.91, Bias=0.15, NMAD=1.22 — identical to the reported "0.707"
-figure). The other two match their `paper_candidate_results/` plots directly
-(no-plateau: r=0.644; multivariate emcee: r=0.714≈0.7136).
+Sigma=0.895, RMS=0.91, Bias=0.15 — identical to the reported "0.707" figure;
+NMAD=0.818 using the current, correct plot formula — the originally-cached
+plot showed NMAD=1.22 from a since-fixed double-scaling bug, see
+`paper_candidate_results/README.md` §1). The other two match their
+`paper_candidate_results/` plots directly (no-plateau: r=0.644; multivariate
+emcee: r=0.714≈0.7136).
+
+Note: the before/after NMAD in the table below is a *different* metric
+(median absolute normalized residual, no 1.48 scaling factor) than the main
+plot's title NMAD (1.48×median|Dz|, linear-z scale) — the two aren't the same
+number and shouldn't be compared to each other directly.
 
 ## Result: bias correction is a genuine, large improvement — matches the paper
 
