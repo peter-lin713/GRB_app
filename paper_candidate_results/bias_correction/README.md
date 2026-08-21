@@ -54,9 +54,39 @@ the standard step the paper itself applies before reporting its headline
 number, and skipping it would understate how well the underlying model does
 once its systematic, redshift-range-dependent compression is corrected for.
 
+## Sigma cones — the pipeline's standard catastrophic-outlier convention
+
+Every other result in this repo (e.g. the main Theil-Sen plot's "within 2σ
+cone = 199 (97%)") is reported alongside this pipeline's standard 1σ/2σ
+"sigma cone" diagnostic (`Result_plot_maker.R`): fit `L_Sigma = sd(Dlogz)`
+where `Dlogz = observed − predicted` log10(z+1), then a point is "inside the
+2σ cone" if `|Dlogz| < 2·L_Sigma` (likewise for 1σ). This was missing from
+the first pass of this bias-correction writeup — added below, computed
+separately before and after correction (each state gets its own `L_Sigma`,
+matching how the pipeline always computes it fresh per result).
+
+| Result | N | Sigma before→after | Within 2σ before→after | Within 1σ before→after |
+|---|---|---|---|---|
+| Theil-Sen single-var (MAIN RESULT) | 206 | 0.126→0.082 | 199 (97%)→195 (95%) | 133 (65%)→141 (68%) |
+| No-plateau ablation | 204 | 0.133→0.078 | 198 (97%)→197 (97%) | 130 (64%)→148 (73%) |
+| Multivariate emcee | 202 | 0.118→0.073 | 195 (97%)→193 (96%) | 133 (66%)→139 (69%)|
+
+**Why the 2σ count doesn't simply go up too**: the cone is defined *relative
+to the sample's own residual spread*, not an absolute error tolerance.
+Correction shrinks `Sigma` itself by ~35-40% (residuals genuinely tighten),
+so the "2σ" window shrinks right along with it — a few points that were
+comfortably inside the old, wider band now sit just outside the new,
+narrower one, even though every point's absolute error went down. The 1σ
+count is the more informative number here and it improves consistently
+(65%→68%, 64%→73%, 66%→69%): a larger share of the sample now lands within
+one (now-tighter) sigma of the 1:1 line. The `*_before_after.png` scatter
+plots show both cone boundaries (2σ blue, 1σ green) directly, matching the
+pipeline's linear-z plot convention exactly.
+
 ## Files
 
-- `summary_table.png` — the before/after comparison table
+- `summary_table.png` — the before/after r/RMSE/Bias/NMAD comparison table
+- `cone_stats_table.png` — the before/after sigma-cone comparison table
 - `1_theilsen_before_after.png`, `2_noplateau_before_after.png`,
   `3_multivariate_emcee_before_after.png` — predicted-vs-observed scatter,
-  before and after, side by side
+  before and after, side by side, with 1σ/2σ cone boundaries drawn
