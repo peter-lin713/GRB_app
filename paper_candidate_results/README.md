@@ -61,7 +61,7 @@ ablation costs a bit on both r and NMAD, consistently.
 
 ## 3. Best basic fit with no domain-adaptation columns at all
 
-**r(z) = 0.714, N=202**, Sigma=0.901, RMS=0.92, Bias=0.19, NMAD=0.792.
+**r(z) = 0.714, N=202**, Sigma=0.901, RMS=0.92, Bias=0.19, NMAD=0.795.
 `plots/3_best_basic_fit_multivariate_emcee_r0.714.png`
 
 Multivariate emcee (MCMC) calibration — each X-ray-scale plateau parameter fit from
@@ -74,8 +74,10 @@ opt-columns involved at all; ties/edges the paper's own baseline (0.712).
 - `plots/summary_table.png` — the 3-row comparison table
 - `plots/1_*.png`, `plots/2_*.png`, `plots/3_*.png` — cross-validated predicted-vs-observed
   plots (linear z, without 2σ outliers), full stats embedded in each title
+- `results/` — the raw per-GRB CV CSVs (predicted vs. observed z) backing each plot above
 - `formulas/` — the two formulas involved (standing, reused by both #1 and #3; and
   the no-plateau ablation's own fresh formula for #2)
+- `bias_correction/` — the paper's Sec 4.6 bias-correction method applied to all three
 
 Full provenance, the complete 9-scheme comparison these were selected from, and the
 bugs found/fixed along the way live in `combination_scheme_comparison/README.md`.
