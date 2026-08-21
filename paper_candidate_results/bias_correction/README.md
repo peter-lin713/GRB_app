@@ -98,3 +98,13 @@ pipeline's linear-z plot convention exactly.
 - `1_theilsen_before_after.png`, `2_noplateau_before_after.png`,
   `3_multivariate_emcee_before_after.png` — predicted-vs-observed scatter,
   before and after, side by side, with 1σ/2σ cone boundaries drawn
+- `1_theilsen_bias_corrected.csv`, `2_noplateau_bias_corrected.csv`,
+  `3_multivariate_emcee_bias_corrected.csv` — per-GRB raw data behind the
+  plots above. Columns: `GRB` (identifier), `InvZphot`/`InvZspec` (predicted/
+  observed log10(z+1), raw), `Zphot`/`Zspec` (same, linear z), `pred_min`/
+  `pred_max`/`linpred_min`/`linpred_max` (raw CV-fold error bounds, log and
+  linear scale), and the bias-corrected counterparts:
+  `InvZphot_corrected`/`Zphot_corrected` (corrected prediction) and
+  `pred_min_corrected`/`pred_max_corrected`/`linpred_min_corrected`/
+  `linpred_max_corrected` (error bounds run through the same per-redshift-bin
+  correction as the point prediction).
