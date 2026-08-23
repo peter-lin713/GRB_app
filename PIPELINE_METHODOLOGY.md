@@ -295,6 +295,20 @@ learners in the ensemble). 80/20 holdout split, 10-fold internal CV,
 `loop = 10` external repetitions for Monte Carlo error bars, optional 2σ
 catastrophic-outlier retrain pass.
 
+**Script used for the official emcee v2 / OT v3 runs (§10/§11):
+`superlearner_beta2.R`**, confirmed by matching the run logs' "Daume-scaled
+domain columns" message and dates (`runs/emcee_v2_cleaned_linearz_5pct/`,
+`runs/ot_v3_cleaned_linearz_5pct/` — both July 26-27, predating
+`superlearner_spencer.R` (Jul 28), `superlearner_CHECKPOINT_pre_daume_fix.R`
+(Aug 2), and `superlearner_daume_working.R` (Aug 3)). **No real-value
+recovery was done for either official run** — that mechanism (§4) is
+exclusive to `superlearner_spencer.R`, never invoked here. `is_optical` +
+Daume-scaled duplicate columns were added (both run logs confirm it), but
+since this predates the `is_optical` dead-code fix, they had no actual
+effect — the genuinely-working Daume mechanism was only tested separately,
+later, in `daume_fix_comparison/`, on different (Theil-Sen) data, not on
+these official emcee v2/OT v3 results.
+
 ---
 
 ## 9. Known issues found and fixed this session
