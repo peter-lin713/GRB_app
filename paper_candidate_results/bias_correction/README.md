@@ -62,6 +62,48 @@ the standard step the paper itself applies before reporting its headline
 number, and skipping it would understate how well the underlying model does
 once its systematic, redshift-range-dependent compression is corrected for.
 
+## Is this overfitting? Checked — no, but there's a real caveat
+
+Two separate questions worth separating here:
+
+**1. Is the per-bin linear fit itself just fitting noise?** No — checked with
+proper 5-fold cross-validation (fit each bin's slope/intercept on 4/5 of that
+bin's points, apply to the held-out 1/5, repeat across folds). Results barely
+move from the in-sample numbers above:
+
+| Result | r(z) in-sample | r(z) 5-fold CV | RMSE in-sample | RMSE 5-fold CV |
+|---|---|---|---|---|
+| Theil-Sen | 0.909 | 0.901 | 0.533 | 0.556 |
+| No-plateau | 0.910 | 0.897 | 0.533 | 0.568 |
+| Multivariate emcee | 0.909 | 0.901 | 0.541 | 0.572 |
+
+A 2-parameter linear fit on 60-110+ points per bin has little room to
+memorize noise, and this confirms it doesn't — a held-out slope/intercept
+transfers almost perfectly within its bin.
+
+**2. Does this reproduce the repo's own `BC_3way` function literally, run in
+R?** No, and here's where the real caveat lives. `BC_3way` fits each bin
+using the *true* observed z (`Zspec`) — same as above — but it decides which
+bin's correction to *apply* using the **predicted** z (`Zphot`), because it
+was written for a real generalization set where true z is unknown. Running
+the literal R function on this same self-correction (same data passed as
+both arguments) makes every result *worse*, not better (e.g. Theil-Sen:
+r=0.707→**0.689**, bias -0.146→**-0.212**) — because ~35-40% of points have a
+predicted z that crosses one of the two cutoffs (z=2 or z=3.5) on the
+opposite side from their true z, so those points get corrected with the
+wrong bin's coefficients entirely.
+
+**What this means for interpreting the numbers above**: the strong
+improvement here depends on knowing each point's *true* redshift range to
+route its correction — legitimate for this exercise (self-correcting
+already-labeled CV data, exactly what the paper's own Fig 13 does), but it
+would not carry over to correcting a real unknown-redshift GRB, where only
+the predicted range is available and `BC_3way`'s actual (worse-performing)
+routing is what you'd be stuck with. Read this result as "how much of the
+model's error is a fixable, redshift-range-dependent compression, given the
+true range" — a diagnostic about the model's error structure — not as "here
+is a deployable technique that improves predictions on new GRBs."
+
 ## Sigma cones — the pipeline's standard catastrophic-outlier convention
 
 Every other result in this repo (e.g. the main Theil-Sen plot's "within 2σ
