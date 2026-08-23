@@ -13,9 +13,19 @@ where to find the outputs. Written alongside the final production runs of
 |---|---|---|
 | `Data/xray_data.csv` | Unfiltered X-ray catalog | 251 |
 | `Data/Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv` | Filtered X-ray catalog (error-cut + MICE) | 223 |
-| `Data/OnlyLGRBs_data_171_optical_processed_error-cut_MICE (1).csv` | Optical catalog, emcee-combination variant | 161 |
-| `Data/OnlyLGRBs_data_171_optical_corrected.csv` | Optical catalog, OT-combination variant | 161 |
+| `Data/OnlyLGRBs_data_171_optical_processed_error-cut_MICE (1).csv` | Optical catalog, read by `combine_optical_xray_emcee_v2.py` | 161 |
+| `Data/OnlyLGRBs_data_171_optical_corrected.csv` | Optical catalog, read by `combine_optical_xray_ot_v3.py` | 161 |
 | `Data/optical_data.csv` | Raw/uncleaned optical catalog (not used in combination; historical) | 171 |
+
+**The two optical catalog files above are the same data.** Confirmed by direct
+diff: same 161 GRBs, same 19 columns, every value identical except one —
+GRB 170405A's `log10PeakFlux`/`log10PeakFluxErr` (0.099/0.083 in the MICE
+file vs. -0.034/0.154 in the `_corrected` file). The `_corrected` name implies
+someone patched that one GRB's value for the OT track and never back-ported
+it to the file the emcee track reads; which value is actually right hasn't
+been traced further. Not a meaningful "emcee variant" vs. "OT variant" split
+— call it the optical catalog, with a one-GRB, one-column discrepancy between
+the two copies on disk.
 
 Overlap: filtered X-ray ∩ filtered optical = 78 GRBs. Unfiltered X-ray ∩
 filtered optical = 86 GRBs. GRB ID suffixes matter (e.g. `A`/`B` distinguish
