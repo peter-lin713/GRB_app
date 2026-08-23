@@ -13,6 +13,10 @@ in `daume_fix_comparison/` — genuinely enabling it doesn't help anyway). So "T
 WITH is_optical" is not a domain-adaptation result; it's the standard 10-feature model
 alone, fed by Theil-Sen-calibrated inputs. Frame it that way in the writeup.
 
+`data_pipeline_diagram.png` — the full raw-catalog-to-SuperLearner data flow
+(both emcee-projection and OT-fusion tracks), for reference alongside the
+three results below. Full detail: `PIPELINE_METHODOLOGY.md`.
+
 ## 1. Main result — Theil-Sen single-variable calibration
 
 **r(z) = 0.707, N=206**, Sigma=0.895, RMS=0.91, Bias=0.15, NMAD=0.818.
