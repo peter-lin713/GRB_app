@@ -160,10 +160,20 @@ but the automatic part can never silently drift out of sync again.
 
 Current counts (emcee v2, corrected criteria): 4 GRBs flagged
 (090516A, 100621A, 131117A, 230328B — one hard PhotonIndex<0 cut, three
-err>value:Beta) → 285 → **281**. OT v3 has **not yet been rerun** with this
-corrected (Alpha/Beta/Fa/Ta-only) criterion — its last run used the broader,
-now-superseded err>value check across all seven columns; treat OT's numbers
-below as stale pending a rerun.
+err>value:Beta) → 285 → **281**.
+
+**Correction (this pass): OT v3 *has* been rerun with the corrected criterion.**
+`GAM_supercomputer/ot_v3_cleaned_formula_generation/` (with a
+`pre_alphabetafata_fix_backup/` subfolder preserving the old broader-check run
+alongside it) and `runs/ot_v3_cleaned_linearz_5pct/` are the corrected outputs —
+confirmed via `confirmed_outliers_to_drop.txt` flagging the identical 4 GRBs
+as emcee (285 → 281, same non-negotiable cuts operate on the shared X-ray-side
+data for both tracks) and `grb_post_scope_filter_285.csv`/
+`final_outliers_removed.csv` row counts (285 and 266 respectively, matching
+emcee's M-estimator-cut count exactly). The stale run this section used to
+describe is preserved for reference in `pre_alphabetafata_fix_backup/` and in
+`daume_fix_comparison/` runs predating this fix; §10/§11 below now report the
+corrected OT numbers.
 
 ---
 
@@ -329,16 +339,16 @@ catastrophic-outlier retrain pass.
 
 ## 10. Final data-count summary
 
-| Stage | emcee v2 (linear-z, corrected) | OT v3 (stale — not yet rerun) | Paper (Dainotti et al. 2025) |
+| Stage | emcee v2 (linear-z, corrected) | OT v3 (linear-z, corrected) | Paper (Dainotti et al. 2025) |
 |---|---|---|---|
 | Combined dataset | 296 | 296 | — |
 | Long-GRB scope filter (T90>2s) | 285 | 285 | — |
-| Non-negotiable cuts (full removal) | **281** (−4) | 283 (stale) | — |
-| Pre-M-estimator pool | 281 | 283 (stale) | 238 |
-| M-estimator 5% cut | **266** (−15) | 268 (stale) | 226 (−12) |
-| SuperLearner CV (with cat. outliers) | n=213, r(log)=0.672, r(z)=0.664 | not yet rerun | — |
-| SuperLearner CV (without cat. outliers) | **n=204, r(log)=0.720, r(z)=0.700** | not yet rerun | — |
-| MC, inside 2σ cone | n=55, r(log)=0.964, r(z)=0.967 | not yet rerun | — |
+| Non-negotiable cuts (full removal) | **281** (−4) | **281** (−4, same 4 GRBs) | — |
+| Pre-M-estimator pool | 281 | 281 | 238 |
+| M-estimator 5% cut | **266** (−15) | **266** (−15) | 226 (−12) |
+| SuperLearner CV (with cat. outliers) | n=213, r(log)=0.672, r(z)=0.664 | n=213, r(log)=0.595, r(z)=0.619 | — |
+| SuperLearner CV (without cat. outliers) | **n=204, r(log)=0.720, r(z)=0.700** | n=208, r(log)=0.630, r(z)=0.642 | — |
+| MC, inside 2σ cone | n=55, r(log)=0.964, r(z)=0.967 | n=57, r(log)=0.892, r(z)=0.908 | — |
 
 emcee rerun on the new 266-GRB final data (`runs/emcee_v2_cleaned_linearz_
 5pct/`), plain `superlearner.R` (do_m_estimator=FALSE, use_formula_learners=
@@ -346,9 +356,17 @@ TRUE, loop=10) with the new linear-z winning formula (§11) installed. A real,
 meaningful improvement over the previous (269-GRB, pre-linear-z) result of
 r(log)=0.671/r(z)=0.660 — both the corrected non-negotiable cuts and the
 linear-z-selected formula appear to genuinely help, not just shuffle the
-sample. OT v3 has not been rerun with either the Alpha/Beta/Fa/Ta-only
-err>value fix or linear-z scoring — its row reflects the last actual run and
-should be treated as stale until rerun.
+sample.
+
+**Correction (this pass): OT v3's row above was previously marked stale —
+that was wrong.** `runs/ot_v3_cleaned_linearz_5pct/` is a completed run on
+the corrected 266-GRB data with the corrected linear-z-selected formula (§11)
+installed, same setup as emcee. Its own numbers (computed directly from
+`runs/ot_v3_cleaned_linearz_5pct/Results/*.csv` and `OutputFiles/
+mc_predictions.csv`) are real, not placeholders — OT trails emcee on r/RMSE
+throughout, consistent with the qualitative picture the (now-superseded)
+stale numbers already suggested, just with the actual corrected figures
+instead of stand-ins.
 
 ## 11. Winning formulas (final, on stable/reproducible data)
 
@@ -365,13 +383,19 @@ a linear-only term). Full formula list + plots:
 `formula_results/best_formulas_emcee_LINEARZ_run.csv` and
 `formula_results/plots/rmse_vs_correlation_emcee_LINEARZ_run.png`.
 
-**OT v3** (21/100 splits — stale, from the pre-linear-z, broader-err>value
-run; not yet rerun with either fix):
+**OT v3** (linear-z, corrected non-negotiable cuts; 23/200 votes, r+rmse
+tally with bias as gate — `GAM_supercomputer/ot_v3_cleaned_formula_generation/
+formula_win_frequency.csv`):
 ```
 Response ~ (log10FaSqr + log10Fa + log10PeakFlux)^2 + log10Ta + PhotonIndex +
     log10NH + Alpha + log10T90 + log10TaSqr + log10PeakFluxSqr +
     PhotonIndexSqr + log10NHSqr + AlphaSqr + log10T90Sqr
 ```
+Same term set as the formula previously documented here from the pre-fix run
+(only linear/Sqr term ordering differs, which R's formula parser treats as
+identical) — the winning structure didn't change when the criteria were
+corrected, only the vote tally (23/200 here vs. the pre-fix run's 21/100) and
+the downstream M-estimator/SuperLearner numbers in §10.
 
 ---
 
