@@ -17,6 +17,15 @@ where to find the outputs. Written alongside the final production runs of
 | `Data/OnlyLGRBs_data_171_optical_corrected.csv` | Optical catalog, read by `combine_optical_xray_ot_v3.py` | 161 |
 | `Data/optical_data.csv` | Raw/uncleaned optical catalog (not used in combination; historical) | 171 |
 
+**Optical catalog provenance (confirmed by Dainotti directly):** the 171-GRB
+optical catalog traces back to a 179-GRB optical-LC sample from Dainotti et al.
+(2024b) ("we investigated this issue with a sample of 179 GRBs with optical
+LCs" — paper.pdf, Sec 1), filtered to long GRBs only (T90 > 2s), which drops
+8 short GRBs: 179 → 171. Dainotti did this specific filtering step herself.
+The further 171 → 161 reduction (in the `_processed_error-cut_MICE` file) is
+a data-quality cut, not a further short/long split — see the `_error-cut`
+naming.
+
 **The two optical catalog files above are the same data.** Confirmed by direct
 diff: same 161 GRBs, same 19 columns, every value identical except one —
 GRB 170405A's `log10PeakFlux`/`log10PeakFluxErr` (0.099/0.083 in the MICE
