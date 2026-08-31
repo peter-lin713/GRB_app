@@ -1,0 +1,4 @@
+"split","best_r_idx","best_r_val","best_rmse_idx","best_rmse_val","best_bias_idx","best_bias_val","n_candidates","n_survivors","minutes","best_r_formula"
+1,641,0.5325,641,1.1191,6355,-0.1796,16,8,2.5,"Response ~  (log10FaSqr+log10T90+log10Fa+log10NH)^2+log10PeakFlux+PhotonIndex+log10Ta+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr"
+2,861,0.6573,861,1.1158,889,-0.2145,17,9,2.5,"Response ~  (log10FaSqr+log10T90+log10Fa+log10PeakFlux)^2+log10NH+PhotonIndex+log10Ta+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr"
+3,861,0.4809,1338,1.1623,9646,-0.1758,17,9,2.5,"Response ~  (log10FaSqr+log10T90+log10Fa+log10PeakFlux)^2+log10NH+PhotonIndex+log10Ta+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr"

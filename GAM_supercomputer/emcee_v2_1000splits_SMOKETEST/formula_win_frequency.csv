@@ -1,0 +1,4 @@
+"formula_idx","wins","formula"
+861,3,"Response ~  (log10FaSqr+log10T90+log10Fa+log10PeakFlux)^2+log10NH+PhotonIndex+log10Ta+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr"
+641,2,"Response ~  (log10FaSqr+log10T90+log10Fa+log10NH)^2+log10PeakFlux+PhotonIndex+log10Ta+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10T90Sqr+AlphaSqr"
+1338,1,"Response ~  (log10T90Sqr+log10FaSqr+PhotonIndexSqr+log10Fa)^2+log10NH+log10PeakFlux+PhotonIndex+log10Ta+log10T90+Alpha+log10NHSqr+log10PeakFluxSqr+log10TaSqr+AlphaSqr"
