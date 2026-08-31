@@ -1,0 +1,295 @@
+Loading required package: doParallel
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+Loading required package: mice
+
+Attaching package: ‘mice’
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Loading required package: ggplot2
+Loading required package: lattice
+Loading required package: stringr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: MASS
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+Loading required package: randomForest
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+Loading required package: earth
+Loading required package: Formula
+Loading required package: plotmo
+Loading required package: plotrix
+Loading required package: Matrix
+Loaded glmnet 5.0
+Loading required package: SuperLearner
+Loading required package: nnls
+Loading required package: gam
+Loading required package: splines
+Loaded gam 1.22-7
+
+Super Learner
+Version: 2.0-40
+Package created on 2025-12-14
+
+Loading required package: mgcv
+Loading required package: nlme
+
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+This is mgcv 1.9-4. For overview type '?mgcv'.
+
+Attaching package: ‘mgcv’
+
+The following objects are masked from ‘package:gam’:
+
+    gam, gam.control, gam.fit, s
+
+Loading required package: xgboost
+Loading required package: gbm
+Loaded gbm 2.3.1
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
+Loading required package: caret
+Loading required package: biglasso
+Loading required package: bigmemory
+Loading required package: ncvreg
+
+Attaching package: ‘ncvreg’
+
+The following object is masked from ‘package:nlme’:
+
+    intervals
+
+Loading required package: lme4
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+The following object is masked from ‘package:mice’:
+
+    toenail
+
+
+arm (Version 1.15-3, built: 2026-4-15)
+
+Working directory is /Users/petelin/Desktop/test/GRB_app/GAM_supercomputer/theilsen_reversed_xray_to_opt_formula_generation
+
+
+Attaching package: ‘arm’
+
+The following object is masked from ‘package:plotrix’:
+
+    rescale
+
+[theilsen_reversed] N=292 | flagged=16 (hard=2, err>value Alpha/Beta/Fa/Ta=14) | drop list: 0 manual + 16 automatic = 16 unique
+  -> 040924A, 041006A, 050319A, 050408A, 060605A, 070318A, 070419A, 071031A, 080413A, 080605A, 081008A, 090529A, 090530A, 131117A, 150413A, 990510A 
+Wrote: ./candidate_outliers_theilsen_reversed.csv and ./confirmed_outliers_to_drop.txt 
+Removed 16 GRB(s) confirmed physically infeasible -- see removed_outliers_final.csv
+Warning message:
+Number of logged events: 1 
+     log10T90       log10Fa       log10Ta         Alpha          Beta 
+  0.000000000  -0.002620472  -0.020896491   0.001177224   0.009812080 
+        Gamma  log10Fluence   PhotonIndex       log10NH log10PeakFlux 
+  0.000000000   0.000000000  -0.048163378   0.068301057  -0.056069085 
+[1] 14
+[1] 91
+[1] 364
+[1] 1001
+[1] 2002
+[1] 3003
+[1] 3432
+[1] 3003
+[1] 2002
+[1] 1001
+[1] 364
+[1] 91
+[1] 14
+[1] 1
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+[1] 35
+[1] 7
+[1] 21
+[1] 35
+[1] 35
+[1] 21
+[1] 7
+[1] 1
+Formulas: 16383 | GRBs: 276 
+split 1/100 done in 2.5 min | best test r=0.327
+split 2/100 done in 2.5 min | best test r=0.371
+split 3/100 done in 2.5 min | best test r=0.324
+split 4/100 done in 2.5 min | best test r=0.417
+split 5/100 done in 2.6 min | best test r=0.670
+split 6/100 done in 2.6 min | best test r=0.560
+split 7/100 done in 2.6 min | best test r=0.694
+split 8/100 done in 2.5 min | best test r=0.631
+split 9/100 done in 2.6 min | best test r=0.389
+split 10/100 done in 2.6 min | best test r=0.335
+split 11/100 done in 2.6 min | best test r=0.618
+split 12/100 done in 4.6 min | best test r=0.422
+split 13/100 done in 5.5 min | best test r=0.590
+split 14/100 done in 6.2 min | best test r=0.452
+split 15/100 done in 6.2 min | best test r=0.522
+split 16/100 done in 6.1 min | best test r=0.550
+split 17/100 done in 6.1 min | best test r=0.572
+split 18/100 done in 5.7 min | best test r=0.571
+split 19/100 done in 5.0 min | best test r=0.750
+split 20/100 done in 3.8 min | best test r=0.563
+split 21/100 done in 3.2 min | best test r=0.623
+split 22/100 done in 4.0 min | best test r=0.416
+split 23/100 done in 4.5 min | best test r=0.527
+split 24/100 done in 4.5 min | best test r=0.387
+split 25/100 done in 4.6 min | best test r=0.523
+split 26/100 done in 4.8 min | best test r=0.522
+split 27/100 done in 5.8 min | best test r=0.560
+split 28/100 done in 6.2 min | best test r=0.764
+split 29/100 done in 6.1 min | best test r=0.597
+split 30/100 done in 6.1 min | best test r=0.531
+split 31/100 done in 6.1 min | best test r=0.674
+split 32/100 done in 6.1 min | best test r=0.380
+split 33/100 done in 6.1 min | best test r=0.614
+split 34/100 done in 6.1 min | best test r=0.478
+split 35/100 done in 6.1 min | best test r=0.546
+split 36/100 done in 5.5 min | best test r=0.458
+split 37/100 done in 4.9 min | best test r=0.783
+split 38/100 done in 3.4 min | best test r=0.310
+split 39/100 done in 3.3 min | best test r=0.586
+split 40/100 done in 4.3 min | best test r=0.577
+split 41/100 done in 4.5 min | best test r=0.388
+split 42/100 done in 4.5 min | best test r=0.734
+split 43/100 done in 4.7 min | best test r=0.459
+split 44/100 done in 4.8 min | best test r=0.394
+split 45/100 done in 5.8 min | best test r=0.634
+split 46/100 done in 6.1 min | best test r=0.446
+split 47/100 done in 6.1 min | best test r=0.621
+split 48/100 done in 6.1 min | best test r=0.389
+split 49/100 done in 6.1 min | best test r=0.526
+split 50/100 done in 6.1 min | best test r=0.519
+split 51/100 done in 6.1 min | best test r=0.345
+split 52/100 done in 6.1 min | best test r=0.553
+split 53/100 done in 6.0 min | best test r=0.463
+split 54/100 done in 5.3 min | best test r=0.629
+split 55/100 done in 4.7 min | best test r=0.671
+split 56/100 done in 3.0 min | best test r=0.421
+split 57/100 done in 3.5 min | best test r=0.692
+split 58/100 done in 4.4 min | best test r=0.517
+split 59/100 done in 4.5 min | best test r=0.523
+split 60/100 done in 4.7 min | best test r=0.410
+split 61/100 done in 5.4 min | best test r=0.541
+split 62/100 done in 6.2 min | best test r=0.486
+split 63/100 done in 6.2 min | best test r=0.614
+split 64/100 done in 6.2 min | best test r=0.566
+split 65/100 done in 6.1 min | best test r=0.637
+split 66/100 done in 6.1 min | best test r=0.396
+split 67/100 done in 6.1 min | best test r=0.564
+split 68/100 done in 6.1 min | best test r=0.663
+split 69/100 done in 6.0 min | best test r=0.490
+split 70/100 done in 5.3 min | best test r=0.350
+split 71/100 done in 4.7 min | best test r=0.768
+split 72/100 done in 2.9 min | best test r=0.677
+split 73/100 done in 3.5 min | best test r=0.552
+split 74/100 done in 4.4 min | best test r=0.587
+split 75/100 done in 4.5 min | best test r=0.430
+split 76/100 done in 4.6 min | best test r=0.638
+split 77/100 done in 4.8 min | best test r=0.438
+split 78/100 done in 6.0 min | best test r=0.739
+split 79/100 done in 6.1 min | best test r=0.630
+split 80/100 done in 6.1 min | best test r=0.563
+split 81/100 done in 6.1 min | best test r=0.684
+split 82/100 done in 6.1 min | best test r=0.618
+split 83/100 done in 6.1 min | best test r=0.455
+split 84/100 done in 6.1 min | best test r=0.646
+split 85/100 done in 6.1 min | best test r=0.627
+split 86/100 done in 5.8 min | best test r=0.421
+split 87/100 done in 5.1 min | best test r=0.601
+split 88/100 done in 4.6 min | best test r=0.416
+split 89/100 done in 2.9 min | best test r=0.683
+split 90/100 done in 3.5 min | best test r=0.386
+split 91/100 done in 4.4 min | best test r=0.447
+split 92/100 done in 4.5 min | best test r=0.692
+split 93/100 done in 4.6 min | best test r=0.454
+split 94/100 done in 5.2 min | best test r=0.445
+split 95/100 done in 6.1 min | best test r=0.593
+split 96/100 done in 6.1 min | best test r=0.549
+split 97/100 done in 6.1 min | best test r=0.642
+split 98/100 done in 6.1 min | best test r=0.666
+split 99/100 done in 6.1 min | best test r=0.391
+split 100/100 done in 6.2 min | best test r=0.581
+Splits completed: 100 | top formulas written to formula_win_frequency.csv
+   formula_idx wins
+1         1975    5
+2         3735    5
+3         1584    4
+4         5204    4
+5         1690    3
+6         1902    3
+7         2585    3
+8         3910    3
+9         3952    3
+10        4100    3
+                                                                                                                                                          formula
+1  Response ~  (AlphaSqr+log10FaSqr+BetaSqr+log10Ta+log10NH)^2+log10PeakFlux+PhotonIndex+Beta+log10Fa+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr
+2  Response ~  (log10FaSqr+BetaSqr+log10NHSqr+log10Ta+log10PeakFlux+log10NH)^2+PhotonIndex+Beta+log10Fa+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+AlphaSqr
+3  Response ~  (log10FaSqr+Alpha+Beta+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+log10Fa+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+BetaSqr+AlphaSqr
+4  Response ~  (BetaSqr+log10TaSqr+log10NHSqr+log10Fa+log10Ta+log10PeakFlux)^2+log10NH+PhotonIndex+Beta+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10FaSqr+AlphaSqr
+5  Response ~  (AlphaSqr+log10FaSqr+BetaSqr+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+Beta+log10Fa+Alpha+log10NHSqr+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr
+6  Response ~  (BetaSqr+log10NHSqr+log10Fa+log10Ta+log10NH)^2+log10PeakFlux+PhotonIndex+Beta+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+log10FaSqr+AlphaSqr
+7  Response ~  (BetaSqr+log10TaSqr+log10NHSqr+log10Fa+log10PeakFlux)^2+log10NH+PhotonIndex+log10Ta+Beta+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10FaSqr+AlphaSqr
+8  Response ~  (log10FaSqr+BetaSqr+log10NHSqr+Alpha+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+Beta+log10Fa+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+AlphaSqr
+9  Response ~  (AlphaSqr+log10FaSqr+BetaSqr+log10NHSqr+log10PeakFlux+log10NH)^2+PhotonIndex+log10Ta+Beta+log10Fa+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr
+10 Response ~  (AlphaSqr+log10NHSqr+log10Fa+Beta+PhotonIndex+log10NH)^2+log10PeakFlux+log10Ta+Alpha+log10PeakFluxSqr+PhotonIndexSqr+log10TaSqr+BetaSqr+log10FaSqr
+Most-frequent winning formula ( 5 / 100 splits):
+Response ~ (AlphaSqr + log10FaSqr + BetaSqr + log10Ta + log10NH)^2 + 
+    log10PeakFlux + PhotonIndex + Beta + log10Fa + Alpha + log10NHSqr + 
+    log10PeakFluxSqr + PhotonIndexSqr + log10TaSqr
+<environment: 0x1713cbf58>
+M-estimator outlier cut: 14 of 276 GRBs removed (weight <= 0.6919 )
+Final outlier-removed data saved: 262 GRBs -> final_outliers_removed.csv

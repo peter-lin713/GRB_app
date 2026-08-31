@@ -1,0 +1,29 @@
+# Final drop list (theilsen_reversed). err>value restricted to Alpha/Beta/log10Fa/log10Ta only
+# -- the 4 parameters emcee's MCMC fits for optically-sourced GRBs; for
+# X-ray-native GRBs these are direct measurements instead, so a flag there
+# means a poorly-constrained measurement, not an unreliable emcee fit.
+# Checked on all GRBs regardless. PeakFlux and other directly-measured
+# columns (T90, PhotonIndex, Fluence, NH) excluded from err>value on
+# principle: a large relative error there is catalog measurement
+# uncertainty, not an unreliable fit, for every GRB. Hard value cuts
+# (Alpha>3, Beta>2, log10T90>6, PhotonIndex<0) still apply regardless.
+# Auto-candidates are unioned in fresh every run (generate_nonnegotiable_
+# outliers.R); add GRBs below by hand after visual review of the 4D
+# plots to extend this list. One GRB per line.
+#
+040924A
+041006A
+050319A
+050408A
+060605A
+070318A
+070419A
+071031A
+080413A
+080605A
+081008A
+090529A
+090530A
+131117A
+150413A
+990510A
