@@ -45,10 +45,12 @@ stripping the `GRB` prefix and appending `A` if no letter suffix is present.
 
 ## 2. Combination methods
 
-Two independent ways of building one combined (X-ray + optical) training set.
-Both start from the same two catalogs (filtered X-ray + the relevant optical
-variant) and produce a 296-GRB combined, error-cut dataset with an
-`is_optical` flag marking which GRBs came from the optical catalog only.
+Independent ways of building one combined (X-ray + optical) training set, all
+starting from the same two catalogs (filtered X-ray + the relevant optical
+variant). emcee and OT-fusion each produce a 296-GRB combined, error-cut
+dataset; Theil-Sen (the flagship result's method, §2c) produces 306 (single-
+variate) or 296 (multivariate). All variants add an `is_optical` flag marking
+which GRBs came from the optical catalog only.
 
 ### 2a. emcee-projection (`combine_opt_xray_emcee/combine_optical_xray_emcee_v2.py`)
 
@@ -102,6 +104,49 @@ which makes OT's output stable too. Verified: two consecutive runs of the OT
 combination script now produce byte-identical output.
 
 Output: `Data/superlearner_training_ot_v3_errcut_relative.csv` (296 GRBs).
+
+### 2c. Theil-Sen calibration (the flagship 0.707 result's combination method)
+
+Single-variable Theil-Sen regression (`scipy.stats.theilslopes`) between the
+optical- and X-ray-band measurement of one prompt parameter (log10Fa),
+fit on the overlap GRBs, then used to project every optical-only GRB's Fa
+onto the X-ray scale. No MCMC posterior — uncertainty propagation for the
+main (single-variate) result uses a bootstrap of the calibration sample
+(1000 resamples, each refit) as a stand-in for a posterior. A **multivariate**
+variant fits this same Theil-Sen procedure per prompt parameter and jointly
+assembles the results (`Data/superlearner_training_multivariate_theilsen.csv`,
+296 GRBs); the reported flagship number comes from the single-variate version
+(`Data/superlearner_training_theilsen.csv`, 306 GRBs).
+
+**The original combination script was never committed to this repo** — only
+its two output CSVs survived. A structurally faithful reconstruction exists
+at `combine_opt_xray_emcee/combine_optical_xray_theilsen_reversed.py` (same
+overlap-anchor sample, same 4 prompt parameters, same outlier/error cuts),
+but note it fits the *reversed* direction (X-ray → optical) for a separate
+experiment — it is not the original forward (optical → X-ray) script.
+
+**Exact reproduction, confirmed this session:** the trained model object
+behind the reported r=0.7071 (N=206) result had been lost (gitignored, never
+committed). Retraining on the same formula and script family initially came
+up short (r≈0.68) despite matching N exactly, until the actual root cause was
+found: the formula-generation step's output directory contains **two
+different snapshots** of `final_outliers_removed.csv` — the well-known outer
+copy, and an earlier, nested duplicate one directory level deeper
+(`GAM_supercomputer/theilsen_cleaned_formula_generation/
+theilsen_cleaned_formula_generation/final_outliers_removed.csv`, from a
+formula-search run ~1 day before the outer copy's). The two differ by
+**exactly one GRB** at the M-estimator cutoff boundary (`171205A` vs.
+`160314A`). Retraining on the nested (earlier) snapshot with
+`superlearner_CHECKPOINT_pre_daume_fix.R` (the only script variant with
+`maxit=20` in its `mice()` calls) reproduced the archived result to 4 decimal
+places (r(z)=0.7071, Sigma=0.895, RMS=0.907, Bias=0.146, NMAD=0.818, N=206).
+The confirmed-correct snapshot is preserved at
+`GAM_supercomputer/theilsen_cleaned_formula_generation/
+final_outliers_removed_CONFIRMED_FLAGSHIP_EXACT.csv` so it doesn't get lost
+to a future cleanup pass (this exact loss already happened once — see the
+`paper_candidate_results/bias_correction/README.md` recovery note). Diagrams:
+`paper_candidate_results/data_pipeline_diagram_theilsen_single.png` (flagship)
+and `..._theilsen_multivariate.png`.
 
 ### `is_optical` flag
 
@@ -419,6 +464,31 @@ Same term set as the formula previously documented here from the pre-fix run
 identical) — the winning structure didn't change when the criteria were
 corrected, only the vote tally (23/200 here vs. the pre-fix run's 21/100) and
 the downstream M-estimator/SuperLearner numbers in §10.
+
+**Theil-Sen single-variate** (linear-z; the flagship result; 14/100 votes;
+`GAM_supercomputer/theilsen_cleaned_formula_generation/formula_win_frequency.csv`):
+```
+Response ~ (log10FaSqr + log10T90 + log10Fa + log10PeakFlux)^2 + log10NH +
+    PhotonIndex + log10Ta + Alpha + log10NHSqr + log10PeakFluxSqr +
+    PhotonIndexSqr + log10TaSqr + log10T90Sqr + AlphaSqr
+```
+Same term set as the emcee winner above. Trained with
+`superlearner_CHECKPOINT_pre_daume_fix.R`, `do_m_estimator=FALSE`,
+`use_formula_learners=TRUE`, `loop=10`, on the M-estimator-cut 266-GRB set —
+see §2c for the exact-reproduction data-provenance note (this is the specific
+data snapshot that matters; using the more visible sibling copy of
+`final_outliers_removed.csv` reproduces N exactly but undershoots r(z) by
+~0.03). Result: r(log)=0.7026, r(z)=**0.7071**, N=206 (incl. catastrophic
+outliers) — the reported headline number.
+
+**Theil-Sen multivariate** (linear-z; 19/100 votes;
+`GAM_supercomputer/multivariate_calibration_theilsen_formula_generation/
+formula_win_frequency.csv`): same pipeline family, run on
+`Data/superlearner_training_multivariate_theilsen.csv` (296 GRBs). Result:
+r(log)=0.6474, r(z)=0.6555, N=195 (incl. catastrophic outliers) — noticeably
+below the single-variate flagship, consistent with the single-variate result
+being something of an outlier even among its own close relatives (the plain,
+non-"_mice20" Theil-Sen single-variate run also only reaches r(z)=0.691).
 
 ---
 
