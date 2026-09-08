@@ -1,0 +1,13 @@
+Loading required package: arm
+Warning message:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called ‘arm’
+Building 12 frames (draw x missForest seed)...
+12 frames built (parallel)
+catastrophic outliers removed from training: 6 
+pipeline split: train 227 / holdout 58 
+Running 36 tasks ( 3 reps x 12 frames, K = 10 , CV on train only)
+
+== ROUND 25 MAX-STACK + CATOUTL-REMOVED (seed-42 structure) ==
+cv       (bagged over reps x frames): n=227  log_r=0.6838
+holdout  (bagged over reps x frames): n=58  log_r=0.4148

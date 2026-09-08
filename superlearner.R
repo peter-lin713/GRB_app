@@ -10,12 +10,21 @@
 #'   1. Ingest & normalize   -- read the input CSV; map alternate column
 #'                              conventions (X -> GRB, linear T90 -> log10T90);
 #'                              key every row by its GRB id.
-#'   2. Clean & filter       -- drop short / instrumental GRBs (log10T90 cut) and
-#'                              null out physically-impossible feature values.
-#'   3. Impute (MICE)        -- multiply-impute missing predictors and (dex-scaled)
-#'                              measurement errors with `mice` (midastouch, m = 20).
-#'   4. Feature engineering  -- order predictors by LASSO importance; append a
-#'                              squared term per predictor (SqrTermGen).
+#'   2. Recover & clean      -- restore real prompt features for optical-projected
+#'                              GRBs from Data/optical_data.csv; for pre-fused
+#'                              frames (superlearner_training_emcee_v2*.csv, which
+#'                              arrive complete) flag optical rows by X-ray-catalog
+#'                              membership instead; drop short GRBs (log10T90 cut);
+#'                              null physically-impossible values.
+#'   3. Impute               -- predictors: missForest co-imputed with the unlabeled
+#'                              generalization pool, repeated over imputation seeds x
+#'                              emcee projection draws (predictions are averaged over
+#'                              all frames; pre-fused frames use the 8 v2-chain draws
+#'                              in Data/proj_draws_v2.csv); errors: MICE (midastouch,
+#'                              m = 20).
+#'   4. Feature engineering  -- order predictors by LASSO importance; squares of the
+#'                              top-7; is_optical indicator + scaled per-domain
+#'                              feature copies (Daume-style, c = 0.25).
 #'   5. Outlier handling     -- optional M-estimator catastrophic-outlier cut
 #'                              (m_estimator.R) and/or upsampling (upsampling.R).
 #'   6. Split                -- seeded random 20% holdout / 80% train.
@@ -31,7 +40,8 @@
 #'   Rscript superlearner.R <input.csv> <do_mice> <upsampling> \
 #'           <do_m_estimator> <custom_models> <weight_threshold> <loop>
 #'   Booleans are the literal strings "true"/"false" (see the arg block below).
-#'   Env vars SMOKE_TEST / SMOKE_N / ONE_FOLD enable fast structural runs.
+#'   Env vars SMOKE_TEST / SMOKE_N / ONE_FOLD enable fast structural runs;
+#'   REMOVE_CAT_OUTLIERS=false disables the 2-sigma catastrophic-outlier re-run.
 #'
 #' Input contract: the CSV must provide a GRB id column, Redshift_crosscheck, the
 #'   10 predictors (log10T90, log10Fa, log10Ta, Alpha, Beta, Gamma, log10Fluence,
@@ -87,9 +97,7 @@ if (run_locally) {
   m_est_pct        <- if (length(args) >= 9) as.numeric(args[9]) else 0.05
   use_formula_learners <- if (length(args) >= 10) as.logical(tolower(args[10]) == "true") else FALSE
   # outlier_method: "hard" (default, percentile cut), "soft" (obsWeights, no cut),
-  #                 "infold" (in-fold rlm wrapper, no pre-cut), "both" (hard cut + infold wrapper),
-  #                 "impweight" (obsWeights from each row's own imputation/measurement
-  #                 uncertainty on PhotonIndex/Fluence/PeakFlux, no cut)
+  #                 "infold" (in-fold rlm wrapper, no pre-cut), "both" (hard cut + infold wrapper)
   outlier_method   <- if (length(args) >= 11) tolower(args[11]) else "hard"
   raw_xray_data    <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
 
@@ -105,7 +113,6 @@ if (run_locally) {
   if (!"log10T90" %in% names(raw_xray_data) && "T90" %in% names(raw_xray_data)) {
     raw_xray_data$log10T90 <- log10(raw_xray_data$T90)
   }
-
   #' Some newer catalogs ship dex-scale errors directly (log10FluenceErr etc.)
   #' instead of the linear errors (FluenceErr etc.) that to_dex_err() below
   #' expects. Reconstruct the linear error so to_dex_err() round-trips back to
@@ -128,6 +135,76 @@ if (run_locally) {
 #' run_locally mode (input_file undefined) and would reset rownames to 1..N,
 #' discarding the GRB-keyed identity that grb_errors, the MC lookups and the GRB
 #' name lookup all depend on.
+
+
+# ---- Recover real prompt features for optical-projected GRBs ----------------
+# Optical-only GRBs enter with 6/10 predictors missing; T90, Fluence, PhotonIndex,
+# NH and PeakFlux exist in the optical catalog (unit conversions validated on the
+# 88 overlap GRBs: Fluence in 1e-7 erg/cm2, NH in 1e21 cm-2). Gamma has no optical
+# counterpart and stays NA for imputation. Native plateau values are kept for the
+# emcee projection draws applied at the imputation stage.
+pred_vars <- c("log10T90", "log10Fa", "log10Ta", "Alpha", "Beta", "Gamma",
+               "log10Fluence", "PhotonIndex", "log10NH", "log10PeakFlux")
+raw_xray_data$is_optical <- 0
+optical_native <- NULL
+if (file.exists("Data/optical_data.csv")) {
+  n_miss   <- rowSums(is.na(raw_xray_data[, pred_vars]))
+  opt_rows <- which(n_miss >= 6)
+  if (length(opt_rows) > 0) {
+    opt_cat <- read.csv("Data/optical_data.csv", stringsAsFactors = FALSE)
+    names(opt_cat)[1] <- "GRB"
+    m  <- match(raw_xray_data$GRB[opt_rows], opt_cat$GRB)
+    ok <- !is.na(m); opt_rows <- opt_rows[ok]; m <- m[ok]
+    raw_xray_data$log10T90[opt_rows]      <- log10(opt_cat$T90[m])
+    raw_xray_data$log10Fluence[opt_rows]  <- log10(opt_cat$Fluence[m]) - 7
+    raw_xray_data$PhotonIndex[opt_rows]   <- opt_cat$PhotonIndex[m]
+    raw_xray_data$log10NH[opt_rows]       <- log10(opt_cat$NH[m]) + 21
+    raw_xray_data$log10PeakFlux[opt_rows] <- log10(ifelse(opt_cat$PeakFlux[m] > 0, opt_cat$PeakFlux[m], NA))
+    raw_xray_data$Gamma[opt_rows]         <- NA
+    raw_xray_data$is_optical[opt_rows]    <- 1
+    optical_native <- data.frame(logFa = opt_cat$logFa[m], logTa = opt_cat$logT_a[m],
+                                 Alpha = opt_cat$Alpha[m], Beta = opt_cat$Beta[m],
+                                 row.names = raw_xray_data$GRB[opt_rows])
+    cat("Recovered optical-catalog prompt features for", length(opt_rows), "GRBs\n")
+  }
+}
+
+#' Pre-fused frames (e.g. Data/superlearner_training_emcee_v2*.csv) arrive with
+#' the optical rows already projected to X-ray units and complete, so the
+#' missingness test above finds nothing. Identify optical rows by X-ray-catalog
+#' membership instead (the convention validated in
+#' outlier_experiments/cv_experiments/campaign2/cv_maxstack_v2.R) and keep their
+#' native optical plateau features so the emcee projection draws can re-project
+#' them per posterior draw at the imputation stage. `prefused_frame` also
+#' switches the draw source to the v2 emcee chains below.
+prefused_frame <- FALSE
+if (is.null(optical_native) &&
+    all(pred_vars %in% names(raw_xray_data)) &&
+    !any(rowSums(is.na(raw_xray_data[, pred_vars])) >= 6) &&
+    file.exists("Data/Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv") &&
+    file.exists("Data/OnlyLGRBs_data_171_optical_corrected.csv")) {
+  norm_grb <- function(s) {
+    s <- trimws(gsub("GRB", "", as.character(s)))
+    ifelse(grepl("[A-Za-z]$", s), s, paste0(s, "A"))
+  }
+  xr_ids <- norm_grb(read.csv("Data/Xray_data_with_redshift_V8-web-app_processed_filtered_MICE (1).csv",
+                              stringsAsFactors = FALSE)[[1]])
+  ids      <- norm_grb(raw_xray_data$GRB)
+  opt_rows <- which(!(ids %in% xr_ids))
+  if (length(opt_rows) > 0) {
+    prefused_frame <- TRUE
+    raw_xray_data$is_optical[opt_rows] <- 1
+    opt_cat <- read.csv("Data/OnlyLGRBs_data_171_optical_corrected.csv", stringsAsFactors = FALSE)
+    names(opt_cat)[1] <- "GRB"; opt_cat$GRB <- norm_grb(opt_cat$GRB)
+    m  <- match(ids[opt_rows], opt_cat$GRB)
+    ok <- !is.na(m)
+    optical_native <- data.frame(logFa = opt_cat$log10Faopt[m[ok]], logTa = opt_cat$log10Taopt[m[ok]],
+                                 Alpha = opt_cat$Alpha_opt[m[ok]], Beta = opt_cat$Beta_opt[m[ok]],
+                                 row.names = rownames(raw_xray_data)[opt_rows[ok]])
+    cat("Pre-fused frame:", length(opt_rows), "optical GRBs flagged by catalog membership;",
+        sum(ok), "matched to the optical catalog for projection draws\n")
+  }
+}
 
 
 # ---- Fast-run switches (env-controlled) -------------------------------------
@@ -241,32 +318,90 @@ features_for_mice_preds$Alpha[features_for_mice_preds$Alpha > 3]            <- N
 features_for_mice_preds$PhotonIndex[features_for_mice_preds$PhotonIndex < 0] <- NA
 
 
-# ---- Impute (MICE) ----------------------------------------------------------
-#' With do_mice = TRUE, multiply-impute predictors and (dex) errors separately
-#' (midastouch, m = 20, taking the 20th completed set) and combine into GRBPred.
-#' With do_mice = FALSE, drop every incomplete row instead. `GRBPred` is the
-#' modeling frame from here on: a data.frame of imputed features + errors keyed
-#' by GRB id.
+# ---- Impute ------------------------------------------------------------------
+# Predictors: missForest, co-imputed with the unlabeled generalization pool so the
+# imputation model learns the joint feature distribution from ~2x the rows (never
+# sees redshift). Repeated over IMP_SEEDS; for optical rows the projected plateau
+# features additionally vary over emcee posterior calibration draws. Downstream,
+# predictions are averaged over all seed x draw frames. Errors: MICE as before.
 if (do_mice) {
+  require(missForest)
   set.seed(1)
   png(filename = file.path(out_dir, "MICE_missing_features.png"), width = 1000, height = 1000, res = 200)
   md.pattern(features_for_mice_preds, rotate.names = TRUE)
-  title(main = "Missing-data pattern before MICE imputation",
-        sub  = "Rows = ob                                                                                                               served patterns (left count = # GRBs); blue = observed, red = missing; right/bottom = # missing")
+  title(main = "Missing-data pattern before imputation",
+        sub  = "Rows = observed patterns (left count = # GRBs); blue = observed, red = missing; right/bottom = # missing")
   dev.off()
 
-  # maxit=20 matches Narendra et al. 2025 Sect. 4.1 ("we perform this
-  # iteration 20 times"); m=20 is this codebase's own choice (only the last
-  # completion is kept downstream, not pooled across all m).
-  mice_model_preds        <- mice(data = features_for_mice_preds, m = 20, maxit = 20, method = "midastouch", printFlag = FALSE)
-  features_for_mice_preds <- complete(mice_model_preds, 20)
+  gen_pool <- NULL
+  if (file.exists("Data/TOTAL_GENERALIZATION_DATA_v4.csv")) {
+    gen <- read.csv("Data/TOTAL_GENERALIZATION_DATA_v4.csv", row.names = 1, stringsAsFactors = FALSE)
+    gen_pool <- data.frame(
+      log10T90 = gen$logT90, log10Fa = gen$Fbest, log10Ta = gen$T_abest,
+      Alpha = gen$Alpha, Beta = NA_real_, Gamma = gen$Gamma,
+      log10Fluence = NA_real_,
+      PhotonIndex = suppressWarnings(as.numeric(gen$photon_index)),
+      log10NH = gen$logNH,
+      log10PeakFlux = suppressWarnings(as.numeric(gen$logPeakFlux)))
+    gen_pool <- gen_pool[, colnames(features_for_mice_preds)]
+    gen_pool$log10NH[gen_pool$log10NH < 20]          <- NA
+    gen_pool$PhotonIndex[gen_pool$PhotonIndex < 0]   <- NA
+    gen_pool$Gamma[gen_pool$Gamma > 3]               <- NA
+  }
+  #' Projection-draw source. Pre-fused frames use the v2 emcee-chain draws
+  #' (Data/proj_draws_v2.csv: 8 parameter-only draws from emcee_chains_v2.npz,
+  #' the validated max-stack config — cv CV r 0.643 pre / 0.683 post outlier
+  #' removal) with a single imputation seed, since those frames arrive complete
+  #' and the seed sweep would only jitter a handful of leftover cells. Old-style
+  #' frames keep the original 4-draw file and 3-seed sweep so their validated
+  #' behavior is unchanged. Intrinsic-scatter draws are never used (adding
+  #' scatter noise measurably degrades r).
+  if (prefused_frame && file.exists("Data/proj_draws_v2.csv")) {
+    proj_draws <- read.csv("Data/proj_draws_v2.csv", stringsAsFactors = FALSE)
+    n_draws    <- 8L
+    IMP_SEEDS  <- 12
+    cat("Using v2 emcee projection draws (8 draws, 1 imputation seed)\n")
+  } else {
+    proj_draws <- if (file.exists("Data/emcee_projection_draws.csv"))
+      read.csv("Data/emcee_projection_draws.csv", stringsAsFactors = FALSE) else NULL
+    n_draws    <- 4L
+    IMP_SEEDS  <- c(12, 77, 301)
+  }
+  draw_map   <- c(logFa = "log10Fa", logTa = "log10Ta", Alpha = "Alpha", Beta = "Beta")
+  opt_here   <- intersect(rownames(features_for_mice_preds),
+                          if (is.null(optical_native)) character(0) else rownames(optical_native))
 
-  mice_model_errs        <- mice(data = features_for_mice_errs, m = 20, maxit = 20, method = "midastouch", printFlag = FALSE)
+  PROJ_DRAWS <- if (!is.null(proj_draws) && length(opt_here) > 0) seq_len(n_draws) else 0
+  if (smoke_test) { IMP_SEEDS <- IMP_SEEDS[1]; PROJ_DRAWS <- PROJ_DRAWS[1] }
+
+  feature_frames <- list()
+  for (d in PROJ_DRAWS) {
+    fp <- features_for_mice_preds
+    if (d > 0) {
+      for (p in names(draw_map)) {
+        dr  <- proj_draws[proj_draws$param == p & proj_draws$draw == d - 1, ]
+        val <- dr$m * optical_native[opt_here, p] + dr$b
+        fin <- is.finite(val)
+        fp[opt_here[fin], draw_map[[p]]] <- val[fin]
+      }
+    }
+    for (s in IMP_SEEDS) {
+      set.seed(s)
+      imp <- missForest(rbind(fp, gen_pool))$ximp[seq_len(nrow(fp)), ]
+      rownames(imp) <- rownames(fp)
+      feature_frames[[length(feature_frames) + 1]] <- imp
+    }
+  }
+  cat("Built", length(feature_frames), "imputation frames (seeds x projection draws)\n")
+  features_for_mice_preds <- feature_frames[[1]]
+
+  mice_model_errs        <- mice(data = features_for_mice_errs, m = 20, method = "midastouch", printFlag = FALSE)
   features_for_mice_errs <- complete(mice_model_errs, 20)
 
   GRBPred <- cbind(features_for_mice_preds, features_for_mice_errs)
 } else {
   GRBPred <- na.omit(cbind(features_for_mice_preds, features_for_mice_errs))
+  feature_frames <- list(GRBPred[, colnames(features_for_mice_preds)])
 }
 
 #' Assertion: GRBPred must be complete after imputation. anyNA() catches NaN too.
@@ -349,32 +484,6 @@ if (do_m_estimator && outlier_method %in% c("hard", "both")) {
       " (", sum(sl_obs_weights < quantile(sl_obs_weights, m_est_pct)), "GRBs below",
       m_est_pct * 100, "%-ile threshold)\n")
 }
-#' outlier_method == "impweight" -- DISABLED FOR NOW, re-enable later:
-#' } else if (do_m_estimator && outlier_method == "impweight") {
-#'   # DISABLED FOR NOW -- re-enable (uncomment) to try this later.
-#'   # Down-weight (not hard-cut) GRBs by their own combined relative measurement/
-#'   # imputation uncertainty on the three features that differ hugely in scale
-#'   # between real X-ray measurements and OT-imputed values (PhotonIndex,
-#'   # Fluence, PeakFlux -- see the OT-fusion diagnostic: OT-imputed rows carry
-#'   # 3-16x bigger errors than X-ray-native rows on every feature). X-ray-native
-#'   # rows have small fixed measurement errors -> weight near 1; optical-only
-#'   # rows with large OT barycentric uncertainty get smoothly down-weighted in
-#'   # proportion to how uncertain their own imputation actually is, instead of
-#'   # the M-estimator's all-or-nothing hard cut (which Check 4 of that
-#'   # diagnostic showed isn't targeting these rows anyway).
-#'   # log10FluenceErr/log10PeakFluxErr are already dex-scale by this point in the
-#'   # pipeline (converted during the MICE-prep step above) -- no further
-#'   # conversion needed; GRBPred no longer has the original linear-scale
-#'   # FluenceErr/PeakFluxErr columns at all.
-#'   dex_err_fluence  <- GRBPred$log10FluenceErr
-#'   dex_err_peakflux <- GRBPred$log10PeakFluxErr
-#'   rel_err_pindex   <- GRBPred$PhotonIndexErr / pmax(abs(GRBPred$PhotonIndex), 0.1)
-#'   noise_score      <- dex_err_fluence + dex_err_peakflux + rel_err_pindex
-#'   sl_obs_weights   <- setNames(1 / (1 + noise_score), rownames(GRBPred))
-#'   cat("Imputation-uncertainty weights: min=", round(min(sl_obs_weights), 3),
-#'       " median=", round(median(sl_obs_weights), 3),
-#'       " max=", round(max(sl_obs_weights), 3), "\n")
-#' }
 # "infold" and "both": define per-fold rlm detector + memoised cache + learner wrappers.
 # Wrapped versions are registered in the global env so SuperLearner can resolve them.
 if (outlier_method %in% c("infold", "both")) {
@@ -428,35 +537,25 @@ stopifnot(
 rm(.grb_num)
 cat("Assertion OK: GRBPred has no NA/NaN/Inf (", nrow(GRBPred), "rows )\n")
 
-#' Sync grb_errors row keys to the current GRBPred. upsampling.R (caret::upSample)
-#' resets row names to sequential integers, so the GRB-name-keyed grb_errors built
-#' at line ~280 no longer matches TrainingData's row names. Rebuilding here (after
-#' all row-modifying steps: upsampling + M-estimator) keeps the keys in sync while
-#' error values are still present in GRBPred (the second SqrTermGen below drops them).
-grb_errors <- data.frame(
-  log10FaErr       = GRBPred$log10FaErr,
-  log10TaErr       = GRBPred$log10TaErr,
-  PhotonIndexErr   = GRBPred$PhotonIndexErr,
-  log10PeakFluxErr = GRBPred$log10PeakFluxErr,
-  log10T90Err      = GRBPred$log10T90Err,
-  AlphaErr         = GRBPred$AlphaErr,
-  BetaErr          = GRBPred$BetaErr,
-  log10FluenceErr  = GRBPred$log10FluenceErr,
-  row.names        = rownames(GRBPred),
-  stringsAsFactors = FALSE
-)
-cat("grb_errors synced for", nrow(grb_errors), "rows (post upsampling/outlier removal)\n")
-
 
 # ---- Split ------------------------------------------------------------------
 Responses <- subset(GRBPred, select = c("Redshift_crosscheck", "log10z"))
 
-#' Re-derive the modeling matrix as (linear LASSO predictors + their squares) and
-#' attach the responses. lassovar carries only linear names, so SqrTermGen
-#' re-derives the squares cleanly (no "...SqrSqr").
-O1Predictors <- subset(GRBPred, select = lassovar)
-O2Predictors <- SqrTermGen(O1Predictors)
-GRBPred      <- cbind(O2Predictors, Responses)
+# Design matrix per imputation frame: all 10 linear predictors + squares of the
+# top-7 by LASSO + is_optical + scaled per-domain copies (Daume augmentation,
+# c = 0.25: penalized learners shrink domain-specific deviations harder than
+# shared effects). One design per frame; frame 1 defines the modeling frame.
+daume_c <- 0.25
+build_design <- function(feats) {
+  X <- feats[rownames(GRBPred), lassovar, drop = FALSE]
+  for (v in head(lassovar, 7)) X[[paste0(v, "Sqr")]] <- X[[v]]^2
+  X$is_optical <- raw_xray_data[rownames(X), "is_optical"]
+  Xo <- X[, setdiff(colnames(X), "is_optical"), drop = FALSE] * (X$is_optical * daume_c)
+  colnames(Xo) <- paste0(colnames(Xo), "_opt")
+  cbind(X, Xo)
+}
+design_frames <- lapply(feature_frames, build_design)
+GRBPred       <- cbind(design_frames[[1]], Responses)
 
 #' Seeded random 20% holdout / 80% train. Selection is by row index then resolved
 #' by rowname (safe because GRB rownames are unique). A random split avoids the
@@ -481,102 +580,61 @@ Predictors <- subset(TrainingData, select = -c(log10z, Redshift_crosscheck)) # d
 #' no leakage.
 source("Custom_SL/sl_mgcv_gam.R")
 source("Custom_SL/sl_custom_glm.R")
-source("Custom_SL/sl_custom_bayesglm.R")
 
-#' This project directory lives under iCloud Desktop sync (confirmed via
-#' `com.apple.file-provider-domain-id` on ~/Desktop and `brctl status` showing
-#' com.apple.CloudDocs actively syncing). Best_formula_GAM.txt/GLM.txt get
-#' rewritten frequently by orchestration scripts. `read.table()`/`scan()`
-#' persistently threw "incomplete final line" / "EOF within quoted string" on
-#' these files for 50+ seconds straight in one run even though a plain `cat`/
-#' `wc -c` from the shell saw the correct, complete content the entire time --
-#' i.e. not a transient materialization delay but an inconsistency specific to
-#' read.table's own scan()-based parsing path under the iCloud file-provider.
-#' Retrying the SAME read.table() call just re-hits the same inconsistency.
-#' Fix: bypass read.table()/scan() entirely -- read raw lines with readLines()
-#' (a plain, unbuffered-ish path) and pull the formula text out with a regex
-#' instead of table-parsing. All 3 lines this file ever contains are byte-
-#' identical (install_formula() writes the same string 3x), so this also drops
-#' the pointless 3x-duplicated-identical-learner side effect for free.
-read_formulas_robust <- function(path, max_tries = 8) {
-  for (attempt in seq_len(max_tries)) {
-    lines <- tryCatch(readLines(path, warn = FALSE), error = function(e) NULL)
-    if (!is.null(lines) && length(lines) > 0) {
-      matches <- sub('^\\[1\\] "(.*)"$', '\\1', lines)
-      matches <- unique(matches[matches != lines & nzchar(matches)])
-      if (length(matches) > 0) {
-        forms <- tryCatch(lapply(matches, as.formula), error = function(e) NULL)
-        if (!is.null(forms) && length(forms) > 0) return(forms)
-      }
-    }
-    cat("read_formulas_robust: attempt", attempt, "of", max_tries,
-        "for", path, "looked unparseable -- retrying after a short pause\n")
-    Sys.sleep(1)
-  }
-  stop("read_formulas_robust: ", path, " still unparseable after ", max_tries, " attempts")
-}
-
-bestGAM1 <- read_formulas_robust("Best_formula_GAM.txt")  # list of formula
+formula_table_GAM <- read.table("Best_formula_GAM.txt")
+bestGAM1          <- apply(as.matrix(formula_table_GAM[, 2]), 1, as.formula)  # list of formula
 learner1          <- create.Learner("SL.mgcv_gam", tune = list(gam.model = c(bestGAM1)),
                                      detailed_names = FALSE, name_prefix = "gam")
+libnames <- "_winner_"
 
-best_lm3 <- read_formulas_robust("Best_formula_GLM.txt")  # list of formula
-sl_glm1           <- create.Learner("SL.custom_glm", tune = list(glm.model = c(best_lm3)),
-                                     detailed_names = FALSE, name_prefix = "cglm")
-
-# bayesglm reuses the GLM formula set; needs the 'arm' package.
-sl_bglm <- create.Learner("SL.custom_bayesglm", tune = list(bglm.model = c(best_lm3)),
-                          detailed_names = FALSE, name_prefix = "bglm")
-
-custom_learner_names <- c(learner1$names, sl_glm1$names, sl_bglm$names)  # character: tuned learner names
-libnames             <- "_OG_ALL_CUSTOM_"
-
-# caret random forest learner.
-tune_caret    <- list(method = c("rf"), tuneLength = 1, verboseIter = FALSE)
-caret_learner <- create.Learner("SL.caret", tune = tune_caret, detailed_names = TRUE)
-
-analyze_all <- FALSE
-#' analyze_all / custom_models set `libs` and `libnames`, but BOTH are overwritten
-#' by the unconditional `libs <- ...` assignment below; they are kept for the
-#' app's selected-models path and historical "_ALL_" runs. The active library is
-#' always the one assigned at the end of this block.
-if (analyze_all) {
-  libs <- c(
-    "SL.caret.rpart", "SL.earth", "SL.ipredbagg",
-    "SL.mean", "SL.nnet", "SL.randomForest", "SL.ranger",
-    "SL.rpart", "SL.step", "SL.step.forward",
-    "SL.step.interaction", "SL.stepAIC", "SL.xgboost"
-  )
-  libnames <- "_ALL_"
+# Winner library (paired-CV validated): first tuned GAM formula, band-interaction
+# GLM with per-domain plateau slopes, all-feature GLM, glmnet, random forest,
+# boosted GAM, mean. Stacked with non-negative ridge (regularized NNLS).
+require(mboost)
+band_form <- as.formula(paste(
+  "Response ~ (log10Fa + log10Ta + log10NH + PhotonIndex + log10PeakFlux)^2 +",
+  "Alpha + Beta + log10T90 + Gamma + log10Fluence +",
+  "is_optical:(log10Fa + log10Ta + Alpha + Beta) + is_optical"))
+glmB <- create.Learner("SL.custom_glm", tune = list(glm.model = list(band_form)),
+                       detailed_names = FALSE, name_prefix = "glmB")
+SL.glm_all <- function(Y, X, newX, family, obsWeights, ...) {
+  df  <- data.frame(Y = Y, X, check.names = FALSE)
+  fit <- glm(Y ~ ., data = df, family = family, weights = obsWeights)
+  out <- list(object = fit); class(out) <- "SL.glm_all"
+  list(pred = as.numeric(predict(fit, newdata = newX, type = "response")), fit = out)
 }
+predict.SL.glm_all <- function(object, newdata, ...)
+  as.numeric(predict(object$object, newdata = newdata, type = "response"))
+SL.gamboost <- function(Y, X, newX, family, obsWeights, ...) {
+  df  <- data.frame(Y = Y, X, check.names = FALSE)
+  num <- intersect(pred_vars, colnames(X))
+  fm  <- as.formula(paste("Y ~", paste(c(sprintf("bbs(%s, df = 2)", num), "bols(is_optical)"), collapse = "+")))
+  fit <- mboost::gamboost(fm, data = df, control = mboost::boost_control(mstop = 300, nu = 0.1))
+  cvr <- try(mboost::cvrisk(fit, folds = mboost::cv(model.weights(fit), type = "kfold", B = 5),
+                            papply = lapply), silent = TRUE)
+  if (!inherits(cvr, "try-error")) fit <- fit[mboost::mstop(cvr)]
+  out <- list(object = fit); class(out) <- "SL.gamboost"
+  list(pred = as.numeric(predict(fit, newdata = data.frame(newX, check.names = FALSE))), fit = out)
+}
+predict.SL.gamboost <- function(object, newdata, ...)
+  as.numeric(predict(object$object, newdata = data.frame(newdata, check.names = FALSE)))
+method.NNRidge <- function() {
+  out <- SuperLearner::method.NNLS()
+  out$computeCoef <- function(Z, Y, libraryNames, verbose, obsWeights, ...) {
+    fit <- glmnet::cv.glmnet(Z, Y, alpha = 0, lower.limits = 0, nfolds = 10)
+    co  <- as.numeric(coef(fit, s = "lambda.min"))[-1]
+    co[co < 0] <- 0
+    if (sum(co) > 0) co <- co / sum(co) else co <- rep(1 / ncol(Z), ncol(Z))
+    list(cvRisk = apply(Z, 2, function(p) mean((p - Y)^2)), coef = co, optimizer = fit)
+  }
+  out
+}
+libs <- c(learner1$names[1], glmB$names, "SL.glm_all", "SL.glmnet",
+          "SL.randomForest", "SL.gamboost", "SL.mean")
 if (custom_models) {
   # User-selected learner names, written by app.py to selected_models.txt.
-  libs_line <- readLines("selected_models.txt")
-  eval(parse(text = libs_line))
+  eval(parse(text = readLines("selected_models.txt")))
   libnames <- "_custom_models_"
-}
-
-#' Generic SuperLearner learners. NOTE: the original pipeline appended the custom
-#' learners via `create.Learner(...)$library`, but that field is NULL on
-#' create.Learner objects (the names live in `$names`), and `c(x, NULL)` silently
-#' dropped them -- so the original results came from the generic learners alone.
-#' We add the custom learners explicitly via `$names`.
-generic_libs <- c(
-  "SL.glmnet", "SL.xgboost_safe",
-  "SL.caret.rpart", "SL.earth", "SL.ipredbagg",
-  "SL.mean", "SL.nnet", "SL.randomForest", "SL.ranger",
-  "SL.rpart", "SL.step", "SL.step.forward",
-  "SL.step.interaction", "SL.stepAIC"
-)
-#' Active learner library: generic learners + caret RF, optionally including the
-#' formula-based GAM/GLM/bayesglm learners from Best_formula_*.txt (those were
-#' tuned on the original paper dataset; disable for runs on the emcee dataset).
-#' Skipped when custom_models = TRUE: `libs` was already set above from
-#' selected_models.txt, and this used to silently clobber it (dead-code bug --
-#' custom_models never actually restricted the library before this fix).
-if (!custom_models) {
-  formula_part <- if (use_formula_learners) custom_learner_names else character(0)
-  libs <- c(formula_part, caret_learner$names, generic_libs)
 }
 
 # For infold/both: wrap every learner with the rlm row-filter decorator and
@@ -614,17 +672,6 @@ colnames(Algo_coeff) <- libs
 Algo_risk  <- as.data.frame(matrix(nrow = 1, ncol = length(libs)))
 colnames(Algo_risk)  <- libs
 
-all_lasso_vars <- character()
-gam_vars <- c(
-  "log10FaSqr", "log10Fa", "log10PeakFlux",
-  "log10NHSqr", "log10NH",
-  "PhotonIndex", "PhotonIndexSqr",
-  "log10Ta", "log10TaSqr",
-  "Gamma", "GammaSqr",
-  "Alpha", "AlphaSqr"
-)
-cat("The number of NAs in GRBPred is:", sum(is.na(GRBPred)), "\n")
-cat("GAM vars missing from GRBPred:", paste(setdiff(gam_vars, colnames(GRBPred)), collapse = ", "), "\n")
 cat("CV repetitions (loop):", loop, "\n")
 
 
@@ -646,8 +693,6 @@ cat("Assertion OK: SuperLearner inputs valid;", nrow(Predictors), "rows,", ncol(
 #' enable it only for interactive debugging.)
 source("Custom_SL/sl_mgcv_gam.R")
 source("Custom_SL/sl_custom_glm.R")
-source("Custom_SL/sl_custom_bayesglm.R")
-source("Custom_SL/sl_xgboost_safe.R")
 
 #' Run one independent CV repetition.
 #'
@@ -691,6 +736,10 @@ run_one_loop <- function(j) {
   allZ_wo            <- TrainData$Redshift_crosscheck
   invallZ_wo         <- TrainData$log10z
 
+  # Per-frame design matrices for this repetition (frame 1 == all_data_scale_wo).
+  X_frames <- lapply(design_frames, function(D) D[rownames(TrainData), colnames(all_data_scale_wo), drop = FALSE])
+  P_frames <- lapply(design_frames, function(D) D[rownames(PredictionData), colnames(all_data_scale_wo), drop = FALSE])
+
   nwo            <- nrow(all_data_scale_wo)
   results_cv     <- data.frame(Predicted = numeric(nwo), Observed = numeric(nwo))
   results_cv_log <- data.frame(Predicted = numeric(nwo), Observed = numeric(nwo))
@@ -726,28 +775,47 @@ run_one_loop <- function(j) {
       "train/test column set mismatch" = identical(colnames(train_set), colnames(test_set))
     )
 
-    # For soft-weights: slice the pre-computed rlm weights to this fold's training rows.
-    fold_obs_weights <- if (!is.null(sl_obs_weights)) {
-      w <- sl_obs_weights[rownames(train_set)]
-      w / mean(w)   # renormalise so mean == 1 (SuperLearner convention)
-    } else {
-      rep(1, nrow(train_set))
+    # In-fold robust filter: drop training rows an rlm fit flags (>3*MAD residual).
+    keep_tr <- rep(TRUE, nrow(train_set))
+    rlm_fit <- tryCatch(MASS::rlm(Y ~ ., method = "M", maxit = 50,
+                                  data = data.frame(Y = invZtrain, train_set[, head(lassovar, 7)])),
+                        error = function(e) NULL)
+    if (!is.null(rlm_fit)) {
+      rres <- residuals(rlm_fit)
+      k    <- abs(rres) <= 3 * mad(rres)
+      if (sum(k) >= 30) keep_tr <- k
     }
 
-    suppressMessages(capture.output(
-      s9 <- SuperLearner(
-        Y          = invZtrain,
-        X          = train_set,
-        family     = gaussian(),
-        newX       = test_set,
-        SL.library = libs,
-        obsWeights = fold_obs_weights,
-        cvControl  = list(V = 5),  # ensemble-weight CV folds
-        verbose    = FALSE
-      ),
-      file = nullfile()
-    ))
-    pr <- s9$SL.predict
+    # For soft-weights: slice the pre-computed rlm weights to this fold's training rows.
+    fold_obs_weights <- if (!is.null(sl_obs_weights)) {
+      w <- sl_obs_weights[rownames(train_set)][keep_tr]
+      w / mean(w)   # renormalise so mean == 1 (SuperLearner convention)
+    } else {
+      rep(1, sum(keep_tr))
+    }
+
+    # Fit once per imputation/projection frame; the fold prediction is the average.
+    fits <- vector("list", length(X_frames))
+    prm  <- matrix(NA_real_, nrow(test_set), length(X_frames))
+    for (f in seq_along(X_frames)) {
+      suppressMessages(capture.output(
+        fits[[f]] <- SuperLearner(
+          Y          = invZtrain[keep_tr],
+          X          = X_frames[[f]][-folds[[i]], , drop = FALSE][keep_tr, , drop = FALSE],
+          family     = gaussian(),
+          newX       = X_frames[[f]][ folds[[i]], , drop = FALSE],
+          SL.library = libs,
+          obsWeights = fold_obs_weights,
+          method     = method.NNRidge(),
+          cvControl  = list(V = 10),  # ensemble-weight CV folds
+          verbose    = FALSE
+        ),
+        file = nullfile()
+      ))
+      prm[, f] <- as.numeric(fits[[f]]$SL.predict)
+    }
+    s9 <- fits[[1]]   # frame-1 fit drives MC propagation and weight accounting
+    pr <- matrix(rowMeans(prm), ncol = 1)
 
     #' MC error propagation for this fold's test points: use the fold-trained s9
     #' (so MC respects the out-of-sample regime) and grb_errors keyed the same
@@ -771,7 +839,8 @@ run_one_loop <- function(j) {
 
     Algo_coeff <- rbind(Algo_coeff, coef(s9))
     Algo_risk  <- rbind(Algo_risk,  s9$cvRisk)
-    CVpred     <- cbind(predict(s9, PredictionData_j)$pred, CVpred)
+    hp <- rowMeans(sapply(seq_along(fits), function(f) as.numeric(predict(fits[[f]], P_frames[[f]])$pred)))
+    CVpred     <- cbind(hp, CVpred)
     gc()
   }
 
@@ -829,6 +898,45 @@ for (j in 1:loop) {
   correl[j]       <- cor(preds[, j], Response)
   LinearCorrel[j] <- cor(10^preds[, j] - z_e, TrainingData$Redshift_crosscheck)
   linearrms[j]    <- sqrt(mean((TrainingData$Redshift_crosscheck - (10^preds[, j] - 1))^2))
+}
+cat(sprintf("CV r (all training GRBs): log10(z+1)=%.4f linear-z=%.4f\n",
+            cor(rowMeans(preds), Response),
+            cor(10^rowMeans(preds) - 1, TrainingData$Redshift_crosscheck)))
+
+
+# ---- Catastrophic-outlier removal (retrained second pass) --------------------
+# Drop training GRBs whose pooled CV residual exceeds 2 sigma, then re-run the CV
+# so all reported metrics come from retrained models -- never from post-hoc
+# filtering of the same predictions. Disable with REMOVE_CAT_OUTLIERS=false.
+remove_cat_outliers <- tolower(Sys.getenv("REMOVE_CAT_OUTLIERS", "true")) == "true"
+if (remove_cat_outliers && !one_fold) {
+  cv_resid <- rowMeans(preds) - Response
+  keep_cat <- abs(cv_resid) <= 2 * sd(cv_resid)
+  if (any(!keep_cat)) {
+    cat("Catastrophic outliers removed (2-sigma), re-running CV:", sum(!keep_cat), "GRBs:",
+        paste(rownames(TrainingData)[!keep_cat], collapse = ", "), "\n")
+    TrainingData <- TrainingData[keep_cat, ]
+    TrainData    <- TrainingData
+    Response     <- TrainingData$log10z
+    Predictors   <- subset(TrainingData, select = -c(log10z, Redshift_crosscheck))
+    CVmodel  <- parallel::mclapply(seq_len(loop), run_one_loop, mc.cores = n_cores)
+    .failed  <- !vapply(CVmodel, is.list, logical(1))
+    if (any(.failed)) stop("Parallel CV failed in ", sum(.failed), " repetition(s) after outlier removal.")
+    preds     <- matrix(nrow = nrow(Predictors), ncol = loop)
+    co        <- matrix(nrow = loop, ncol = length(libs))
+    AlgoRisks <- matrix(nrow = loop, ncol = length(libs))
+    for (j in 1:loop) {
+      preds[, j]      <- CVmodel[[j]][[3]]
+      co[j, ]         <- CVmodel[[j]][[2]]
+      AlgoRisks[j, ]  <- CVmodel[[j]][[4]]
+      correl[j]       <- cor(preds[, j], Response)
+      LinearCorrel[j] <- cor(10^preds[, j] - z_e, TrainingData$Redshift_crosscheck)
+      linearrms[j]    <- sqrt(mean((TrainingData$Redshift_crosscheck - (10^preds[, j] - 1))^2))
+    }
+    cat(sprintf("CV r after outlier removal: log10(z+1)=%.4f linear-z=%.4f\n",
+                cor(rowMeans(preds), Response),
+                cor(10^rowMeans(preds) - 1, TrainingData$Redshift_crosscheck)))
+  }
 }
 
 
@@ -932,7 +1040,8 @@ results <- result_plotter(rownames(TrainingData), rowMeans(preds), Response,
 # Persist the final model trained on the full training set.
 InsideCone <- read.csv(paste(addr, "Results_wo_catout", plotnames, ".csv", sep = ""), row.names = 1)
 sl_model   <- SuperLearner(Y = Response, X = Predictors, family = gaussian(),
-                           SL.library = libs, cvControl = list(V = 5), verbose = FALSE)
+                           SL.library = libs, method = method.NNRidge(),
+                           cvControl = list(V = 10), verbose = FALSE)
 saveRDS(sl_model, file = file.path(out_dir, "superlearner_model"))
 
 # Correlation plot for data inside the 2-sigma cone (catastrophic outliers removed).
