@@ -1,6 +1,6 @@
 # Candidate results for the paper
 
-Three results pulled out of the full `combination_scheme_comparison/` investigation,
+Four results pulled out of the full `combination_scheme_comparison/` investigation,
 specifically the ones flagged as worth publishing. All three use the "Without 2σ
 outliers" subset and the pipeline described in the main methodology (MICE `midastouch`
 m=20/maxit=20, non-negotiable + M-estimator outlier cuts, 17-learner SuperLearner
@@ -73,15 +73,57 @@ all four optical parameters jointly rather than just its own counterpart — reu
 the standing formula. The single best number of any scheme tested with no `is_optical`/
 opt-columns involved at all; ties/edges the paper's own baseline (0.712).
 
+## 4. Hard-zero domain v2 — no calibration, domain split via extra columns
+
+**r(z) = 0.691, N=207**, Sigma=0.928, RMS=0.94, Bias=0.14, NMAD=0.924.
+`plots/4_hardzero_domain_v2_r0.691.png`
+
+A structurally different way of handling the optical/X-ray mismatch than
+calibration (emcee/Theil-Sen project optical measurements onto the X-ray
+scale via a fitted regression). Hard-zero instead adds four *extra* columns —
+`Alpha_opt`/`Beta_opt`/`log10Fa_opt`/`log10Ta_opt` — set to zero for GRBs with
+no real optical measurement and populated with the real value where one
+exists, and lets the ensemble learn to use both scales directly with no
+cross-calibration step at all. Own fresh formula (`formulas/hardzero_domain_
+v2_own_formula.txt`).
+
+**Why v2, not v1** (v1: r=0.683, N=208 — also clears 0.68 but not used here):
+v1 hard-zeroed the `_opt` columns even for the 78 GRBs that have *both* a real
+X-ray and a real optical measurement (the calibration-anchor "shared" GRBs),
+discarding real data for them. v2 leaves those specific cells as NaN for MICE
+to impute instead, while still hard-zeroing the 145 genuinely X-ray-only GRBs'
+`_opt` columns. v2 is both the methodologically-corrected version and scores
+marginally higher on the headline metric, so it's the one included here.
+
+**Framing**: a genuinely different domain-handling strategy, not a variant of
+an existing candidate — worth presenting as "the ensemble can learn to use
+both measurement scales directly, without an explicit calibration step,
+at a modest cost relative to the calibrated schemes" (0.691 vs. 0.707-0.714
+for the calibrated results above).
+
 ## Files
 
-- `plots/summary_table.png` — the 3-row comparison table
-- `plots/1_*.png`, `plots/2_*.png`, `plots/3_*.png` — cross-validated predicted-vs-observed
-  plots (linear z, without 2σ outliers), full stats embedded in each title
+- `plots/summary_table.png` — the 4-row comparison table
+- `plots/1_*.png` .. `plots/4_*.png` — cross-validated predicted-vs-observed
+  plots (linear z, with catastrophic outliers), full stats embedded in each title
 - `results/` — the raw per-GRB CV CSVs (predicted vs. observed z) backing each plot above
-- `formulas/` — the two formulas involved (standing, reused by both #1 and #3; and
-  the no-plateau ablation's own fresh formula for #2)
-- `bias_correction/` — the paper's Sec 4.6 bias-correction method applied to all three
+- `formulas/` — the formulas involved: standing (reused by #1 and #3), the
+  no-plateau ablation's own fresh formula (#2), and hard-zero v2's own fresh
+  formula (#4)
+- `bias_correction/` — the paper's Sec 4.6 bias-correction method applied to
+  the first three (not yet extended to #4 — ask if that's wanted)
 
 Full provenance, the complete 9-scheme comparison these were selected from, and the
-bugs found/fixed along the way live in `combination_scheme_comparison/README.md`.
+bugs found/fixed along the way live in `combination_scheme_comparison/README.md`
+(hard-zero v1/v2 specifically: see its "hard-zero-domain v2 fix" section).
+
+## Other candidates surveyed but not added here
+
+A full repo-wide scan (every run with a `Results_wo_catout_*_correlation_plot.csv`)
+found several more results clearing r(with)>0.70 that aren't included above:
+ransac outlier handling (0.711), multivariate emcee WITH Daume (0.711),
+Theil-Sen multivariate with a reused/optadded formula (0.708), and a second
+multivariate-emcee formula-generation variant (0.705) — plus ~8 more that only
+clear 0.70 on the "without catastrophic outliers" number. None added here since
+the ask was specifically hard-zero + the no-plateau ablation; ask if any of
+these others should be added too.

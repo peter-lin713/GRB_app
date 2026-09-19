@@ -14,6 +14,8 @@ rows = [
      'Shows the model still predicts without the\nplateau-fit parameters, at a real but modest\ncost in both r and NMAD vs. baseline.'],
     ['BEST BASIC FIT\n(no opt cols)', 'Multivariate emcee\n(reused standing formula)', '202', '0.714', '0.901', '0.92', '0.19', '0.795',
      'Best result of any scheme with no domain-\nadaptation columns at all -- ties/edges the\npaper\'s own baseline.'],
+    ['DOMAIN SPLIT', 'Hard-zero domain v2\n(own fresh formula)', '207', '0.691', '0.928', '0.94', '0.14', '0.924',
+     'Adds Alpha_opt/Beta_opt/Fa_opt/Ta_opt cols\ninstead of calibrating; v2 fixes a v1 bug that\ndiscarded real data for 78 shared GRBs.'],
 ]
 
 fig, ax = plt.subplots(figsize=(14.5, 6.5), facecolor='white')
