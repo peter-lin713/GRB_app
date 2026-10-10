@@ -1,0 +1,20 @@
+in the forth tab we have the comparison with my data and the GBM data
+
+We are working at starting the feasibility of the next project
+[12:36 AM]With prompt emission variables
+[12:37 AM]If you can gather the photon index of the power law from the Fermi-GBM catalog
+
+mariagiovannadainotti  [4:36 AM]
+We would need to add the uncertainties on those parameters
+[4:38 AM]From this last file you can take the GRBs we need to use
+[4:40 AM]from Sheet 4 the 67 GRBs that are in common to perform our transfer learning analysis
+[4:41 AM]From the GLNC_compt we can take these 67 GRB
+[4:44 AM]The transfer is with different spectral model, so a later attempt can be to transfer with the Power law model that it is the same spectral model (this latter attempt is more appropriate)
+[4:45 AM]but the main point is that we can add the peak flux in our analysis and see what happens
+[4:45 AM]and via the transfer learning obtaining the Epeak via the transfer learning
+
+Anyway the idea is to take the values of Epeak and add to the prediction and doing transfer learning between Swift and Fermi
+
+
+
+FLNC_COMP_INDEX pair with photon index. T90 in common. Don’t have Epeak in swift but can retrieve it. comp_erg fluence and be paired with fluence from swift. ergflux can be paired with photon flux — need to convert. Learn from the GBM to Swift for epeak. Can also add a dummy variable. Similar from optical to xray but now with prompt emission. We need to transfer the uncertainty from GBM to swift (maybe?).
