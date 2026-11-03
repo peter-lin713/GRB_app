@@ -1,0 +1,34 @@
+                                      mean_r  sd_r  diff_vs_SIMPLE7  diff_sd  beats_SIMPLE7_pct
+B0 OLS SIMPLE7                         0.413 0.113            0.000    0.000              0.000
+B0 OLS Swift9                          0.396 0.115           -0.017    0.028             32.000
+B0 OLS Swift prompt4                   0.305 0.128           -0.108    0.109             13.000
+B1 CCA | Swift-train                   0.315 0.131           -0.098    0.120             19.000
+B1 CCA | pooled                        0.317 0.131           -0.096    0.119             18.000
+B1 ridge CCA | Swift-train             0.318 0.130           -0.095    0.119             18.000
+B1 ridge CCA | pooled                  0.311 0.128           -0.102    0.116             13.000
+B1 PLS | Swift-train                   0.318 0.130           -0.095    0.119             18.000
+B1 PLS | pooled                        0.310 0.127           -0.103    0.116             13.000
+B1 sparse CCA | Swift-train            0.245 0.129           -0.168    0.121              7.000
+B1 sparse CCA | pooled                 0.246 0.145           -0.167    0.146              9.000
+B1 robust (MCD) | Swift-train          0.299 0.135           -0.114    0.130             14.000
+B1 robust (MCD) | pooled               0.298 0.131           -0.115    0.124             11.000
+B1 rank CCA | Swift-train              0.326 0.134           -0.087    0.123             25.000
+B1 rank CCA | pooled                   0.334 0.128           -0.079    0.119             23.000
+B1 kernel CCA | Swift-train            0.291 0.128           -0.122    0.122             15.000
+B1 kernel CCA | pooled                 0.299 0.126           -0.114    0.122             19.000
+B2 PCCA k=1 | Swift-train              0.150 0.178           -0.263    0.186              3.000
+B3 supervised PCCA k=1 | Swift-train   0.322 0.177           -0.091    0.173             31.000
+B2 PCCA k=1 | pooled                   0.053 0.157           -0.360    0.193              2.000
+B3 supervised PCCA k=1 | pooled        0.270 0.157           -0.143    0.177             21.000
+B4 generalized PCCA k=1 | pooled       0.316 0.156           -0.097    0.140             25.000
+B2 PCCA k=2 | Swift-train              0.346 0.127           -0.067    0.119             26.000
+B3 supervised PCCA k=2 | Swift-train   0.395 0.111           -0.018    0.079             40.000
+B2 PCCA k=2 | pooled                   0.337 0.130           -0.076    0.120             23.000
+B3 supervised PCCA k=2 | pooled        0.397 0.115           -0.016    0.075             43.000
+B4 generalized PCCA k=2 | pooled       0.417 0.116            0.004    0.052             56.000
+B2 PCCA k=3 | Swift-train              0.354 0.119           -0.059    0.100             27.000
+B3 supervised PCCA k=3 | Swift-train   0.399 0.108           -0.014    0.056             37.000
+B2 PCCA k=3 | pooled                   0.366 0.121           -0.047    0.096             29.000
+B3 supervised PCCA k=3 | pooled        0.404 0.110           -0.009    0.059             45.000
+B4 generalized PCCA k=3 | pooled       0.412 0.114           -0.001    0.061             50.000
+python3 -W ignore part_b_redshift.py  447.24s user 3.22s system 1023% cpu 44.001 total

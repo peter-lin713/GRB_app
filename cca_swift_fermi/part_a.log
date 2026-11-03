@@ -1,0 +1,36 @@
+
+=== A1 prompt <-> GBM prompt   (N=64, 4 vs 4 variables)
+  CCA           held-out r1=0.672 r2=0.778 | null r1 mean=-0.007 95%=0.274  p=0.010  hparam~None
+  ridge CCA     held-out r1=0.730 r2=0.813 | null r1 mean=-0.016 95%=0.206  p=0.010  hparam~0.9
+  PLS           held-out r1=0.753 r2=0.804 | null r1 mean=-0.031 95%=0.175  p=0.010  hparam~None
+  sparse CCA    held-out r1=0.753 r2=0.806 | null r1 mean=-0.029 95%=0.158  p=0.010  hparam~0.3
+  robust (MCD)  held-out r1=0.750 r2=0.802 | null r1 mean=0.001 95%=0.144  p=0.010  hparam~None
+  rank CCA      held-out r1=0.793 r2=0.728 | null r1 mean=-0.029 95%=0.211  p=0.010  hparam~0.9
+  kernel CCA    held-out r1=0.740 r2=0.845 | null r1 mean=-0.019 95%=0.237  p=0.010  hparam~(0.5, 0.03)
+
+=== A2 Swift all <-> GBM+Epeak   (N=59, 9 vs 5 variables)
+  CCA           held-out r1=0.678 r2=0.828 | null r1 mean=-0.002 95%=0.280  p=0.010  hparam~None | Epeak R2=0.039
+  ridge CCA     held-out r1=0.763 r2=0.765 | null r1 mean=0.001 95%=0.305  p=0.010  hparam~0.9 | Epeak R2=0.028
+  PLS           held-out r1=0.751 r2=0.725 | null r1 mean=0.006 95%=0.288  p=0.010  hparam~None | Epeak R2=-0.021
+  sparse CCA    held-out r1=0.743 r2=0.783 | null r1 mean=-0.009 95%=0.247  p=0.010  hparam~0.7 | Epeak R2=-0.070
+  robust (MCD)  held-out r1=0.793 r2=0.811 | null r1 mean=-0.007 95%=0.158  p=0.010  hparam~None | Epeak R2=-0.053
+  rank CCA      held-out r1=0.809 r2=0.718 | null r1 mean=0.002 95%=0.263  p=0.010  hparam~0.9 | Epeak R2=0.057
+  kernel CCA    held-out r1=0.797 r2=0.764 | null r1 mean=-0.012 95%=0.202  p=0.010  hparam~(0.5, 0.03) | Epeak R2=-0.034
+  OLS (all Swift) Epeak R2=-0.034
+  PCCA k=1      Epeak R2=-0.116
+  PCCA k=2      Epeak R2=0.040
+
+=== A3 plateau <-> GBM+Epeak   (N=59, 5 vs 5 variables)
+  CCA           held-out r1=0.704 r2=0.103 | null r1 mean=-0.003 95%=0.291  p=0.010  hparam~None | Epeak R2=-0.190
+  ridge CCA     held-out r1=0.637 r2=0.137 | null r1 mean=0.011 95%=0.323  p=0.010  hparam~0.1 | Epeak R2=-0.180
+  PLS           held-out r1=0.522 r2=0.033 | null r1 mean=0.013 95%=0.296  p=0.010  hparam~None | Epeak R2=-0.106
+  sparse CCA    held-out r1=0.581 r2=0.419 | null r1 mean=0.001 95%=0.232  p=0.010  hparam~0.3 | Epeak R2=-0.056
+  robust (MCD)  held-out r1=0.586 r2=0.267 | null r1 mean=-0.004 95%=0.175  p=0.010  hparam~None | Epeak R2=-0.161
+  rank CCA      held-out r1=0.654 r2=0.133 | null r1 mean=-0.002 95%=0.271  p=0.010  hparam~0.1 | Epeak R2=-0.111
+  kernel CCA    held-out r1=0.596 r2=0.170 | null r1 mean=0.010 95%=0.251  p=0.010  hparam~(0.5, 0.03) | Epeak R2=-0.060
+  OLS (all Swift) Epeak R2=-0.157
+  PCCA k=1      Epeak R2=-0.137
+  PCCA k=2      Epeak R2=-0.188
+
+Wrote results_part_a.csv
+python3 -W ignore -u part_a_shared_structure.py  1129.93s user 6.17s system 842% cpu 2:14.89 total

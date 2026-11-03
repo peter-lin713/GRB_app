@@ -1,0 +1,5 @@
+sample,variant,swift_r,variant_r,diff,diff_sd,better_pct
+all 281,mixed_cal (pipeline GBM runs),0.4659,0.4787,0.0129,0.0357,65.0000
+all 281,mixed_raw (no calibration),0.4659,0.4745,0.0086,0.0356,56.0000
+all 281,swift + GBM as extra column,0.4659,0.4550,-0.0109,0.0170,26.0000
+GBM overlap 115,GBM calibrated instead of Swift,0.4288,0.4418,0.0131,0.0759,61.0000

@@ -1,0 +1,3 @@
+2026-10-31 21:28:41  watchdog: started (pid 57698), checking every 600s
+2026-10-31 21:28:41  watchdog: run_all_v2.sh not running (last step: ) -- restarting (attempt 1/3 at this step)
+2026-11-01 18:08:47  watchdog: series complete -- exiting

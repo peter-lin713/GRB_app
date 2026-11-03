@@ -1,0 +1,46 @@
+2026-10-31 21:28:41  watchdog: started (pid 57698), checking every 600s
+2026-10-31 21:28:41  watchdog: run_all_v2.sh not running (last step: ) -- restarting (attempt 1/3 at this step)
+2026-10-31 21:28:41  === run_all.sh started (pid 57715) ===
+2026-10-31 21:28:41  [10 prompt_nh_swiftpf] formula search START
+2026-10-31 21:38:26  [10 prompt_nh_swiftpf] formula search DONE | Most-frequent winning formula ( 10 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.7546 ) 
+2026-10-31 21:38:26  [10 prompt_nh_swiftpf] installed formula: [1] "Response ~ (PhotonIndexSqr + log10PeakFluxSqr + PhotonIndex + log10NH)^2 + log10PeakFlux + log10T90 + log10Fluence + log10NHSqr + log10T90Sqr + log10FluenceSqr"
+2026-10-31 21:38:26  [10 prompt_nh_swiftpf] SuperLearner START
+2026-10-31 21:41:01  [10 prompt_nh_swiftpf] SuperLearner DONE
+2026-10-31 21:41:01  [11 prompt_nh_gbmpf2] formula search START
+2026-10-31 21:50:36  [11 prompt_nh_gbmpf2] formula search DONE | Most-frequent winning formula ( 10 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6499 ) 
+2026-10-31 21:50:36  [11 prompt_nh_gbmpf2] installed formula: [1] "Response ~ (log10FluenceSqr + log10T90Sqr)^2 + log10NH + log10PeakFlux + PhotonIndex + log10T90 + log10Fluence + log10NHSqr + log10PeakFluxSqr + PhotonIndexSqr"
+2026-10-31 21:50:36  [11 prompt_nh_gbmpf2] SuperLearner START
+2026-10-31 21:53:07  [11 prompt_nh_gbmpf2] SuperLearner DONE
+2026-10-31 21:53:07  [12 prompt_gbmpf2] formula search START
+2026-10-31 21:55:05  [12 prompt_gbmpf2] formula search DONE | Most-frequent winning formula ( 28 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.7429 ) 
+2026-10-31 21:55:05  [12 prompt_gbmpf2] installed formula: [1] "Response ~ (log10FluenceSqr + log10T90)^2 + log10PeakFlux + PhotonIndex + log10Fluence + log10PeakFluxSqr + PhotonIndexSqr + log10T90Sqr"
+2026-10-31 21:55:05  [12 prompt_gbmpf2] SuperLearner START
+2026-10-31 21:57:10  [12 prompt_gbmpf2] SuperLearner DONE
+2026-10-31 21:57:10  [13 all_gbmpf2] formula search START
+2026-11-01 01:00:39  [13 all_gbmpf2] formula search DONE | Most-frequent winning formula ( 6 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6786 ) 
+2026-11-01 01:00:39  [13 all_gbmpf2] installed formula: [1] "Response ~ (AlphaSqr + Alpha + log10T90)^2 + log10PeakFlux + log10NH + PhotonIndex + log10Ta + log10Fa + log10PeakFluxSqr + log10NHSqr + PhotonIndexSqr + log10TaSqr + log10FaSqr + log10T90Sqr"
+2026-11-01 01:00:39  [13 all_gbmpf2] SuperLearner START
+2026-11-01 01:07:05  [13 all_gbmpf2] SuperLearner DONE
+2026-11-01 01:07:05  [14 all_gbmpf2cal] formula search START
+2026-11-01 05:12:17  [14 all_gbmpf2cal] formula search DONE | Most-frequent winning formula ( 6 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6372 ) 
+2026-11-01 05:12:17  [14 all_gbmpf2cal] installed formula: [1] "Response ~ (log10FaSqr + log10Fa + log10PeakFlux)^2 + log10NH + PhotonIndex + log10Ta + log10T90 + Alpha + log10PeakFluxSqr + log10NHSqr + PhotonIndexSqr + log10TaSqr + log10T90Sqr + AlphaSqr"
+2026-11-01 05:12:17  [14 all_gbmpf2cal] SuperLearner START
+2026-11-01 05:18:53  [14 all_gbmpf2cal] SuperLearner DONE
+2026-11-01 05:18:53  [15 revmulti_all_gbmpf2] formula search START
+2026-11-01 09:22:44  [15 revmulti_all_gbmpf2] formula search DONE | Most-frequent winning formula ( 13 / 100 splits): M-estimator outlier cut: 14 of 277 GRBs removed (weight <= 0.6999 ) 
+2026-11-01 09:22:44  [15 revmulti_all_gbmpf2] installed formula: [1] "Response ~ (log10TaSqr + BetaSqr + log10NHSqr + Alpha + log10NH)^2 + log10PeakFlux + PhotonIndex + Beta + log10Ta + log10Fa + log10PeakFluxSqr + PhotonIndexSqr + AlphaSqr + log10FaSqr"
+2026-11-01 09:22:44  [15 revmulti_all_gbmpf2] SuperLearner START
+2026-11-01 09:32:32  [15 revmulti_all_gbmpf2] SuperLearner DONE
+2026-11-01 09:32:32  [16 all_gbmpf2_epeak0] formula search START
+2026-11-01 13:36:40  [16 all_gbmpf2_epeak0] formula search DONE | Most-frequent winning formula ( 8 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6602 ) 
+2026-11-01 13:36:40  [16 all_gbmpf2_epeak0] installed formula: [1] "Response ~ (log10FaSqr + log10Fa + log10PeakFlux)^2 + log10NH + PhotonIndex + log10Ta + log10T90 + Alpha + log10PeakFluxSqr + log10NHSqr + PhotonIndexSqr + log10TaSqr + log10T90Sqr + AlphaSqr"
+2026-11-01 13:36:40  [16 all_gbmpf2_epeak0] SuperLearner START
+2026-11-01 13:44:58  [16 all_gbmpf2_epeak0] SuperLearner DONE
+2026-11-01 13:44:58  [17 all_gbmpf2_epeakmice] formula search START
+2026-11-01 17:50:15  [17 all_gbmpf2_epeakmice] formula search DONE | Most-frequent winning formula ( 8 / 100 splits): M-estimator outlier cut: 15 of 281 GRBs removed (weight <= 0.6892 ) 
+2026-11-01 17:50:15  [17 all_gbmpf2_epeakmice] installed formula: [1] "Response ~ (log10NHSqr + log10T90 + log10Fa)^2 + log10PeakFlux + log10NH + PhotonIndex + log10Ta + Alpha + log10PeakFluxSqr + PhotonIndexSqr + log10TaSqr + log10FaSqr + log10T90Sqr + AlphaSqr"
+2026-11-01 17:50:15  [17 all_gbmpf2_epeakmice] SuperLearner START
+2026-11-01 18:01:49  [17 all_gbmpf2_epeakmice] SuperLearner DONE
+2026-11-01 18:01:49  === all v2 runs complete ===
+2026-11-01 18:01:49  Restored original Best_formula_GAM/GLM.txt
+2026-11-01 18:08:47  watchdog: series complete -- exiting

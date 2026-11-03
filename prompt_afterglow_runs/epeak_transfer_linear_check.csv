@@ -1,0 +1,11 @@
+test,base_r,with_epeak_r,diff,diff_sd,epeak_better_pct
+SIMPLE7 | all 281 | + GBM only (109),0.4659,0.4570,-0.0088,0.0126,17.0000
+SIMPLE7 | all 281 | + GBM+BAT transfer (141),0.4659,0.4580,-0.0079,0.0132,31.0000
+SIMPLE7 | all 281 | + MICE (281),0.4659,0.4744,0.0085,0.0160,75.0000
+SIMPLE7 | GBM only subset (N=109) | + Epeak,0.3595,0.3470,-0.0125,0.0259,31.0000
+SIMPLE7 | GBM+BAT transfer subset (N=141) | + Epeak,0.4997,0.4952,-0.0044,0.0221,54.0000
+ALL10 | all 281 | + GBM only (109),0.4557,0.4472,-0.0084,0.0121,19.0000
+ALL10 | all 281 | + GBM+BAT transfer (141),0.4557,0.4489,-0.0067,0.0127,35.0000
+ALL10 | all 281 | + MICE (281),0.4557,0.4654,0.0097,0.0165,75.0000
+ALL10 | GBM only subset (N=109) | + Epeak,0.3162,0.3008,-0.0154,0.0254,24.0000
+ALL10 | GBM+BAT transfer subset (N=141) | + Epeak,0.4814,0.4728,-0.0086,0.0235,38.0000

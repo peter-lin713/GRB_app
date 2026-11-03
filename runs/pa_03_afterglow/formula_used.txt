@@ -1,0 +1,3 @@
+Response ~ (GammaSqr + Gamma + log10Fa + log10NH)^2 + log10Ta + 
+    Alpha + Beta + log10NHSqr + log10TaSqr + log10FaSqr + AlphaSqr + 
+    BetaSqr
